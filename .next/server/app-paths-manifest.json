@@ -1,1 +1,5 @@
-{}
+{
+  "/page": "app/page.js",
+  "/guest/page": "app/guest/page.js",
+  "/home/page": "app/home/page.js"
+}
