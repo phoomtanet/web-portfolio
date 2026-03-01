@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import TopNav from '../components/TopNav';
+import ResumeSection from '../components/ResumeSection';
+import BorderBox from '../components/BorderBox';
 
 export default function HomePage() {
   const [showLogin, setShowLogin] = useState(false);
@@ -13,26 +15,9 @@ export default function HomePage() {
 
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-4 py-8 text-slate-900 sm:py-12">
         <div className="mb-6" />
-        <section className="w-full rounded-3xl border border-indigo-100 bg-white p-8 text-center shadow-lg shadow-indigo-200/60 ring-1 ring-indigo-100/60">
-          <div className="mx-auto mb-4 h-1 w-20 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400" />
-          <h1 className="text-3xl font-semibold sm:text-4xl">
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500 bg-clip-text text-transparent">
-              ยินดีต้อนรับสู่หน้า Home
-            </span>
-          </h1>
-          <p className="mt-3 text-slate-600">โหมด Guest ถูกพามาที่หน้านี้เรียบร้อย คุณสามารถปรับเนื้อหาได้ตามต้องการ</p>
-
-          <div className="mt-6 flex flex-wrap justify-center gap-3 text-sm text-slate-700">
-            <span className="rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 font-medium text-indigo-700 shadow-sm">โหมด Guest</span>
-            <span className="rounded-full border border-cyan-100 bg-cyan-50 px-4 py-2 font-medium text-cyan-700 shadow-sm">สำรวจผลงาน</span>
-          </div>
-
-          <div className="mt-6 flex justify-center">
-            <button className="rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-200/70 transition hover:shadow-indigo-300/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
-              เริ่มต้นใช้งาน
-            </button>
-          </div>
-        </section>
+        <BorderBox>
+          <ResumeSection />
+        </BorderBox>
       </main>
 
       {showLogin && (
