@@ -1,6 +1,9 @@
 "use client";
 
+import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { profile } from '../assets';
 import { useLang } from '../i18n/LangContext';
 import translations from '../i18n/translations';
 
@@ -11,7 +14,7 @@ export default function TopNav() {
 
   const navItems = [
     { label: t.info, href: '/home' },
-    { label: t.portfolio, href: '/portfolio' },
+    { label: t.portfolio, href: '/project' },
     { label: t.blog, href: '/blog' },
     { label: t.contact, href: '/contact' },
   ];
@@ -19,13 +22,15 @@ export default function TopNav() {
   return (
     <div className="w-full border-b border-slate-200 bg-white text-slate-800 shadow-lg shadow-indigo-100/60">
       <div className="mx-auto flex w-full items-center justify-between gap-4 bg-white px-4 py-3 sm:px-6">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-indigo-500 to-cyan-400 text-lg font-extrabold text-white shadow-lg shadow-indigo-300/50">
-            PT
+        <div className="flex items-center gap-2.5">
+          <div className="p-0.5 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400 shadow-md shadow-indigo-200/60">
+            <div className="h-9 w-9 overflow-hidden rounded-full ring-1 ring-white">
+              <Image src={profile} alt="Profile" width={36} height={36} className="h-full w-full object-cover object-top scale-110" />
+            </div>
           </div>
           <div className="leading-tight">
-            <div className="text-sm font-semibold uppercase tracking-[0.08em]">Portfolio</div>
-            <div className="text-xs text-slate-500">Digital Studio</div>
+            <div className="text-sm font-bold tracking-wide text-slate-800">Phoomtanet</div>
+            <div className="text-xs text-indigo-400 font-medium">Full Stack Dev</div>
           </div>
         </div>
 
@@ -33,7 +38,7 @@ export default function TopNav() {
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 className={`rounded-full px-3 py-1 transition ${
@@ -43,7 +48,7 @@ export default function TopNav() {
                 }`}
               >
                 {item.label}
-              </a>
+              </Link>
             );
           })}
         </nav>
