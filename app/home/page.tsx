@@ -14,7 +14,6 @@ export default function HomePage() {
       <TopNav />
 
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-4 py-8 text-slate-900 sm:py-12">
-        <div className="mb-6" />
         <BorderBox>
           <ResumeSection />
         </BorderBox>

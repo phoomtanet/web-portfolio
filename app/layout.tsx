@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Sarabun } from 'next/font/google';
 import './globals.css';
+import { LangProvider } from './i18n/LangContext';
 
 const sarabun = Sarabun({
   subsets: ['thai', 'latin'],
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="th">
       <body className={`${sarabun.variable} min-h-screen bg-slate-50 font-sans text-slate-900 antialiased`}>
-        {children}
+        <LangProvider>{children}</LangProvider>
       </body>
     </html>
   );

@@ -1,27 +1,20 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-const navItems = [
-  { label: 'หน้าแรก', href: '/' },
-  { label: 'ผลงาน', href: '/portfolio' },
-  { label: 'บทความ', href: '/blog' },
-  { label: 'ติดต่อ', href: '/contact' },
-];
+import { usePathname } from 'next/navigation';
+import { useLang } from '../i18n/LangContext';
+import translations from '../i18n/translations';
 
 export default function TopNav() {
-  const [isGuest, setIsGuest] = useState(false);
+  const { lang, setLang } = useLang();
+  const pathname = usePathname();
+  const t = translations[lang].nav;
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const flag = localStorage.getItem('isGuest');
-    setIsGuest(flag === 'true');
-  }, []);
-
-  const handleLoginClick = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('isGuest');
-    }
-  };
+  const navItems = [
+    { label: t.info, href: '/home' },
+    { label: t.portfolio, href: '/portfolio' },
+    { label: t.blog, href: '/blog' },
+    { label: t.contact, href: '/contact' },
+  ];
 
   return (
     <div className="w-full border-b border-slate-200 bg-white text-slate-800 shadow-lg shadow-indigo-100/60">
@@ -37,26 +30,38 @@ export default function TopNav() {
         </div>
 
         <nav className="hidden items-center gap-5 text-sm font-semibold text-slate-700 sm:flex">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="rounded-md px-2 py-1 transition hover:bg-indigo-50 hover:text-indigo-700"
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`rounded-full px-3 py-1 transition ${
+                  isActive
+                    ? 'bg-indigo-100 text-indigo-700 font-bold'
+                    : 'hover:bg-indigo-50 hover:text-indigo-700'
+                }`}
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </nav>
 
-        {isGuest && (
-          <a
-            href="/login"
-            onClick={handleLoginClick}
-            className="flex items-center gap-2 rounded-full border border-indigo-200 bg-gradient-to-r from-indigo-500 to-cyan-400 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-indigo-200/60 transition hover:shadow-indigo-300/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+        <div className="flex overflow-hidden rounded-full border border-indigo-200 text-xs font-semibold">
+          <button
+            onClick={() => setLang('th')}
+            className={`px-4 py-1.5 transition ${lang === 'th' ? 'bg-indigo-600 text-white' : 'text-indigo-600 hover:bg-indigo-50'}`}
           >
-            Login
-          </a>
-        )}
+            TH
+          </button>
+          <button
+            onClick={() => setLang('en')}
+            className={`px-4 py-1.5 transition ${lang === 'en' ? 'bg-indigo-600 text-white' : 'text-indigo-600 hover:bg-indigo-50'}`}
+          >
+            EN
+          </button>
+        </div>
       </div>
     </div>
   );

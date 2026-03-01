@@ -1,253 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-
-const content = {
-  en: {
-    summary: "Motivated Full Stack Developer with 1 year of professional experience and 6 months of internship in developing web and mobile applications. Skilled in both front-end and back-end development, with hands-on expertise in designing and optimizing databases. Capable of independently analyzing requirements, planning solutions, and delivering efficient, scalable applications.",
-    sections: {
-      skills: "Skills",
-      experience: "Work Experience",
-      education: "Education",
-      projects: "Relevant Projects",
-    },
-    skills: [
-      { label: "Languages", value: "Java, JavaScript, TypeScript, SQL" },
-      { label: "Frontend", value: "Next.js, React, React Native, Flutter" },
-      { label: "Backend", value: "Node.js, Express.js" },
-      { label: "Database", value: "PostgreSQL, SQL Server, MySQL" },
-      { label: "Tools & Platforms", value: "GitHub, GitLab, Postman, Docker" },
-      { label: "Other", value: "RESTful APIs, Mobile & Web Development, Database Design & Optimization" },
-    ],
-    experiences: [
-      {
-        company: "Intelligence System Corporation Co.,LTD",
-        role: "Full Stack Developer",
-        period: "1 November 2024 – Present",
-        bullets: [
-          "Developed web applications using Next.js and Node.js.",
-          "Built mobile applications using React Native.",
-          "Designed and managed databases, wrote SQL queries, and integrated APIs.",
-          "Collaborated with the team to plan, analyze, and implement systems.",
-        ],
-      },
-      {
-        company: "Intelligence System Corporation Co.,LTD",
-        role: "Full Stack Developer (Internship)",
-        period: "25 April 2024 – October 2024",
-        bullets: [
-          "Developed web applications using Next.js and Node.js.",
-          "Built mobile applications using React Native.",
-          "Designed and managed databases, wrote SQL queries, and integrated APIs.",
-          "Collaborated with the team to plan, analyze, and implement systems.",
-        ],
-      },
-      {
-        company: "Freelance",
-        role: "Full Stack Developer (Flutter, Node.js)",
-        period: "",
-        bullets: [
-          "Developed mobile applications using Flutter and backend with Node.js.",
-          "Designed databases and integrated REST APIs.",
-          "Handled projects independently from design to deployment.",
-        ],
-      },
-    ],
-    education: [
-      {
-        school: "Rajamangala University of Technology Isan (RMUTI)",
-        degree: "Bachelor of Engineering in Computer Engineering",
-        period: "2021 – 2024",
-        note: "GPA 3.43",
-      },
-      {
-        school: "Surin Technical College",
-        degree: "Higher Vocational Certificate in Computer Engineering",
-        period: "2018 – 2020",
-        note: "",
-      },
-    ],
-    projects: [
-      {
-        name: "Employee Welfare Management System",
-        duration: "1 Month",
-        stack: "Next.js, Node.js, MySQL, Ant Design",
-        bullets: [
-          "Master data management and core system functions",
-          "Management of employee affiliations and store assignments",
-          "Transaction data handling for accounting department",
-          "Employee information management for HR purposes",
-        ],
-      },
-      {
-        name: "Repair Management System",
-        duration: "4 Months",
-        stack: "Flutter, Node.js, MySQL",
-        bullets: [
-          "Developed back-office and mobile webview applications for a luggage retail store",
-          "Mobile (Webview) for cashiers: record customer info, product details, damage reports, and track repair shipments",
-          "Back-office: full management of repair data, mirroring mobile functionalities",
-          "Dashboard creation and report generation for management",
-        ],
-      },
-      {
-        name: "Student Assessment System",
-        duration: "4 Months",
-        stack: "React Native, Node.js, MySQL",
-        bullets: [
-          "Developed student-facing mobile application for assessments",
-          "Implemented self-assessment, peer assessment, and teacher assessment types",
-          "Allowed students to submit assessments to peers and teachers",
-          "Enabled teachers to review and monitor student assessment data",
-        ],
-      },
-      {
-        name: "Child Care Management System",
-        duration: "5 Months",
-        stack: "Next.js, Node.js, React Native, MySQL, Ant Design",
-        bullets: [
-          "Master data management for children, classrooms, and caregivers",
-          "Attendance tracking and health record logging",
-          "Calculation and management of caregivers' overtime",
-          "Reporting and analytics for center management",
-        ],
-      },
-      {
-        name: "E-Commerce System",
-        duration: "1 Month",
-        stack: "Flutter, Node.js, Prisma, PostgreSQL",
-        bullets: [
-          "Developed mobile application for customers with shipping information management",
-          "Product data management",
-          "Customer addresses",
-          "Review system for both customers and stores",
-        ],
-      },
-    ],
-  },
-  th: {
-    summary: "นักพัฒนา Full Stack ที่มีแรงบันดาลใจสูง มีประสบการณ์การทำงานจริง 1 ปีและฝึกงาน 6 เดือนในการพัฒนาแอปพลิเคชันเว็บและมือถือ มีทักษะทั้งด้าน Front-end และ Back-end พร้อมความเชี่ยวชาญในการออกแบบและปรับปรุงฐานข้อมูล สามารถวิเคราะห์ความต้องการ วางแผนแนวทางแก้ปัญหา และส่งมอบแอปพลิเคชันที่มีประสิทธิภาพและรองรับการขยายตัวได้อย่างอิสระ",
-    sections: {
-      skills: "ทักษะ",
-      experience: "ประสบการณ์ทำงาน",
-      education: "การศึกษา",
-      projects: "โปรเจกต์ที่เกี่ยวข้อง",
-    },
-    skills: [
-      { label: "ภาษาโปรแกรม", value: "Java, JavaScript, TypeScript, SQL" },
-      { label: "Frontend", value: "Next.js, React, React Native, Flutter" },
-      { label: "Backend", value: "Node.js, Express.js" },
-      { label: "ฐานข้อมูล", value: "PostgreSQL, SQL Server, MySQL" },
-      { label: "เครื่องมือและแพลตฟอร์ม", value: "GitHub, GitLab, Postman, Docker" },
-      { label: "อื่น ๆ", value: "RESTful APIs, พัฒนาแอปมือถือและเว็บ, การออกแบบและปรับปรุงฐานข้อมูล" },
-    ],
-    experiences: [
-      {
-        company: "Intelligence System Corporation Co.,LTD",
-        role: "นักพัฒนา Full Stack",
-        period: "1 พฤศจิกายน 2567 – ปัจจุบัน",
-        bullets: [
-          "พัฒนาแอปพลิเคชันเว็บด้วย Next.js และ Node.js",
-          "พัฒนาแอปพลิเคชันมือถือด้วย React Native",
-          "ออกแบบและจัดการฐานข้อมูล เขียน SQL Query และเชื่อมต่อ API",
-          "ร่วมกับทีมในการวางแผน วิเคราะห์ และพัฒนาระบบ",
-        ],
-      },
-      {
-        company: "Intelligence System Corporation Co.,LTD",
-        role: "นักพัฒนา Full Stack (ฝึกงาน)",
-        period: "25 เมษายน 2567 – ตุลาคม 2567",
-        bullets: [
-          "พัฒนาแอปพลิเคชันเว็บด้วย Next.js และ Node.js",
-          "พัฒนาแอปพลิเคชันมือถือด้วย React Native",
-          "ออกแบบและจัดการฐานข้อมูล เขียน SQL Query และเชื่อมต่อ API",
-          "ร่วมกับทีมในการวางแผน วิเคราะห์ และพัฒนาระบบ",
-        ],
-      },
-      {
-        company: "Freelance",
-        role: "นักพัฒนา Full Stack (Flutter, Node.js)",
-        period: "",
-        bullets: [
-          "พัฒนาแอปพลิเคชันมือถือด้วย Flutter และ Backend ด้วย Node.js",
-          "ออกแบบฐานข้อมูลและเชื่อมต่อ REST API",
-          "ดูแลโปรเจกต์ตั้งแต่การออกแบบจนถึงการ Deploy",
-        ],
-      },
-    ],
-    education: [
-      {
-        school: "มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน (RMUTI)",
-        degree: "วิศวกรรมศาสตรบัณฑิต สาขาวิศวกรรมคอมพิวเตอร์",
-        period: "2564 – 2567",
-        note: "เกรดเฉลี่ย 3.43",
-      },
-      {
-        school: "วิทยาลัยเทคนิคสุรินทร์",
-        degree: "ประกาศนียบัตรวิชาชีพชั้นสูง สาขาคอมพิวเตอร์",
-        period: "2561 – 2563",
-        note: "",
-      },
-    ],
-    projects: [
-      {
-        name: "ระบบสวัสดิการพนักงาน",
-        duration: "1 เดือน",
-        stack: "Next.js, Node.js, MySQL, Ant Design",
-        bullets: [
-          "จัดการข้อมูลหลักและฟังก์ชันหลักของระบบ",
-          "จัดการความสัมพันธ์พนักงานและการมอบหมายสาขา",
-          "จัดการข้อมูลธุรกรรมสำหรับแผนกบัญชี",
-          "จัดการข้อมูลพนักงานสำหรับฝ่ายทรัพยากรบุคคล",
-        ],
-      },
-      {
-        name: "ระบบจัดการการซ่อม",
-        duration: "4 เดือน",
-        stack: "Next.js, Node.js, MySQL",
-        bullets: [
-          "พัฒนาแอปพลิเคชัน Back-office และ Mobile Webview สำหรับร้านค้ากระเป๋า",
-          "Mobile สำหรับแคชเชียร์: บันทึกข้อมูลลูกค้า สินค้า รายงานความเสียหาย และติดตามการส่งซ่อม",
-          "Back-office: จัดการข้อมูลการซ่อมครบวงจร",
-          "สร้าง Dashboard และรายงานสำหรับผู้บริหาร",
-        ],
-      },
-      {
-        name: "ระบบประเมินนักเรียน",
-        duration: "4 เดือน",
-        stack: "React Native, Node.js, MySQL",
-        bullets: [
-          "พัฒนาแอปพลิเคชันมือถือสำหรับนักเรียนในการทำแบบประเมิน",
-          "รองรับการประเมินตนเอง ประเมินเพื่อน และประเมินโดยครู",
-          "ให้นักเรียนส่งแบบประเมินถึงเพื่อนและครูได้",
-          "ให้ครูตรวจสอบและติดตามผลการประเมินนักเรียน",
-        ],
-      },
-      {
-        name: "ระบบจัดการศูนย์เด็กเล็ก",
-        duration: "5 เดือน",
-        stack: "Next.js, Node.js, React Native, MySQL, Ant Design",
-        bullets: [
-          "จัดการข้อมูลหลักด้านเด็ก ห้องเรียน และผู้ดูแล",
-          "ติดตามการเข้าร่วมและบันทึกสุขภาพ",
-          "คำนวณและจัดการค่าล่วงเวลาของผู้ดูแล",
-          "รายงานและวิเคราะห์ข้อมูลสำหรับผู้บริหาร",
-        ],
-      },
-      {
-        name: "ระบบ E-Commerce (Freelance)",
-        duration: "3 เดือน",
-        stack: "Flutter, Node.js, Prisma, PostgreSQL",
-        bullets: [
-          "พัฒนาแอปพลิเคชันมือถือสำหรับลูกค้าพร้อมระบบจัดการข้อมูลการจัดส่ง",
-          "จัดการข้อมูลสินค้า",
-          "จัดการที่อยู่ลูกค้า",
-          "ระบบรีวิวสำหรับลูกค้าและร้านค้า",
-        ],
-      },
-    ],
-  },
-};
+import { useLang } from '../i18n/LangContext';
+import translations from '../i18n/translations';
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -260,30 +15,16 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
+const PDF_PATH = '/file/transcrip-en_th.pdf';
+
 export default function ResumeSection() {
-  const [lang, setLang] = useState<'en' | 'th'>('en');
-  const t = content[lang];
+  const { lang } = useLang();
+  const [showPreview, setShowPreview] = useState(false);
+  const t = translations[lang].resume;
 
   return (
+    <>
     <div className="flex flex-col gap-8 text-left">
-
-      {/* Language Toggle */}
-      <div className="flex justify-end">
-        <div className="flex overflow-hidden rounded-full border border-indigo-200 text-xs font-semibold">
-          <button
-            onClick={() => setLang('en')}
-            className={`px-4 py-1.5 transition ${lang === 'en' ? 'bg-indigo-600 text-white' : 'text-indigo-600 hover:bg-indigo-50'}`}
-          >
-            EN
-          </button>
-          <button
-            onClick={() => setLang('th')}
-            className={`px-4 py-1.5 transition ${lang === 'th' ? 'bg-indigo-600 text-white' : 'text-indigo-600 hover:bg-indigo-50'}`}
-          >
-            TH
-          </button>
-        </div>
-      </div>
 
       {/* Hero */}
       <div>
@@ -298,6 +39,30 @@ export default function ResumeSection() {
           <span>✉️ phoomtanet.in@gmail.com</span>
         </div>
         <p className="mt-4 leading-relaxed text-slate-600">{t.summary}</p>
+
+        {/* PDF Actions */}
+        <div className="mt-5 flex flex-wrap gap-3">
+          <button
+            onClick={() => setShowPreview(true)}
+            className="flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700 transition hover:bg-indigo-100"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            {t.pdf.preview}
+          </button>
+          <a
+            href={PDF_PATH}
+            download="transcript-phoomtanet.pdf"
+            className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            {t.pdf.download}
+          </a>
+        </div>
       </div>
 
       <hr className="border-indigo-100" />
@@ -381,5 +146,40 @@ export default function ResumeSection() {
       </div>
 
     </div>
+
+      {/* PDF Preview Modal */}
+      {showPreview && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="flex w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3">
+              <p className="font-semibold text-slate-800">{t.pdf.modalTitle}</p>
+              <div className="flex items-center gap-2">
+                <a
+                  href={PDF_PATH}
+                  download="transcript-phoomtanet.pdf"
+                  className="flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-50"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  {t.pdf.downloadBtn}
+                </a>
+                <button
+                  onClick={() => setShowPreview(false)}
+                  className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-50"
+                >
+                  ✕ {t.pdf.closeBtn}
+                </button>
+              </div>
+            </div>
+            <iframe
+              src={PDF_PATH}
+              className="h-[80vh] w-full"
+              title="Transcript PDF"
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
