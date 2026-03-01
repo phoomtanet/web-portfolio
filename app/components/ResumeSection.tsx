@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useLang } from '../i18n/LangContext';
 import translations from '../i18n/translations';
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mb-5">
+    <div className="mb-5 print:break-after-avoid">
       <h2 className="text-base font-bold tracking-wide text-indigo-600">
         {children}
       </h2>
@@ -15,16 +15,56 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
-const PDF_PATH = '/file/transcrip-en_th.pdf';
+const PDF_PATH = '/file/transcrip-phoomtanet.pdf';
 
 export default function ResumeSection() {
   const { lang } = useLang();
   const [showPreview, setShowPreview] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
   const t = translations[lang].resume;
+
+  const handleDownloadPDF = async () => {
+    if (!contentRef.current) return;
+    setDownloading(true);
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const jsPDF = (await import('jspdf')).default;
+
+      const canvas = await html2canvas(contentRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+      });
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const imgW = pageW;
+      const imgH = (canvas.height * pageW) / canvas.width;
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+
+      let y = 0;
+      let remaining = imgH;
+      pdf.addImage(imgData, 'JPEG', 0, y, imgW, imgH);
+      remaining -= pageH;
+
+      while (remaining > 0) {
+        y -= pageH;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, y, imgW, imgH);
+        remaining -= pageH;
+      }
+
+      pdf.save('resume-phoomtanet.pdf');
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <>
-    <div className="flex flex-col gap-8 text-left">
+    <div ref={contentRef} className="flex flex-col gap-8 text-left">
 
       {/* Hero */}
       <div>
@@ -41,7 +81,7 @@ export default function ResumeSection() {
         <p className="mt-4 leading-relaxed text-slate-600">{t.summary}</p>
 
         {/* PDF Actions */}
-        <div className="mt-5 flex flex-wrap gap-3">
+        <div className="mt-5 flex flex-wrap gap-3 print:hidden">
           <button
             onClick={() => setShowPreview(true)}
             className="flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700 transition hover:bg-indigo-100"
@@ -62,13 +102,22 @@ export default function ResumeSection() {
             </svg>
             {t.pdf.download}
           </a>
+          {/* <button
+            onClick={() => window.print()}
+            className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            {lang === 'th' ? 'พิมพ์ / บันทึก PDF' : 'Print / Save PDF'}
+          </button> */}
         </div>
       </div>
 
       <hr className="border-indigo-100" />
 
       {/* Skills */}
-      <div>
+      <div className="print:break-inside-avoid">
         <SectionTitle>{t.sections.skills}</SectionTitle>
         <div className="grid gap-3 sm:grid-cols-2">
           {t.skills.map((s) => (
@@ -83,7 +132,7 @@ export default function ResumeSection() {
       <hr className="border-indigo-100" />
 
       {/* Work Experience */}
-      <div>
+      <div className="print:break-inside-avoid">
         <SectionTitle>{t.sections.experience}</SectionTitle>
         <div className="flex flex-col gap-6">
           {t.experiences.map((exp, i) => (
@@ -106,7 +155,7 @@ export default function ResumeSection() {
       <hr className="border-indigo-100" />
 
       {/* Education */}
-      <div>
+      <div className="print:break-inside-avoid">
         <SectionTitle>{t.sections.education}</SectionTitle>
         <div className="flex flex-col gap-4">
           {t.education.map((edu, i) => (
@@ -125,7 +174,7 @@ export default function ResumeSection() {
       <hr className="border-indigo-100" />
 
       {/* Projects */}
-      <div>
+      <div className="print:break-inside-avoid">
         <SectionTitle>{t.sections.projects}</SectionTitle>
         <div className="grid gap-5 sm:grid-cols-2">
           {t.projects.map((proj, i) => (
@@ -149,7 +198,7 @@ export default function ResumeSection() {
 
       {/* PDF Preview Modal */}
       {showPreview && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm print:hidden">
           <div className="flex w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3">
               <p className="font-semibold text-slate-800">{t.pdf.modalTitle}</p>

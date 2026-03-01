@@ -20,7 +20,7 @@ export default function TopNav() {
   ];
 
   return (
-    <div className="w-full border-b border-slate-200 bg-white text-slate-800 shadow-lg shadow-indigo-100/60">
+    <div className="w-full border-b border-slate-200 bg-white text-slate-800 shadow-lg shadow-indigo-100/60 print:hidden">
       <div className="mx-auto flex w-full items-center justify-between gap-4 bg-white px-4 py-3 sm:px-6">
         <div className="flex items-center gap-2.5">
           <div className="p-0.5 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400 shadow-md shadow-indigo-200/60">

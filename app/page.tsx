@@ -65,7 +65,7 @@ export default function Home() {
               <div className="flex items-center justify-between text-sm text-slate-500">
                 <Link href="/forgot" className="text-indigo-600 transition hover:text-indigo-500">ลืมรหัสผ่าน?</Link>
                 <span className="text-slate-400">หรือ</span>
-                <Link href="/guest" className="text-indigo-600 transition hover:text-indigo-500">เข้าแบบ Guest</Link>
+                <Link href="/home" className="text-indigo-600 transition hover:text-indigo-500">เข้าแบบ Guest</Link>
               </div>
               <button
                 type="submit"

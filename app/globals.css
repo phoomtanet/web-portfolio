@@ -13,3 +13,36 @@ body {
 main {
   width: 100%;
 }
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    background: #ffffff !important;
+  }
+
+  /* Remove page shadow/border for clean print */
+  section {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Avoid page breaks inside cards */
+  .rounded-2xl,
+  .rounded-xl {
+    break-inside: avoid;
+  }
+
+  /* Page setup */
+  @page {
+    margin: 14mm 16mm;
+    size: A4;
+  }
+
+  body {
+    padding: 0;
+  }
+}
