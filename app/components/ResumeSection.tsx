@@ -145,8 +145,8 @@ export default function ResumeSection() {
                 {skillIcons[s.label] ?? <Layers className="h-4 w-4" />}
               </span>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-indigo-500">{s.label}</p>
-                <p className="mt-0.5 text-sm text-slate-600">{s.value}</p>
+                <p className="text-sm font-bold text-indigo-600">{s.label}</p>
+                <p className="mt-0.5 text-sm text-slate-800">{s.value}</p>
               </div>
             </div>
           ))}
@@ -161,7 +161,7 @@ export default function ResumeSection() {
         <div className="flex flex-col gap-6">
           {t.experiences.map((exp, i) => (
             <div key={i} className="relative border-l-2 border-indigo-200 pl-5">
-              <span className="absolute -left-[9px] top-1 h-4 w-4 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-400 shadow shadow-indigo-300/50" />
+              <span className="absolute -left-[9px] top-1 h-4 w-4 rounded-full bg-gradient-to-br from-indigo-300 to-indigo-200 shadow shadow-indigo-200/50" />
               <p className="font-semibold text-slate-800">{exp.company}</p>
               <div className="mt-3.5 flex flex-wrap items-center gap-2">
                             <p className="inline-flex w-fit rounded-full bg-indigo-100 px-3 py-0.5 text-xs font-medium text-indigo-700 ring-1 ring-indigo-200">
@@ -193,7 +193,7 @@ export default function ResumeSection() {
         <div className="flex flex-col gap-4">
           {t.education.map((edu, i) => (
             <div key={i} className="relative border-l-2 border-indigo-200 pl-5">
-              <span className="absolute -left-[9px] top-1 h-4 w-4 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-400 shadow shadow-indigo-300/50" />
+              <span className="absolute -left-[9px] top-1 h-4 w-4 rounded-full bg-gradient-to-br from-indigo-300 to-indigo-200 shadow shadow-indigo-200/50" />
               <p className="font-semibold text-slate-800">{edu.school}</p>
               <p className="text-sm text-slate-600">{edu.degree}</p>
               <div className="mt-0.5 flex gap-3 text-xs text-slate-400">
@@ -217,9 +217,9 @@ export default function ResumeSection() {
         <div className="grid gap-5 sm:grid-cols-2">
           {t.projects.map((proj, i) => (
             <div key={i} className="flex flex-col gap-3 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/80 to-white p-5 shadow-sm">
-              <div>
+              <div className="flex flex-wrap items-baseline gap-2">
                 <p className="font-semibold text-slate-800">{proj.name}</p>
-                <p className="text-xs text-slate-400">{proj.duration}</p>
+                {proj.duration && <p className="text-xs text-slate-400">{proj.duration}</p>}
               </div>
               <p className="inline-flex w-fit rounded-full bg-indigo-100 px-3 py-0.5 text-xs font-medium text-indigo-700 ring-1 ring-indigo-200">
                 {proj.stack}
