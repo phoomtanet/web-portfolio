@@ -1,12 +1,13 @@
 "use client";
 
-import { Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useError } from '@/context/ErrorContext';
 import { apiLogin } from '@/lib/auth';
+import { AuthModal } from '@/components';
 
 const inputCls =
   'w-full rounded-xl border border-indigo-100 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 transition';
@@ -20,6 +21,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState('');
+  const [showRegister, setShowRegister] = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -103,15 +106,25 @@ export default function LoginPage() {
                 <label className="text-sm font-medium text-slate-700" htmlFor="password">
                   รหัสผ่าน
                 </label>
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  disabled={loading}
-                  className={inputCls}
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPwd ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    disabled={loading}
+                    className={`${inputCls} pr-10`}
+                  />
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={() => setShowPwd((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-600"
+                  >
+                    {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
               </div>
 
               <div className="flex items-center justify-between text-sm text-slate-500">
@@ -137,14 +150,28 @@ export default function LoginPage() {
 
             <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-slate-600">
               <span>ยังไม่มีบัญชี?</span>
-              <Link href="/register" className="font-semibold text-indigo-600 transition hover:text-indigo-500">
+              <button
+                onClick={() => setShowRegister(true)}
+                className="font-semibold text-indigo-600 transition hover:text-indigo-500"
+              >
                 สมัครสมาชิก
-              </Link>
+              </button>
             </div>
           </div>
         </div>
 
       </section>
+
+      {showRegister && (
+        <AuthModal
+          initialTab="register"
+          onClose={() => setShowRegister(false)}
+          onSuccess={(name, token) => {
+            setSession(name, token);
+            router.push('/home');
+          }}
+        />
+      )}
     </main>
   );
 }

@@ -24,3 +24,7 @@ export async function apiRegister(username: string, password: string, email?: st
     body: JSON.stringify({ username, password, email }),
   });
 }
+
+export async function apiLogout() {
+  return apiFetch<{ status: string; message: string }>('/logout', { method: 'POST' });
+}

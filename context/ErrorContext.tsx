@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState } from 'react';
-import ErrorModal from '@/components/ErrorModal';
+import { ErrorModal } from '@/components';
 
 interface ErrorContextValue {
   showError: (message: string) => void;

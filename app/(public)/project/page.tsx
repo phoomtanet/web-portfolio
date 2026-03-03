@@ -2,10 +2,7 @@
 
 import { FileDown, MessageSquare } from 'lucide-react';
 import { useState } from 'react';
-import BorderBox from '@/components/BorderBox';
-import ProjectChatTab from '@/components/project/ProjectChatTab';
-import ProjectPdfTab from '@/components/project/ProjectPdfTab';
-import TopNav from '@/components/TopNav';
+import { BorderBox, ProjectChatTab, ProjectPdfTab, TopNav } from '@/components';
 import { useLang } from '@/i18n/LangContext';
 
 const tx = {

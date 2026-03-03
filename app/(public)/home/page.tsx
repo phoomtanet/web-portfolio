@@ -1,8 +1,6 @@
 "use client";
 
-import TopNav from '@/components/TopNav';
-import ResumeSection from '@/components/ResumeSection';
-import BorderBox from '@/components/BorderBox';
+import { TopNav, ResumeSection, BorderBox } from '@/components';
 
 export default function HomePage() {
   return (

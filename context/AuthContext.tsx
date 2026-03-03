@@ -1,7 +1,8 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import AuthModal from '@/components/AuthModal';
+import { AuthModal } from '@/components';
+import { apiLogout } from '@/lib/auth';
 
 interface AuthContextValue {
   username: string | null;
@@ -59,6 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   function logout() {
+    apiLogout().catch(() => {}); // fire-and-forget — invalidate session on server
     setUsername(null);
     setToken(null);
     localStorage.removeItem('token');

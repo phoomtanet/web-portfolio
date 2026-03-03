@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, Menu, X } from 'lucide-react';
+import { ChevronDown, LogOut, Menu, User, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -14,6 +14,7 @@ export default function TopNav() {
   const t = translations[lang].nav;
   const { username, openLogin, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const navItems = [
     { label: t.info, href: '/home' },
@@ -28,15 +29,64 @@ export default function TopNav() {
 
         {/* Login / User */}
         {username ? (
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-indigo-600">{username}</span>
+          <div className="relative">
+            {/* Pill trigger */}
             <button
-              onClick={logout}
-              className="flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1.5 text-xs text-slate-500 transition hover:bg-slate-50"
+              onClick={() => setShowDropdown((prev) => !prev)}
+              className="flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50/70 px-2 py-1 shadow-sm ring-1 ring-indigo-100/60 transition hover:bg-indigo-100/70"
             >
-              <LogOut className="h-3.5 w-3.5" />
-              {lang === 'th' ? 'ออกจากระบบ' : 'Logout'}
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400 text-[11px] font-bold text-white shadow shadow-indigo-200/60">
+                {username.charAt(0).toUpperCase()}
+              </div>
+              <span className="max-w-[96px] truncate text-sm font-semibold text-indigo-700">
+                {username}
+              </span>
+              <ChevronDown className={`h-3.5 w-3.5 text-indigo-400 transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
             </button>
+
+            {/* Dropdown */}
+            {showDropdown && (
+              <>
+                {/* Backdrop */}
+                <div className="fixed inset-0 z-10" onClick={() => setShowDropdown(false)} />
+
+                {/* Card */}
+                <div className="absolute left-0 top-full z-20 mt-2 w-60 overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-xl shadow-indigo-200/50 ring-1 ring-indigo-100/60">
+
+                  {/* Header */}
+                  <div className="flex items-center gap-3 bg-gradient-to-br from-indigo-50 to-cyan-50 px-4 py-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400 text-lg font-bold text-white shadow-md shadow-indigo-200/60">
+                      {username.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-slate-800">{username}</p>
+                      <span className="mt-0.5 inline-flex items-center rounded-full bg-indigo-100 px-2 py-0.5 text-[10px] font-semibold text-indigo-600">
+                        สมาชิก
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Info rows */}
+                  <div className="border-t border-slate-100 px-4 py-3 space-y-2">
+                    <div className="flex items-center gap-2.5 text-sm text-slate-600">
+                      <User className="h-4 w-4 shrink-0 text-indigo-400" />
+                      <span className="truncate">{username}</span>
+                    </div>
+                  </div>
+
+                  {/* Logout */}
+                  <div className="border-t border-slate-100 p-2">
+                    <button
+                      onClick={() => { logout(); setShowDropdown(false); }}
+                      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-red-500 transition hover:bg-red-50"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      {lang === 'th' ? 'ออกจากระบบ' : 'Logout'}
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         ) : (
           <button

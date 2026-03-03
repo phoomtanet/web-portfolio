@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, X } from 'lucide-react';
+import { Eye, EyeOff, Loader2, X } from 'lucide-react';
 import { useState } from 'react';
 import { useLang } from '@/i18n/LangContext';
 import { useError } from '@/context/ErrorContext';
@@ -9,6 +9,7 @@ import { apiLogin, apiRegister } from '@/lib/auth';
 interface Props {
   onClose: () => void;
   onSuccess: (username: string, token: string) => void;
+  initialTab?: 'login' | 'register';
 }
 
 const tx = {
@@ -59,14 +60,16 @@ const tx = {
 };
 
 const inputCls =
-  'w-full rounded-xl border border-indigo-100 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 transition';
+  'w-full rounded-xl border border-indigo-100 bg-white px-4 py-3 pr-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 transition';
 
-export default function AuthModal({ onClose, onSuccess }: Props) {
+const Req = () => <span className="ml-0.5 text-red-500">*</span>;
+
+export default function AuthModal({ onClose, onSuccess, initialTab = 'login' }: Props) {
   const { lang } = useLang();
   const t = tx[lang];
   const { showError } = useError();
 
-  const [tab, setTab] = useState<'login' | 'register'>('login');
+  const [tab, setTab] = useState<'login' | 'register'>(initialTab);
   const [identifier, setIdentifier] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -74,6 +77,8 @@ export default function AuthModal({ onClose, onSuccess }: Props) {
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   function switchTab(next: 'login' | 'register') {
     setTab(next);
@@ -83,6 +88,8 @@ export default function AuthModal({ onClose, onSuccess }: Props) {
     setEmail('');
     setPassword('');
     setConfirm('');
+    setShowPwd(false);
+    setShowConfirm(false);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -146,7 +153,9 @@ export default function AuthModal({ onClose, onSuccess }: Props) {
             ) : (
               <>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-700">{t.username}</label>
+                  <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                    {t.username}<Req />
+                  </label>
                   <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="username" disabled={loading} className={inputCls} />
                 </div>
                 <div>
@@ -156,15 +165,55 @@ export default function AuthModal({ onClose, onSuccess }: Props) {
               </>
             )}
 
+            {/* Password */}
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">{t.password}</label>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" disabled={loading} className={inputCls} />
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                {t.password}{tab === 'register' && <Req />}
+              </label>
+              <div className="relative">
+                <input
+                  type={showPwd ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  disabled={loading}
+                  className={inputCls}
+                />
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  onClick={() => setShowPwd((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-600"
+                >
+                  {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
 
+            {/* Confirm password */}
             {tab === 'register' && (
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-slate-700">{t.confirmPassword}</label>
-                <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="••••••••" disabled={loading} className={inputCls} />
+                <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                  {t.confirmPassword}<Req />
+                </label>
+                <div className="relative">
+                  <input
+                    type={showConfirm ? 'text' : 'password'}
+                    value={confirm}
+                    onChange={(e) => setConfirm(e.target.value)}
+                    placeholder="••••••••"
+                    disabled={loading}
+                    className={inputCls}
+                  />
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={() => setShowConfirm((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-600"
+                  >
+                    {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
               </div>
             )}
 
