@@ -16,11 +16,9 @@ import {
   Sparkles,
   Wrench,
 } from 'lucide-react';
-import Image from 'next/image';
 import { useRef, useState } from 'react';
-import { profile } from '../assets';
-import { useLang } from '../i18n/LangContext';
-import translations from '../i18n/translations';
+import { useLang } from '@/i18n/LangContext';
+import translations from '@/i18n/translations';
 
 const skillIcons: Record<string, React.ReactNode> = {
   // EN keys
@@ -114,24 +112,10 @@ export default function ResumeSection() {
                 <Download className="h-4 w-4" />
                 {t.pdf.download}
               </a>
-       
+
             </div>
           </div>
 
-          {/* Profile image */}
-          <div className="flex shrink-0 justify-center sm:justify-end">
-            <div className="p-1 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400 shadow-xl shadow-indigo-200/60">
-              <div className="h-28 w-28 overflow-hidden rounded-full ring-2 ring-white sm:h-32 sm:w-32">
-                <Image
-                  src={profile}
-                  alt="Phoomtanet"
-                  width={128}
-                  height={128}
-                  className="h-full w-full object-cover object-top scale-110"
-                />
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
