@@ -5,15 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from '@/context/AuthContext';
 import { chatTabState } from '@/lib/chatTabState';
-
-interface ChatMessage {
-  id: string;
-  sender: string;
-  isAdmin: boolean;
-  content: string;
-  isRead: boolean;
-  createdAt: string | Date;
-}
+import { UserChatMessage } from '@/types/chat';
 
 export default function UserChatPanel() {
   const { username, token, isAdmin } = useAuth();
@@ -21,7 +13,7 @@ export default function UserChatPanel() {
   const [open, setOpen] = useState(false);
   const [connected, setConnected] = useState(false);
   const [roomKey, setRoomKey] = useState<string | null>(null);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<UserChatMessage[]>([]);
   const [text, setText] = useState('');
   const [unread, setUnread] = useState(0);
   const [readByAdmin, setReadByAdmin] = useState(false);
@@ -55,14 +47,14 @@ export default function UserChatPanel() {
       setRoomKey(null);
     });
 
-    socket.on('room_joined', ({ roomKey: rk, messages: msgs }: { roomKey: string; messages: ChatMessage[] }) => {
+    socket.on('room_joined', ({ roomKey: rk, messages: msgs }: { roomKey: string; messages: UserChatMessage[] }) => {
       setRoomKey(rk);
       setMessages(msgs);
       const lastUserMsg = [...msgs].reverse().find((m) => !m.isAdmin);
       setReadByAdmin(lastUserMsg?.isRead ?? false);
     });
 
-    socket.on('new_message', (msg: ChatMessage) => {
+    socket.on('new_message', (msg: UserChatMessage) => {
       setMessages((prev) => [...prev, msg]);
       if (!msg.isAdmin) setReadByAdmin(false);
       if (!openRef.current && !chatTabState.active && msg.isAdmin) setUnread((n) => n + 1);

@@ -55,6 +55,12 @@ web-portfolio/
 ├── lib/
 │   ├── api.ts                       # Base fetch utility — apiFetch<T>()
 │   └── auth.ts                      # Auth API calls — apiLogin, apiRegister
+├── service/
+│   ├── project.ts                   # Project API wrapper — CRUD helpers using apiFetch
+│   └── index.ts                     # Barrel exporting service modules (e.g., { project })
+├── types/
+│   ├── chat.ts                      # Shared chat message/room typings
+│   └── project.ts                   # Project API response shapes (ProjectApi, ProjectListResponse)
 ├── public/                          # Static assets (images)
 ├── .env                             # NEXT_PUBLIC_API_URL=http://localhost:3000
 ├── tailwind.config.ts

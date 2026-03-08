@@ -4,32 +4,16 @@ import { ChevronLeft, MessageCircle, Send, Users, Wifi, WifiOff, X } from 'lucid
 import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from '@/context/AuthContext';
-
-interface ChatMessage {
-  id: string;
-  roomId: string;
-  sender: string;
-  isAdmin: boolean;
-  content: string;
-  createdAt: string | Date;
-}
-
-interface Room {
-  roomKey: string;
-  username: string;
-  createdAt: string | Date;
-  unreadCount: number;
-  lastMessage: { sender: string; content: string; createdAt: string | Date } | null;
-}
+import { AdminChatMessage, ChatRoomSummary } from '@/types/chat';
 
 export default function AdminChatPanel() {
   const { isAdmin, token, username } = useAuth();
 
   const [open, setOpen] = useState(false);
   const [connected, setConnected] = useState(false);
-  const [rooms, setRooms] = useState<Room[]>([]);
+  const [rooms, setRooms] = useState<ChatRoomSummary[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<AdminChatMessage[]>([]);
   const [text, setText] = useState('');
   const [unread, setUnread] = useState<Record<string, number>>({});
 
@@ -59,18 +43,18 @@ export default function AdminChatPanel() {
 
     socket.on('disconnect', () => setConnected(false));
 
-    socket.on('room_list', (list: Room[]) => {
+    socket.on('room_list', (list: ChatRoomSummary[]) => {
       setRooms(list);
       const counts: Record<string, number> = {};
       list.forEach((r) => { if (r.unreadCount > 0) counts[r.roomKey] = r.unreadCount; });
       setUnread(counts);
     });
 
-    socket.on('room_created', (room: Room) => {
+    socket.on('room_created', (room: ChatRoomSummary) => {
       setRooms((prev) => [room, ...prev]);
     });
 
-    socket.on('room_history', ({ roomKey, messages: msgs }: { roomKey: string; messages: ChatMessage[] }) => {
+    socket.on('room_history', ({ roomKey, messages: msgs }: { roomKey: string; messages: AdminChatMessage[] }) => {
       if (selectedRoomRef.current === roomKey) {
         setMessages(msgs);
       }
@@ -80,11 +64,11 @@ export default function AdminChatPanel() {
       setUnread((prev) => { const next = { ...prev }; delete next[rk]; return next; });
     });
 
-    socket.on('new_message', (msg: ChatMessage) => {
+    socket.on('new_message', (msg: AdminChatMessage) => {
       setMessages((prev) => [...prev, msg]);
     });
 
-    socket.on('room_new_message', (msg: ChatMessage & { roomKey: string }) => {
+    socket.on('room_new_message', (msg: AdminChatMessage & { roomKey: string }) => {
       setRooms((prev) =>
         prev.map((r) =>
           r.roomKey === msg.roomKey

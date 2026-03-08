@@ -53,7 +53,7 @@ function SectionTitle({ icon, children }: { icon: React.ReactNode; children: Rea
   );
 }
 
-const PDF_PATH = '/file/transcrip-phoomtanet.pdf';
+const PDF_PATH = '/file/transcrip_phoomtanet_intayung.pdf';
 
 export default function ResumeSection() {
   const { lang } = useLang();

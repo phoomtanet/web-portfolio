@@ -6,22 +6,7 @@ import { io, Socket } from 'socket.io-client';
 import { useAuth } from '@/context/AuthContext';
 import { useLang } from '@/i18n/LangContext';
 import { chatTabState } from '@/lib/chatTabState';
-
-interface ChatMessage {
-  id: string;
-  sender: string;
-  isAdmin: boolean;
-  content: string;
-  createdAt: string | Date;
-}
-
-interface Room {
-  roomKey: string;
-  username: string;
-  createdAt: string | Date;
-  unreadCount: number;
-  lastMessage: { sender: string; content: string; createdAt: string | Date } | null;
-}
+import { ChatRoomSummary, ProjectChatMessage } from '@/types/chat';
 
 const tx = {
   en: {
@@ -62,14 +47,14 @@ export default function ProjectChatTab() {
   const { username, token, openLogin, isAdmin } = useAuth();
 
   // ── user state ────────────────────────────────────────────────────────────
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ProjectChatMessage[]>([]);
   const [text, setText] = useState('');
   const [roomKey, setRoomKey] = useState<string | null>(null);
 
   // ── admin state ───────────────────────────────────────────────────────────
-  const [rooms, setRooms] = useState<Room[]>([]);
+  const [rooms, setRooms] = useState<ChatRoomSummary[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
-  const [adminMessages, setAdminMessages] = useState<ChatMessage[]>([]);
+  const [adminMessages, setAdminMessages] = useState<ProjectChatMessage[]>([]);
   const [adminText, setAdminText] = useState('');
   const [unread, setUnread] = useState<Record<string, number>>({});
 
@@ -78,8 +63,8 @@ export default function ProjectChatTab() {
 
   const socketRef = useRef<Socket | null>(null);
   const selectedRoomRef = useRef<string | null>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
-  const adminBottomRef = useRef<HTMLDivElement>(null);
+  const userMessagesRef = useRef<HTMLDivElement>(null);
+  const adminMessagesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     selectedRoomRef.current = selectedRoom;
@@ -110,13 +95,13 @@ export default function ProjectChatTab() {
     });
 
     // user events
-    socket.on('room_joined', ({ roomKey: rk, messages: msgs }: { roomKey: string; messages: ChatMessage[] }) => {
+    socket.on('room_joined', ({ roomKey: rk, messages: msgs }: { roomKey: string; messages: ProjectChatMessage[] }) => {
       setRoomKey(rk);
       setMessages(msgs);
       if (!isAdmin) chatTabState.active = true;
     });
 
-    socket.on('new_message', (msg: ChatMessage) => {
+    socket.on('new_message', (msg: ProjectChatMessage) => {
       if (isAdmin) {
         setAdminMessages((prev) => [...prev, msg]);
       } else {
@@ -125,7 +110,7 @@ export default function ProjectChatTab() {
     });
 
     // admin events
-    socket.on('room_list', (list: Room[]) => {
+    socket.on('room_list', (list: ChatRoomSummary[]) => {
       setRooms(list);
       // init unread counts from DB
       const counts: Record<string, number> = {};
@@ -133,9 +118,9 @@ export default function ProjectChatTab() {
       setUnread(counts);
     });
 
-    socket.on('room_created', (room: Room) => setRooms((prev) => [room, ...prev]));
+    socket.on('room_created', (room: ChatRoomSummary) => setRooms((prev) => [room, ...prev]));
 
-    socket.on('room_history', ({ roomKey: rk, messages: msgs }: { roomKey: string; messages: ChatMessage[] }) => {
+    socket.on('room_history', ({ roomKey: rk, messages: msgs }: { roomKey: string; messages: ProjectChatMessage[] }) => {
       if (selectedRoomRef.current === rk) setAdminMessages(msgs);
     });
 
@@ -143,7 +128,7 @@ export default function ProjectChatTab() {
       setUnread((prev) => { const next = { ...prev }; delete next[rk]; return next; });
     });
 
-    socket.on('room_new_message', (msg: ChatMessage & { roomKey: string }) => {
+    socket.on('room_new_message', (msg: ProjectChatMessage & { roomKey: string }) => {
       setRooms((prev) =>
         prev.map((r) =>
           r.roomKey === msg.roomKey
@@ -171,11 +156,21 @@ export default function ProjectChatTab() {
   }, [token, isAdmin]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (userMessagesRef.current) {
+      userMessagesRef.current.scrollTo({
+        top: userMessagesRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
   }, [messages]);
 
   useEffect(() => {
-    adminBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (adminMessagesRef.current) {
+      adminMessagesRef.current.scrollTo({
+        top: adminMessagesRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
   }, [adminMessages]);
 
   function formatTime(d: string | Date) {
@@ -305,7 +300,7 @@ export default function ProjectChatTab() {
                   </span>
                 </div>
 
-                <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-3">
+                <div ref={adminMessagesRef} className="flex flex-1 flex-col gap-2 overflow-y-auto p-3">
                   {adminMessages.length === 0 ? (
                     <div className="flex flex-1 items-center justify-center text-xs text-slate-400">
                       {t.noMessages}
@@ -326,7 +321,6 @@ export default function ProjectChatTab() {
                       </div>
                     ))
                   )}
-                  <div ref={adminBottomRef} />
                 </div>
 
                 <div className="flex gap-2 border-t border-indigo-50 p-3">
@@ -365,7 +359,7 @@ export default function ProjectChatTab() {
         {statusBadge}
       </div>
 
-      <div className="flex min-h-[300px] flex-col gap-3 overflow-y-auto rounded-2xl border border-indigo-100 bg-slate-50/60 p-4 sm:min-h-[400px]">
+      <div ref={userMessagesRef} className="flex min-h-[300px] flex-col gap-3 overflow-y-auto rounded-2xl border border-indigo-100 bg-slate-50/60 p-4 sm:min-h-[400px]">
         {messages.length === 0 ? (
           <div className="flex flex-1 items-center justify-center text-sm text-slate-400">{t.empty}</div>
         ) : (
@@ -387,7 +381,6 @@ export default function ProjectChatTab() {
             );
           })
         )}
-        <div ref={bottomRef} />
       </div>
 
       {username ? (
