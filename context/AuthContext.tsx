@@ -7,6 +7,7 @@ import { apiLogout } from '@/lib/auth';
 interface AuthContextValue {
   username: string | null;
   token: string | null;
+  isAdmin: boolean;
   openLogin: () => void;
   logout: () => void;
   setSession: (username: string, token: string) => void;
@@ -15,15 +16,23 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue>({
   username: null,
   token: null,
+  isAdmin: false,
   openLogin: () => {},
   logout: () => {},
   setSession: () => {},
 });
 
-function decodeUsername(token: string): string | null {
+interface DecodedSession {
+  username: string;
+  isAdmin: boolean;
+}
+
+function decodeSession(token: string): DecodedSession | null {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
-    if (payload.exp * 1000 > Date.now()) return payload.username as string;
+    if (payload.exp * 1000 > Date.now()) {
+      return { username: payload.username as string, isAdmin: payload.isAdmin === true };
+    }
     return null;
   } catch {
     return null;
@@ -33,15 +42,17 @@ function decodeUsername(token: string): string | null {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [username, setUsername] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem('token');
     if (stored) {
-      const name = decodeUsername(stored);
-      if (name) {
-        setUsername(name);
+      const session = decodeSession(stored);
+      if (session) {
+        setUsername(session.username);
         setToken(stored);
+        setIsAdmin(session.isAdmin);
       } else {
         localStorage.removeItem('token');
       }
@@ -49,8 +60,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   function setSession(name: string, newToken: string) {
+    const session = decodeSession(newToken);
     setUsername(name);
     setToken(newToken);
+    setIsAdmin(session?.isAdmin ?? false);
     localStorage.setItem('token', newToken);
   }
 
@@ -60,14 +73,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   function logout() {
-    apiLogout().catch(() => {}); // fire-and-forget — invalidate session on server
+    apiLogout().catch(() => {});
     setUsername(null);
     setToken(null);
+    setIsAdmin(false);
     localStorage.removeItem('token');
   }
 
   return (
-    <AuthContext.Provider value={{ username, token, openLogin: () => setShowModal(true), logout, setSession }}>
+    <AuthContext.Provider value={{ username, token, isAdmin, openLogin: () => setShowModal(true), logout, setSession }}>
       {children}
       {showModal && (
         <AuthModal

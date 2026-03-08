@@ -21,7 +21,7 @@ const tx = {
     createAccount: 'Create Account',
     createSub: 'Fill in the form to get started',
     username: 'Username',
-    email: 'Email (optional)',
+    email: 'Email',
     password: 'Password',
     confirmPassword: 'Confirm Password',
     submitLogin: 'Login',
@@ -31,8 +31,13 @@ const tx = {
     forgotPassword: 'Forgot password?',
     errorEmpty: 'Please fill in all fields',
     errorMatch: 'Passwords do not match',
-    errorShort: 'Password must be at least 6 characters',
+    errorShort: 'Password must be more than 6 characters',
+    errorStrength: 'Password must contain uppercase, lowercase, and a number',
+    errorUsername: 'Username must be more than 6 characters',
+    errorUsernameChars: 'Username must contain only English letters and numbers',
+    errorPasswordChars: 'Password must contain only English characters',
     errorGeneric: 'Something went wrong. Please try again.',
+    errorEmail: 'Please enter a valid email address',
     identifier: 'Username or Email',
   },
   th: {
@@ -43,7 +48,7 @@ const tx = {
     createAccount: 'สร้างบัญชีใหม่',
     createSub: 'กรอกข้อมูลเพื่อเริ่มต้นใช้งาน',
     username: 'ชื่อผู้ใช้',
-    email: 'อีเมล (ไม่บังคับ)',
+    email: 'อีเมล',
     password: 'รหัสผ่าน',
     confirmPassword: 'ยืนยันรหัสผ่าน',
     submitLogin: 'เข้าสู่ระบบ',
@@ -53,8 +58,11 @@ const tx = {
     forgotPassword: 'ลืมรหัสผ่าน?',
     errorEmpty: 'กรุณากรอกข้อมูลให้ครบ',
     errorMatch: 'รหัสผ่านไม่ตรงกัน',
-    errorShort: 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร',
+    errorShort: 'รหัสผ่านต้องมีมากกว่า 6 ตัวอักษร',
+    errorStrength: 'รหัสผ่านต้องมีตัวพิมพ์ใหญ่ พิมพ์เล็ก และตัวเลข',
+    errorUsername: 'Username ต้องมีมากกว่า 6 ตัวอักษร',
     errorGeneric: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
+    errorEmail: 'กรุณากรอกอีเมลให้ถูกต้อง',
     identifier: 'Username หรือ Email',
   },
 };
@@ -99,10 +107,13 @@ export default function AuthModal({ onClose, onSuccess, initialTab = 'login' }: 
     if (tab === 'login') {
       if (!identifier.trim() || !password.trim()) { setError(t.errorEmpty); return; }
     } else {
-      if (!username.trim() || !password.trim()) { setError(t.errorEmpty); return; }
+      if (!username.trim() || !email.trim() || !password.trim()) { setError(t.errorEmpty); return; }
+      if (username.trim().length <= 6) { setError(t.errorUsername); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { setError(t.errorEmail); return; }
     }
 
-    if (password.length < 6) { setError(t.errorShort); return; }
+    if (password.length <= 6) { setError(t.errorShort); return; }
+    if (tab === 'register' && !/(?=.*[A-Z])(?=.*[a-z])(?=.*\d)/.test(password)) { setError(t.errorStrength); return; }
     if (tab === 'register' && password !== confirm) { setError(t.errorMatch); return; }
 
     setLoading(true);
@@ -111,7 +122,7 @@ export default function AuthModal({ onClose, onSuccess, initialTab = 'login' }: 
         const res = await apiLogin(identifier.trim(), password);
         onSuccess(res.user.username, res.token);
       } else {
-        await apiRegister(username.trim(), password, email.trim() || undefined);
+        await apiRegister(username.trim(), password, email.trim());
         const res = await apiLogin(username.trim(), password);
         onSuccess(res.user.username, res.token);
       }
@@ -159,7 +170,9 @@ export default function AuthModal({ onClose, onSuccess, initialTab = 'login' }: 
                   <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="username" disabled={loading} className={inputCls} />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-700">{t.email}</label>
+                  <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                    {t.email}<Req />
+                  </label>
                   <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" disabled={loading} className={inputCls} />
                 </div>
               </>

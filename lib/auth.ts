@@ -18,7 +18,7 @@ export async function apiLogin(identifier: string, password: string) {
   });
 }
 
-export async function apiRegister(username: string, password: string, email?: string) {
+export async function apiRegister(username: string, password: string, email: string) {
   return apiFetch<RegisterResponse>('/register', {
     method: 'POST',
     body: JSON.stringify({ username, password, email }),
