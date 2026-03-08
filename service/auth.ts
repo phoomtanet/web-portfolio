@@ -1,15 +1,5 @@
-import { apiFetch } from './api';
-
-interface LoginResponse {
-  status: string;
-  token: string;
-  user: { id: number; username: string };
-}
-
-interface RegisterResponse {
-  status: string;
-  data: { id: number; username: string };
-}
+import { apiFetch } from '@/lib/api';
+import { LoginResponse, RegisterResponse } from '@/types/auth';
 
 export async function apiLogin(identifier: string, password: string) {
   return apiFetch<LoginResponse>('/login', {

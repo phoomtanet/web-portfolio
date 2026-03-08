@@ -1,12 +1,20 @@
 "use client";
 
-import { ChevronLeft, Lock, Send, Users, Wifi, WifiOff } from 'lucide-react';
+import { ChevronLeft, FileText, Loader2, Lock, Paperclip, Send, Users, Wifi, WifiOff, X } from 'lucide-react';
+import ChatBubble from './ChatBubble';
 import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from '@/context/AuthContext';
+import { useError } from '@/context/ErrorContext';
 import { useLang } from '@/i18n/LangContext';
 import { chatTabState } from '@/lib/chatTabState';
-import { ChatRoomSummary, ProjectChatMessage } from '@/types/chat';
+import { ChatMessageDeletedPayload, ChatRoomSummary, ProjectChatMessage } from '@/types/chat';
+import { ConfirmModal } from '@/components';
+import { uploadChatFile } from '@/service/upload';
+
+const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10 MB
+
+type Attachment = { url: string; previewUrl?: string; type: 'image' | 'pdf'; name: string };
 
 const tx = {
   en: {
@@ -16,6 +24,9 @@ const tx = {
     hint: 'Enter to send · Shift+Enter for new line',
     send: 'Send',
     message: 'Type your message...',
+    delete: 'Delete',
+    deleteMessage: 'Delete message',
+    confirmDelete: 'Delete this message?',
     loginToChat: 'Login to send a message',
     connecting: 'Connecting...',
     admin: 'Admin',
@@ -31,6 +42,9 @@ const tx = {
     hint: 'Enter เพื่อส่ง · Shift+Enter ขึ้นบรรทัดใหม่',
     send: 'ส่ง',
     message: 'พิมพ์ข้อความ...',
+    delete: 'ลบ',
+    deleteMessage: 'ลบข้อความ',
+    confirmDelete: 'ยืนยันการลบข้อความนี้หรือไม่?',
     loginToChat: 'เข้าสู่ระบบเพื่อส่งข้อความ',
     connecting: 'กำลังเชื่อมต่อ...',
     admin: 'Admin',
@@ -45,11 +59,14 @@ export default function ProjectChatTab() {
   const { lang } = useLang();
   const t = tx[lang];
   const { username, token, openLogin, isAdmin } = useAuth();
+  const { showError } = useError();
 
   // ── user state ────────────────────────────────────────────────────────────
   const [messages, setMessages] = useState<ProjectChatMessage[]>([]);
   const [text, setText] = useState('');
   const [roomKey, setRoomKey] = useState<string | null>(null);
+  const [attachment, setAttachment] = useState<Attachment | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   // ── admin state ───────────────────────────────────────────────────────────
   const [rooms, setRooms] = useState<ChatRoomSummary[]>([]);
@@ -57,18 +74,29 @@ export default function ProjectChatTab() {
   const [adminMessages, setAdminMessages] = useState<ProjectChatMessage[]>([]);
   const [adminText, setAdminText] = useState('');
   const [unread, setUnread] = useState<Record<string, number>>({});
+  const [menuForMessage, setMenuForMessage] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<{ id: string; isAdmin: boolean } | null>(null);
+  const [adminAttachment, setAdminAttachment] = useState<Attachment | null>(null);
+  const [adminUploading, setAdminUploading] = useState(false);
 
   // ── shared state ──────────────────────────────────────────────────────────
   const [connected, setConnected] = useState(false);
 
   const socketRef = useRef<Socket | null>(null);
   const selectedRoomRef = useRef<string | null>(null);
+  const roomKeyRef = useRef<string | null>(null);
   const userMessagesRef = useRef<HTMLDivElement>(null);
   const adminMessagesRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const adminFileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     selectedRoomRef.current = selectedRoom;
   }, [selectedRoom]);
+
+  useEffect(() => {
+    roomKeyRef.current = roomKey;
+  }, [roomKey]);
 
   useEffect(() => {
     if (!token) return;
@@ -141,6 +169,21 @@ export default function ProjectChatTab() {
       }
     });
 
+    socket.on('message_deleted', ({ roomKey: rk, messageId, lastMessage }: ChatMessageDeletedPayload) => {
+      if (isAdmin) {
+        if (selectedRoomRef.current === rk) {
+          setAdminMessages((prev) => prev.filter((m) => m.id !== messageId));
+        }
+        setRooms((prev) =>
+          prev.map((room) =>
+            room.roomKey === rk ? { ...room, lastMessage } : room
+          )
+        );
+      } else if (roomKeyRef.current === rk) {
+        setMessages((prev) => prev.filter((m) => m.id !== messageId));
+      }
+    });
+
     return () => {
       chatTabState.active = false;
       socket.disconnect();
@@ -177,11 +220,43 @@ export default function ProjectChatTab() {
     return new Date(d).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
+  // ── file upload handler ───────────────────────────────────────────────────
+  async function handleFileChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    forAdmin: boolean,
+  ) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    if (file.size > MAX_FILE_BYTES) {
+      showError('ขนาดไฟล์ต้องไม่เกิน 10 MB');
+      return;
+    }
+    const setLoad = forAdmin ? setAdminUploading : setUploading;
+    const setAttach = forAdmin ? setAdminAttachment : setAttachment;
+    setLoad(true);
+    try {
+      const result = await uploadChatFile(file);
+      const type: 'image' | 'pdf' = file.type.startsWith('image/') ? 'image' : 'pdf';
+      const previewUrl = type === 'image' ? URL.createObjectURL(file) : undefined;
+      setAttach({ url: result.url, previewUrl, type, name: file.name });
+    } catch (err) {
+      showError(err instanceof Error ? err.message : 'อัปโหลดไฟล์ไม่สำเร็จ');
+    } finally {
+      setLoad(false);
+    }
+  }
+
   // ── user handlers ─────────────────────────────────────────────────────────
   function handleSend() {
-    if (!socketRef.current || !roomKey || !text.trim()) return;
-    socketRef.current.emit('send_message', { roomKey, content: text.trim() });
-    setText('');
+    if (!socketRef.current || !roomKey) return;
+    if (attachment) {
+      socketRef.current.emit('send_message', { roomKey, content: '', fileUrl: attachment.url, fileName: attachment.name });
+      setAttachment(null);
+    } else if (text.trim()) {
+      socketRef.current.emit('send_message', { roomKey, content: text.trim().replace(/\n+/g, ' ') });
+      setText('');
+    }
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -206,14 +281,26 @@ export default function ProjectChatTab() {
   }
 
   function handleAdminSend() {
-    if (!socketRef.current || !selectedRoom || !adminText.trim()) return;
-    const content = adminText.trim();
-    socketRef.current.emit('send_message', { roomKey: selectedRoom, content });
-    setAdminText('');
+    if (!socketRef.current || !selectedRoom) return;
+    let content: string;
+    let fileUrl: string | undefined;
+    let fileName: string | undefined;
+    if (adminAttachment) {
+      content = '';
+      fileUrl = adminAttachment.url;
+      fileName = adminAttachment.name;
+      setAdminAttachment(null);
+    } else if (adminText.trim()) {
+      content = adminText.trim().replace(/\n+/g, ' ');
+      setAdminText('');
+    } else {
+      return;
+    }
+    socketRef.current.emit('send_message', { roomKey: selectedRoom, content, fileUrl, fileName });
     setRooms((prev) =>
       prev.map((r) =>
         r.roomKey === selectedRoom
-          ? { ...r, lastMessage: { sender: username ?? '', content, createdAt: new Date() } }
+          ? { ...r, lastMessage: { sender: username ?? '', content: content || '📎 ไฟล์แนบ', createdAt: new Date() } }
           : r
       )
     );
@@ -221,6 +308,24 @@ export default function ProjectChatTab() {
 
   function handleAdminKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleAdminSend(); }
+  }
+
+  function handleDeleteMessage(id: string) {
+    setMenuForMessage(null);
+    setPendingDelete({ id, isAdmin: false });
+  }
+
+  function handleAdminDeleteMessage(id: string) {
+    setMenuForMessage(null);
+    setPendingDelete({ id, isAdmin: true });
+  }
+
+  function confirmDelete() {
+    if (!pendingDelete || !socketRef.current) return;
+    const rk = pendingDelete.isAdmin ? selectedRoomRef.current : roomKeyRef.current;
+    if (!rk) return;
+    socketRef.current.emit('delete_message', { roomKey: rk, messageId: pendingDelete.id });
+    setPendingDelete(null);
   }
 
   const statusBadge = token ? (
@@ -233,6 +338,7 @@ export default function ProjectChatTab() {
   // ── ADMIN VIEW ────────────────────────────────────────────────────────────
   if (isAdmin) {
     return (
+      <>
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div>
@@ -242,9 +348,9 @@ export default function ProjectChatTab() {
           {statusBadge}
         </div>
 
-        <div className="flex h-[480px] overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm sm:h-[560px]">
+        <div className="flex h-[500px] overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50/60">
           {/* Room list */}
-          <div className={`flex w-48 flex-shrink-0 flex-col border-r border-indigo-50 ${selectedRoom ? 'hidden sm:flex' : 'flex'}`}>
+          <div className={`flex w-52 flex-shrink-0 flex-col border-r border-indigo-50 ${selectedRoom ? 'hidden sm:flex' : 'flex'}`}>
             <div className="flex items-center gap-2 border-b border-indigo-50 px-3 py-2.5 text-xs font-semibold uppercase tracking-wider text-slate-400">
               <Users className="h-3 w-3" />
               ห้องแชต ({rooms.length})
@@ -281,7 +387,7 @@ export default function ProjectChatTab() {
           </div>
 
           {/* Chat area */}
-          <div className={`flex flex-1 flex-col ${!selectedRoom ? 'hidden sm:flex' : 'flex'}`}>
+          <div className={`flex min-w-0 flex-1 flex-col ${!selectedRoom ? 'hidden sm:flex' : 'flex'}`}>
             {!selectedRoom ? (
               <div className="flex flex-1 items-center justify-center text-sm text-slate-400">
                 {t.selectRoom}
@@ -300,56 +406,98 @@ export default function ProjectChatTab() {
                   </span>
                 </div>
 
-                <div ref={adminMessagesRef} className="flex flex-1 flex-col gap-2 overflow-y-auto p-3">
+                <div ref={adminMessagesRef} className="flex flex-1 flex-col gap-2 overflow-y-auto p-4">
                   {adminMessages.length === 0 ? (
                     <div className="flex flex-1 items-center justify-center text-xs text-slate-400">
                       {t.noMessages}
                     </div>
                   ) : (
                     adminMessages.map((msg) => (
-                      <div key={msg.id} className={`flex flex-col gap-0.5 ${msg.isAdmin ? 'items-end' : 'items-start'}`}>
-                        <span className="text-[10px] text-slate-400">
-                          {msg.sender} · {formatTime(msg.createdAt)}
-                        </span>
-                        <div className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm shadow-sm ${
-                          msg.isAdmin
-                            ? 'rounded-tr-sm bg-indigo-500 text-white shadow-indigo-200'
-                            : 'rounded-tl-sm bg-slate-100 text-slate-800'
-                        }`}>
-                          {msg.content}
-                        </div>
-                      </div>
+                      <ChatBubble
+                        key={msg.id}
+                        content={msg.content}
+                        fileUrl={msg.fileUrl}
+                        fileName={msg.fileName}
+                        senderLabel={`${msg.sender} · ${formatTime(msg.createdAt)}`}
+                        isMine={msg.isAdmin}
+                        menuOpen={menuForMessage === msg.id}
+                        onToggleMenu={() => setMenuForMessage((prev) => (prev === msg.id ? null : msg.id))}
+                        onDelete={msg.isAdmin ? () => handleAdminDeleteMessage(msg.id) : undefined}
+                        deleteLabel={t.deleteMessage}
+                      />
                     ))
+
                   )}
                 </div>
 
-                <div className="flex gap-2 border-t border-indigo-50 p-3">
-                  <textarea
-                    value={adminText}
-                    onChange={(e) => setAdminText(e.target.value)}
-                    onKeyDown={handleAdminKeyDown}
-                    placeholder={t.message}
-                    rows={2}
-                    className="flex-1 resize-none rounded-xl border border-indigo-100 bg-slate-50 px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 placeholder:text-slate-400"
-                  />
-                  <button
-                    onClick={handleAdminSend}
-                    disabled={!adminText.trim()}
-                    className="flex-shrink-0 self-end rounded-xl bg-indigo-500 p-2.5 text-white transition hover:bg-indigo-600 disabled:opacity-40"
-                  >
-                    <Send className="h-4 w-4" />
-                  </button>
+                <div className="flex flex-col gap-2 border-t border-indigo-50 p-3">
+                  {adminAttachment && (
+                    <div className="flex items-center gap-2 rounded-xl border border-indigo-100 bg-white px-3 py-2">
+                      {adminAttachment.type === 'image' && adminAttachment.previewUrl ? (
+                        <img src={adminAttachment.previewUrl} alt="preview" className="h-10 w-10 rounded-lg object-cover" />
+                      ) : (
+                        <FileText className="h-5 w-5 flex-shrink-0 text-indigo-400" />
+                      )}
+                      <span className="flex-1 truncate text-xs text-slate-600">{adminAttachment.name}</span>
+                      <button onClick={() => setAdminAttachment(null)} className="text-slate-400 hover:text-slate-600">
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <input
+                      ref={adminFileInputRef}
+                      type="file"
+                      accept="image/*,.pdf"
+                      className="hidden"
+                      onChange={(e) => handleFileChange(e, true)}
+                    />
+                    <button
+                      onClick={() => adminFileInputRef.current?.click()}
+                      disabled={!connected || adminUploading || !!adminAttachment}
+                      className="flex-shrink-0 self-end rounded-xl border border-indigo-100 bg-white p-3 text-slate-400 transition hover:text-indigo-500 disabled:opacity-40"
+                    >
+                      {adminUploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Paperclip className="h-5 w-5" />}
+                    </button>
+                    <textarea
+                      value={adminText}
+                      onChange={(e) => setAdminText(e.target.value)}
+                      onKeyDown={handleAdminKeyDown}
+                      placeholder={t.message}
+                      rows={3}
+                      disabled={!!adminAttachment}
+                      className="flex-1 resize-none rounded-xl border border-indigo-100 bg-white px-4 py-2.5 text-sm text-slate-800 outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 placeholder:text-slate-400 disabled:opacity-60"
+                    />
+                    <button
+                      onClick={handleAdminSend}
+                      disabled={!connected || adminUploading || (!adminText.trim() && !adminAttachment)}
+                      className="flex-shrink-0 self-end rounded-xl bg-indigo-500 p-3 text-white transition hover:bg-indigo-600 disabled:opacity-40"
+                    >
+                      <Send className="h-5 w-5" />
+                    </button>
+                  </div>
                 </div>
               </>
             )}
           </div>
         </div>
       </div>
+
+      {pendingDelete && (
+        <ConfirmModal
+          variant="delete"
+          message={t.confirmDelete}
+          onConfirm={confirmDelete}
+          onCancel={() => setPendingDelete(null)}
+        />
+      )}
+      </>
     );
   }
 
   // ── USER VIEW ─────────────────────────────────────────────────────────────
   return (
+    <>
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div>
@@ -359,62 +507,111 @@ export default function ProjectChatTab() {
         {statusBadge}
       </div>
 
-      <div ref={userMessagesRef} className="flex min-h-[300px] flex-col gap-3 overflow-y-auto rounded-2xl border border-indigo-100 bg-slate-50/60 p-4 sm:min-h-[400px]">
-        {messages.length === 0 ? (
-          <div className="flex flex-1 items-center justify-center text-sm text-slate-400">{t.empty}</div>
-        ) : (
-          messages.map((msg) => {
-            const isMe = msg.sender === username && !msg.isAdmin;
-            return (
-              <div key={msg.id} className={`flex flex-col gap-1 ${isMe ? 'items-end' : 'items-start'}`}>
-                <span className="text-xs text-slate-400">
-                  {msg.isAdmin ? `${t.admin} · ` : ''}{msg.sender} · {formatTime(msg.createdAt)}
-                </span>
-                <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm shadow-sm ${
-                  isMe
-                    ? 'rounded-tr-sm bg-indigo-500 text-white shadow-indigo-200'
-                    : 'rounded-tl-sm border border-slate-100 bg-white text-slate-800 shadow-slate-100'
-                }`}>
-                  {msg.content}
-                </div>
-              </div>
-            );
-          })
-        )}
-      </div>
+      <div className="flex h-[500px] flex-col overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50/60">
+        <div
+          ref={userMessagesRef}
+          className="flex flex-1 flex-col gap-2 overflow-y-auto p-4"
+        >
+          {messages.length === 0 ? (
+            <div className="flex flex-1 items-center justify-center text-sm text-slate-400">{t.empty}</div>
+          ) : (
+            messages.map((msg) => {
+              const isMe = msg.sender === username && !msg.isAdmin;
+              const senderLabel = `${msg.isAdmin ? `${t.admin} · ` : ''}${msg.sender} · ${formatTime(msg.createdAt)}`;
+              return (
+                <ChatBubble
+                  key={msg.id}
+                  content={msg.content}
+                  fileUrl={msg.fileUrl}
+                  fileName={msg.fileName}
+                  senderLabel={senderLabel}
+                  isMine={isMe}
+                  menuOpen={menuForMessage === msg.id}
+                  onToggleMenu={() => setMenuForMessage((prev) => (prev === msg.id ? null : msg.id))}
+                  onDelete={isMe ? () => handleDeleteMessage(msg.id) : undefined}
+                  deleteLabel={t.deleteMessage}
+                />
+              );
+            })
+          )}
+        </div>
 
-      {username ? (
-        <div className="flex flex-col gap-2">
-          <div className="flex gap-2">
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={t.message}
-              rows={3}
-              disabled={!connected}
-              className="flex-1 resize-none rounded-xl border border-indigo-100 bg-white px-4 py-2.5 text-sm text-slate-800 outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 placeholder:text-slate-400 disabled:opacity-60"
-            />
+        {username ? (
+          <div className="border-t border-indigo-50 p-3">
+            {attachment && (
+              <div className="mb-2 flex items-center gap-2 rounded-xl border border-indigo-100 bg-white px-3 py-2">
+                {attachment.type === 'image' && attachment.previewUrl ? (
+                  <img src={attachment.previewUrl} alt="preview" className="h-10 w-10 rounded-lg object-cover" />
+                ) : (
+                  <FileText className="h-5 w-5 flex-shrink-0 text-indigo-400" />
+                )}
+                <span className="flex-1 truncate text-xs text-slate-600">{attachment.name}</span>
+                <button onClick={() => setAttachment(null)} className="text-slate-400 hover:text-slate-600">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            )}
+            <div className="flex gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*,.pdf"
+                className="hidden"
+                onChange={(e) => handleFileChange(e, false)}
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={!connected || uploading || !!attachment}
+                className="flex-shrink-0 self-end rounded-xl border border-indigo-100 bg-white p-3 text-slate-400 transition hover:text-indigo-500 disabled:opacity-40"
+              >
+                {uploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Paperclip className="h-5 w-5" />}
+              </button>
+              <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={t.message}
+                rows={3}
+                disabled={!connected || !!attachment}
+                className="flex-1 resize-none rounded-xl border border-indigo-100 bg-white px-4 py-2.5 text-sm text-slate-800 outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 placeholder:text-slate-400 disabled:opacity-60"
+              />
+              <button
+                onClick={handleSend}
+                disabled={!connected || uploading || (!text.trim() && !attachment)}
+                className="flex-shrink-0 self-end rounded-xl bg-indigo-500 p-3 text-white transition hover:bg-indigo-600 disabled:opacity-40"
+              >
+                <Send className="h-5 w-5" />
+              </button>
+            </div>
+            {!connected && (
+              <p className="mt-2 text-xs text-slate-400">
+                {t.connecting}
+              </p>
+            )}
+          </div>
+        ) : (
+          <div className="border-t border-indigo-50 p-4 text-center">
+            <p className="text-sm text-slate-500">{t.loginToChat}</p>
             <button
-              onClick={handleSend}
-              disabled={!connected || !text.trim()}
-              className="flex h-fit items-center gap-2 self-end rounded-xl bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-indigo-200 transition hover:bg-indigo-600 disabled:opacity-40"
+              onClick={openLogin}
+              className="mt-3 inline-flex items-center gap-2 rounded-xl bg-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-indigo-200 transition hover:bg-indigo-600"
             >
-              <Send className="h-4 w-4" />
-              {t.send}
+              <Lock className="h-4 w-4" />
+              {lang === 'th' ? 'เข้าสู่ระบบ' : 'Login'}
             </button>
           </div>
-          <p className="text-xs text-slate-400">{t.hint}</p>
-        </div>
-      ) : (
-        <button
-          onClick={openLogin}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 py-3 text-sm font-semibold text-indigo-500 transition hover:bg-indigo-100"
-        >
-          <Lock className="h-4 w-4" />
-          {t.loginToChat}
-        </button>
-      )}
+        )}
+      </div>
     </div>
+
+    {pendingDelete && (
+      <ConfirmModal
+        variant="delete"
+        message={t.confirmDelete}
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDelete(null)}
+      />
+    )}
+  </>
   );
 }

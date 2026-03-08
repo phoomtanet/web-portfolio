@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { AuthModal } from '@/components';
-import { apiLogout } from '@/lib/auth';
+import { apiLogout } from '@/service/auth';
 
 interface AuthContextValue {
   username: string | null;

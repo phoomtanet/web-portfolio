@@ -4,7 +4,7 @@ import { Eye, EyeOff, Loader2, X } from 'lucide-react';
 import { useState } from 'react';
 import { useLang } from '@/i18n/LangContext';
 import { useError } from '@/context/ErrorContext';
-import { apiLogin, apiRegister } from '@/lib/auth';
+import { apiLogin, apiRegister } from '@/service/auth';
 
 interface Props {
   onClose: () => void;

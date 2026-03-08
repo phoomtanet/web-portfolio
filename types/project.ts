@@ -18,3 +18,26 @@ export interface ProjectListResponse {
   limit: number;
   offset: number;
 }
+
+export interface ProjectDetailResponse {
+  status: string;
+  data: ProjectApi;
+}
+
+export interface ProjectQuery {
+  limit?: number;
+  offset?: number;
+  keyword?: string;
+}
+
+export interface ProjectCreatePayload {
+  project_name_th: string;
+  project_name_en?: string;
+  is_active?: boolean;
+}
+
+export interface ProjectUpdatePayload {
+  project_name_th?: string;
+  project_name_en?: string;
+  is_active?: boolean;
+}

@@ -1,33 +1,11 @@
 import { apiFetch } from '@/lib/api';
-import { ProjectApi, ProjectListResponse } from '@/types/project';
-
-export interface ProjectQuery {
-  limit?: number;
-  offset?: number;
-  keyword?: string;
-}
-
-interface ProjectDetailResponse {
-  status: string;
-  data: ProjectApi;
-}
-
-interface MessageResponse {
-  status: string;
-  message: string;
-}
-
-export interface ProjectCreatePayload {
-  project_name_th: string;
-  project_name_en?: string;
-  is_active?: boolean;
-}
-
-export interface ProjectUpdatePayload {
-  project_name_th?: string;
-  project_name_en?: string;
-  is_active?: boolean;
-}
+import {
+  ProjectCreatePayload,
+  ProjectDetailResponse,
+  ProjectListResponse,
+  ProjectQuery,
+  ProjectUpdatePayload,
+} from '@/types/project';
 
 function buildQuery(params: ProjectQuery) {
   const search = new URLSearchParams();
@@ -64,5 +42,5 @@ export async function updateProject(id: number | string, payload: ProjectUpdateP
 }
 
 export function deleteProject(id: number | string) {
-  return apiFetch<MessageResponse>(`/project/${id}`, { method: 'DELETE' });
+  return apiFetch<{ status: string; message: string }>(`/project/${id}`, { method: 'DELETE' });
 }

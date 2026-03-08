@@ -82,7 +82,7 @@ export default function UserChatPanel() {
 
   function handleSend() {
     if (!socketRef.current || !roomKey || !text.trim()) return;
-    socketRef.current.emit('send_message', { roomKey, content: text.trim() });
+    socketRef.current.emit('send_message', { roomKey, content: text.trim().replace(/\n+/g, ' ') });
     setText('');
   }
 

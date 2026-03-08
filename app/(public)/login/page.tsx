@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useError } from '@/context/ErrorContext';
-import { apiLogin } from '@/lib/auth';
+import { apiLogin } from '@/service/auth';
 import { AuthModal } from '@/components';
 
 const inputCls =

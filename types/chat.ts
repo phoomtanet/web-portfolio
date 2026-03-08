@@ -3,6 +3,8 @@ export interface BaseChatMessage {
   sender: string;
   isAdmin: boolean;
   content: string;
+  fileUrl?: string | null;
+  fileName?: string | null;
   createdAt: string | Date;
 }
 
@@ -21,5 +23,11 @@ export interface ChatRoomSummary {
   username: string;
   createdAt: string | Date;
   unreadCount: number;
+  lastMessage: { sender: string; content: string; createdAt: string | Date } | null;
+}
+
+export interface ChatMessageDeletedPayload {
+  messageId: string;
+  roomKey: string;
   lastMessage: { sender: string; content: string; createdAt: string | Date } | null;
 }

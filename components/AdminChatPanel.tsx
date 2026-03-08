@@ -4,7 +4,8 @@ import { ChevronLeft, MessageCircle, Send, Users, Wifi, WifiOff, X } from 'lucid
 import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from '@/context/AuthContext';
-import { AdminChatMessage, ChatRoomSummary } from '@/types/chat';
+import { chatTabState } from '@/lib/chatTabState';
+import { AdminChatMessage, ChatMessageDeletedPayload, ChatRoomSummary } from '@/types/chat';
 
 export default function AdminChatPanel() {
   const { isAdmin, token, username } = useAuth();
@@ -68,6 +69,19 @@ export default function AdminChatPanel() {
       setMessages((prev) => [...prev, msg]);
     });
 
+    socket.on('message_deleted', ({ roomKey, lastMessage }: ChatMessageDeletedPayload) => {
+      setRooms((prev) =>
+        prev.map((r) => r.roomKey === roomKey ? { ...r, lastMessage } : r)
+      );
+      setUnread((prev) => {
+        if (!prev[roomKey]) return prev;
+        const next = { ...prev };
+        if (next[roomKey] <= 1) delete next[roomKey];
+        else next[roomKey]--;
+        return next;
+      });
+    });
+
     socket.on('room_new_message', (msg: AdminChatMessage & { roomKey: string }) => {
       setRooms((prev) =>
         prev.map((r) =>
@@ -76,7 +90,7 @@ export default function AdminChatPanel() {
             : r
         )
       );
-      if (msg.roomKey !== selectedRoomRef.current) {
+      if (msg.roomKey !== selectedRoomRef.current && msg.roomKey !== chatTabState.adminRoom) {
         setUnread((prev) => ({ ...prev, [msg.roomKey]: (prev[msg.roomKey] ?? 0) + 1 }));
       }
     });
@@ -109,7 +123,7 @@ export default function AdminChatPanel() {
 
   function handleSend() {
     if (!socketRef.current || !selectedRoom || !text.trim()) return;
-    const content = text.trim();
+    const content = text.trim().replace(/\n+/g, ' ');
     socketRef.current.emit('send_message', { roomKey: selectedRoom, content });
     setText('');
     setRooms((prev) =>
@@ -163,7 +177,14 @@ export default function AdminChatPanel() {
               </span>
             </div>
             <button
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false);
+                if (selectedRoom) {
+                  socketRef.current?.emit('admin_leave_room', { roomKey: selectedRoom });
+                }
+                setSelectedRoom(null);
+                setMessages([]);
+              }}
               className="rounded-lg p-1 text-white/80 transition hover:bg-white/20 hover:text-white"
               aria-label="Close"
             >

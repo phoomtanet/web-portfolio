@@ -1,2 +1,3 @@
-import * as project from './project';
-export { project };
+export * as auth from './auth';
+export * as project from './project';
+export * as upload from './upload';
