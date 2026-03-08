@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { FileText, MoreHorizontal, Trash2, X } from 'lucide-react';
+import { FileText, MoreHorizontal, Pencil, Trash2, X } from 'lucide-react';
 
 interface Props {
   content: string;
   fileUrl?: string | null;
   fileName?: string | null;
+  updatedAt?: string | Date | null;
   senderLabel: string;
   isMine: boolean;
   menuOpen: boolean;
   onToggleMenu: () => void;
   onDelete?: () => void;
   deleteLabel: string;
+  onSaveEdit?: (newContent: string) => void;
 }
 
 function FilePreviewModal({ url, onClose }: { url: string; onClose: () => void }) {
@@ -85,13 +87,37 @@ export default function ChatBubble({
   content,
   fileUrl,
   fileName,
+  updatedAt,
   senderLabel,
   isMine,
   menuOpen,
   onToggleMenu,
   onDelete,
   deleteLabel,
+  onSaveEdit,
 }: Props) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(content);
+
+  function startEdit() {
+    setEditText(content);
+    setIsEditing(true);
+    if (menuOpen) onToggleMenu();
+  }
+
+  function saveEdit() {
+    const trimmed = editText.trim();
+    if (trimmed && trimmed !== content) onSaveEdit?.(trimmed);
+    setIsEditing(false);
+  }
+
+  function handleEditKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); saveEdit(); }
+    if (e.key === 'Escape') setIsEditing(false);
+  }
+
+  const canEdit = !!onSaveEdit && !fileUrl;
+
   return (
     <div className={`flex flex-col gap-0.5 ${isMine ? 'items-end' : 'items-start'}`}>
       <span className="text-[10px] text-slate-400">{senderLabel}</span>
@@ -101,9 +127,50 @@ export default function ChatBubble({
             ? 'rounded-tr-sm bg-indigo-500 text-white shadow-indigo-200'
             : 'rounded-tl-sm bg-slate-100 text-slate-800'
         }`}>
-          <MessageContent content={content} fileUrl={fileUrl} fileName={fileName} />
+          {isEditing ? (
+            <div className="flex flex-col gap-1.5">
+              <textarea
+                value={editText}
+                onChange={(e) => setEditText(e.target.value)}
+                onKeyDown={handleEditKeyDown}
+                rows={2}
+                autoFocus
+                className={`w-full resize-none rounded-lg px-2 py-1 text-sm outline-none ${
+                  isMine ? 'bg-indigo-400 text-white placeholder:text-indigo-200' : 'bg-white text-slate-800'
+                }`}
+              />
+              <div className="flex justify-end gap-1.5">
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className={`rounded-lg px-2 py-0.5 text-xs transition ${
+                    isMine ? 'bg-indigo-400 text-white hover:bg-indigo-300' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'
+                  }`}
+                >
+                  ยกเลิก
+                </button>
+                <button
+                  onClick={saveEdit}
+                  disabled={!editText.trim() || editText.trim() === content}
+                  className={`rounded-lg px-2 py-0.5 text-xs font-medium transition disabled:opacity-50 ${
+                    isMine ? 'bg-white text-indigo-600 hover:bg-indigo-50' : 'bg-indigo-500 text-white hover:bg-indigo-600'
+                  }`}
+                >
+                  บันทึก
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <MessageContent content={content} fileUrl={fileUrl} fileName={fileName} />
+              {updatedAt && (
+                <span className={`mt-0.5 block text-[10px] ${isMine ? 'text-indigo-200' : 'text-slate-400'}`}>
+                  (แก้ไขแล้ว)
+                </span>
+              )}
+            </>
+          )}
         </div>
-        {onDelete && (
+        {(onDelete || canEdit) && (
           <div className="relative">
             <button
               type="button"
@@ -114,14 +181,25 @@ export default function ChatBubble({
               <MoreHorizontal className="h-4 w-4" />
             </button>
             {menuOpen && (
-              <div className="absolute right-0 top-7 z-10 min-w-[140px] rounded-xl border border-slate-100 bg-white text-left text-sm shadow ">
-                <button
-                  onClick={onDelete}
-                  className="flex w-full items-center gap-2 px-4 py-2 text-slate-600 transition hover:bg-red-50 hover:text-red-500"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  {deleteLabel}
-                </button>
+              <div className="absolute right-0 top-7 z-10 min-w-[140px] rounded-xl border border-slate-100 bg-white text-left text-sm shadow">
+                {canEdit && (
+                  <button
+                    onClick={startEdit}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-500"
+                  >
+                    <Pencil className="h-4 w-4" />
+                    แก้ไข
+                  </button>
+                )}
+                {onDelete && (
+                  <button
+                    onClick={onDelete}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-slate-600 transition hover:bg-red-50 hover:text-red-500"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    {deleteLabel}
+                  </button>
+                )}
               </div>
             )}
           </div>

@@ -6,6 +6,7 @@ export interface BaseChatMessage {
   fileUrl?: string | null;
   fileName?: string | null;
   createdAt: string | Date;
+  updatedAt?: string | Date | null;
 }
 
 export interface AdminChatMessage extends BaseChatMessage {
@@ -30,4 +31,10 @@ export interface ChatMessageDeletedPayload {
   messageId: string;
   roomKey: string;
   lastMessage: { sender: string; content: string; createdAt: string | Date } | null;
+}
+
+export interface ChatMessageEditedPayload {
+  messageId: string;
+  roomKey: string;
+  content: string;
 }

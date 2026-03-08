@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useError } from '@/context/ErrorContext';
 import { useLang } from '@/i18n/LangContext';
 import { chatTabState } from '@/lib/chatTabState';
-import { ChatMessageDeletedPayload, ChatRoomSummary, ProjectChatMessage } from '@/types/chat';
+import { ChatMessageDeletedPayload, ChatMessageEditedPayload, ChatRoomSummary, ProjectChatMessage } from '@/types/chat';
 import { ConfirmModal } from '@/components';
 import { uploadChatFile } from '@/service/upload';
 
@@ -184,6 +184,16 @@ export default function ProjectChatTab() {
       }
     });
 
+    socket.on('message_edited', ({ roomKey: rk, messageId, content }: ChatMessageEditedPayload) => {
+      const update = (m: ProjectChatMessage) =>
+        m.id === messageId ? { ...m, content, updatedAt: new Date() } : m;
+      if (isAdmin) {
+        if (selectedRoomRef.current === rk) setAdminMessages((prev) => prev.map(update));
+      } else if (roomKeyRef.current === rk) {
+        setMessages((prev) => prev.map(update));
+      }
+    });
+
     return () => {
       chatTabState.active = false;
       socket.disconnect();
@@ -320,6 +330,16 @@ export default function ProjectChatTab() {
     setPendingDelete({ id, isAdmin: true });
   }
 
+  function handleEditMessage(id: string, content: string) {
+    if (!socketRef.current || !roomKey) return;
+    socketRef.current.emit('edit_message', { roomKey, messageId: id, content });
+  }
+
+  function handleAdminEditMessage(id: string, content: string) {
+    if (!socketRef.current || !selectedRoom) return;
+    socketRef.current.emit('edit_message', { roomKey: selectedRoom, messageId: id, content });
+  }
+
   function confirmDelete() {
     if (!pendingDelete || !socketRef.current) return;
     const rk = pendingDelete.isAdmin ? selectedRoomRef.current : roomKeyRef.current;
@@ -418,11 +438,13 @@ export default function ProjectChatTab() {
                         content={msg.content}
                         fileUrl={msg.fileUrl}
                         fileName={msg.fileName}
+                        updatedAt={msg.updatedAt}
                         senderLabel={`${msg.sender} · ${formatTime(msg.createdAt)}`}
                         isMine={msg.isAdmin}
                         menuOpen={menuForMessage === msg.id}
                         onToggleMenu={() => setMenuForMessage((prev) => (prev === msg.id ? null : msg.id))}
                         onDelete={msg.isAdmin ? () => handleAdminDeleteMessage(msg.id) : undefined}
+                        onSaveEdit={msg.isAdmin ? (c) => handleAdminEditMessage(msg.id, c) : undefined}
                         deleteLabel={t.deleteMessage}
                       />
                     ))
@@ -524,11 +546,13 @@ export default function ProjectChatTab() {
                   content={msg.content}
                   fileUrl={msg.fileUrl}
                   fileName={msg.fileName}
+                  updatedAt={msg.updatedAt}
                   senderLabel={senderLabel}
                   isMine={isMe}
                   menuOpen={menuForMessage === msg.id}
                   onToggleMenu={() => setMenuForMessage((prev) => (prev === msg.id ? null : msg.id))}
                   onDelete={isMe ? () => handleDeleteMessage(msg.id) : undefined}
+                  onSaveEdit={isMe ? (c) => handleEditMessage(msg.id, c) : undefined}
                   deleteLabel={t.deleteMessage}
                 />
               );

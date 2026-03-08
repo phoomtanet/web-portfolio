@@ -4,7 +4,7 @@ import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { ErrorProvider } from '@/context/ErrorContext';
 import { LangProvider } from '@/i18n/LangContext';
-import { AdminChatPanel, UserChatPanel } from '@/components';
+import { ChatPanel } from '@/components';
 
 const sarabun = Sarabun({
   subsets: ['thai', 'latin'],
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="th">
       <body className={`${sarabun.variable} min-h-screen bg-slate-50 font-sans text-slate-900 antialiased`}>
-        <LangProvider><ErrorProvider><AuthProvider>{children}<AdminChatPanel /><UserChatPanel /></AuthProvider></ErrorProvider></LangProvider>
+        <LangProvider><ErrorProvider><AuthProvider>{children}<ChatPanel /></AuthProvider></ErrorProvider></LangProvider>
       </body>
     </html>
   );
