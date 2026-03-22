@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;display:flex;flex-direction:column;align-items:center;padding:24px;gap:16px}
+  .print-btn{padding:10px 28px;background:#4f46e5;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;letter-spacing:.3px}
+  .print-btn:hover{background:#4338ca}
+  .page{width:794px;height:1123px;background:#fff;border-radius:2px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.12);display:flex;flex-direction:column}
+
+  /* HEADER */
+  .header{background:#1e1b4b;padding:18px 32px 14px;position:relative;overflow:hidden;flex-shrink:0}
+  .header::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05)}
+  .header::after{content:'';position:absolute;bottom:-60px;right:80px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.04)}
+  .hname{font-size:24px;font-weight:700;color:#fff;letter-spacing:.5px}
+  .htitle{display:inline-block;margin-top:3px;padding:2px 11px;background:rgba(255,255,255,.15);border-radius:20px;font-size:10.5px;color:#c7d2fe;letter-spacing:1.5px;text-transform:uppercase}
+  .hsummary{margin-top:7px;font-size:10.5px;color:#a5b4fc;line-height:1.55;max-width:540px}
+  .hcontact{display:flex;gap:14px;margin-top:8px}
+  .hc{display:flex;align-items:center;gap:5px;font-size:10.5px;color:#c7d2fe}
+  .hc-dot{width:5px;height:5px;border-radius:50%;background:#818cf8;flex-shrink:0}
+
+  /* BODY */
+  .body{display:grid;grid-template-columns:235px 1fr;flex:1;overflow:hidden}
+  .sidebar{background:#fafaf9;border-right:1px solid #e5e7eb;padding:14px 16px;display:flex;flex-direction:column;overflow:hidden}
+  .sec-info{flex-shrink:0;display:flex;flex-direction:column;margin-bottom:10px}
+  .sec-info .info-wrap{flex:1;display:flex;flex-direction:column;gap:25px}
+  .info-row{display:flex;align-items:flex-start;gap:7px;font-size:10.5px;color:#374151;line-height:1.4}
+  .info-icon{width:14px;height:14px;flex-shrink:0;color:#4f46e5;margin-top:1px}
+  .info-label{font-size:9.5px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.8px;margin-bottom:1px}
+  .sec-skills{flex:0.9;display:flex;flex-direction:column;margin-bottom:0;min-height:0;overflow:hidden}
+  .sec-skills .sk-group{display:flex;flex-direction:column;margin-bottom:0;flex:1;min-height:0;justify-content:center}
+  .main{padding:14px 20px;overflow:hidden}
+
+  /* SECTION */
+  .sec{margin-bottom:10px}
+  .sec-title{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:#4f46e5;margin-bottom:8px}
+  .sec-title::after{content:'';flex:1;height:1.5px;background:linear-gradient(to right,#c7d2fe,transparent)}
+
+  /* SKILLS */
+  .sk-group{margin-bottom:6px}
+  .sk-label{font-size:10px;font-weight:700;color:#374151;margin-bottom:3px}
+  .sk-tags{display:flex;flex-wrap:wrap;gap:3px}
+  .tag{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+  .tag-lang{background:#e0e7ff;color:#3730a3}
+  .tag-fe{background:#e0e7ff;color:#3730a3}
+  .tag-be{background:#e0e7ff;color:#3730a3}
+  .tag-db{background:#e0e7ff;color:#3730a3}
+  .tag-tool{background:#e0e7ff;color:#3730a3}
+  .tag-ai{background:#e0e7ff;color:#3730a3}
+
+  /* EXPERIENCE */
+  .exp{margin-bottom:8px;padding-left:12px;border-left:2px solid #e0e7ff;position:relative}
+  .exp::before{content:'';position:absolute;left:-5px;top:4px;width:8px;height:8px;border-radius:50%;background:#4f46e5}
+  .exp-role{font-size:12px;font-weight:700;color:#111827}
+  .exp-co{font-size:10px;color:#4f46e5;font-weight:600;margin-top:1px}
+  .exp-dur{display:inline-block;font-size:9px;color:#6b7280;background:#f3f4f6;padding:1px 6px;border-radius:20px;margin:2px 0 3px}
+  .exp-list{padding-left:12px}
+  .exp-list li{font-size:10.5px;color:#4b5563;line-height:1.5}
+
+  /* EDUCATION in main (same style as exp) */
+  .edu-gpa{background:#fef3c7;color:#92400e;padding:1px 7px;border-radius:20px;font-size:9px;font-weight:700;display:inline-block;margin-left:4px}
+
+  /* PROJECTS */
+  .proj{margin-bottom:6px;padding:6px 10px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;position:relative}
+  .proj::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,#4f46e5,#818cf8);border-radius:3px 0 0 3px}
+  .proj-name{font-size:11.5px;font-weight:700;color:#111827}
+  .proj-dur{font-size:9px;color:#9ca3af;margin-left:5px}
+  .proj-stack{display:flex;flex-wrap:wrap;gap:3px;margin:4px 0 5px}
+  .ptag{font-size:9px;padding:1px 5px;border-radius:20px;background:#e0e7ff;color:#3730a3;font-weight:600}
+  .proj-list{padding-left:12px;margin-top:2px}
+  .proj-list li{font-size:10.5px;color:#4b5563;line-height:1.5}
+
+  @media print{
+    body{background:#fff;padding:0}
+    .print-btn{display:none}
+    .page{box-shadow:none;width:100%}
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">🖨️ บันทึกเป็น PDF</button>
+<div class="page">
+  <div class="header">
+    <div class="hname">Phoomtanet Intayung</div>
+    <div class="htitle">Full Stack Developer</div>
+    <p class="hsummary">นักพัฒนา Full Stack ที่มีประสบการณ์กว่า 2 ปี เชี่ยวชาญทั้ง Front-end และ Back-end พร้อมความเชี่ยวชาญด้านการออกแบบและปรับปรุงฐานข้อมูล สามารถวิเคราะห์ความต้องการ วางแผนโซลูชัน และส่งมอบแอปพลิเคชันที่มีประสิทธิภาพ มีทักษะการแก้ปัญหาที่ดี ใส่ใจในรายละเอียด และมีความหลงใหลในการเรียนรู้เทคโนโลยีสมัยใหม่อย่างต่อเนื่อง</p>
+   
+  </div>
+
+  <div class="body">
+    <div class="sidebar">
+      <div class="sec sec-info">
+        <div class="sec-title">ข้อมูลส่วนตัว</div>
+        <div class="info-wrap">
+          <div class="info-row"><svg class="info-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M16 10a2 2 0 11-4 0 2 2 0 014 0zM8 10h.01M8 14h.01M12 14h4"/></svg><div><div class="info-label">ชื่อ</div>ภูมิธเนศ อินทยุง</div></div>
+          <div class="info-row"><svg class="info-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg><div><div class="info-label">ชื่อเล่น</div>ปอ</div></div>
+          <div class="info-row"><svg class="info-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><div><div class="info-label">อายุ</div>26 ปี</div></div>
+          <div class="info-row"><svg class="info-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><div><div class="info-label">โทรศัพท์</div>065-332-4270</div></div>
+          <div class="info-row"><svg class="info-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><div><div class="info-label">อีเมล</div>phoomtanet.in@gmail.com</div></div>
+          <div class="info-row"><svg class="info-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v4m0 0l-5 5m5-5l5 5"/></svg><div><div class="info-label">GitHub</div>github.com/phoomtanet</div></div>
+        </div>
+      </div>
+
+      <div class="sec sec-skills">
+        <div class="sec-title">ทักษะ</div>
+        <div class="sk-group"><div class="sk-label">ภาษาโปรแกรม</div>
+          <div class="sk-tags"><span class="tag tag-lang">Java</span><span class="tag tag-lang">JavaScript</span><span class="tag tag-lang">TypeScript</span><span class="tag tag-lang">SQL</span></div></div>
+        <div class="sk-group"><div class="sk-label">Front-end</div>
+          <div class="sk-tags"><span class="tag tag-fe">Next.js</span><span class="tag tag-fe">React</span><span class="tag tag-fe">React Native</span><span class="tag tag-fe">Flutter</span></div></div>
+        <div class="sk-group"><div class="sk-label">Back-end</div>
+          <div class="sk-tags"><span class="tag tag-be">Node.js</span><span class="tag tag-be">Express.js</span></div></div>
+        <div class="sk-group"><div class="sk-label">ฐานข้อมูล</div>
+          <div class="sk-tags"><span class="tag tag-db">PostgreSQL</span><span class="tag tag-db">SQL Server</span><span class="tag tag-db">MySQL</span></div></div>
+        <div class="sk-group"><div class="sk-label">เครื่องมือ</div>
+          <div class="sk-tags"><span class="tag tag-tool">GitHub</span><span class="tag tag-tool">GitLab</span><span class="tag tag-tool">Postman</span><span class="tag tag-tool">Docker</span></div></div>
+        <div class="sk-group"><div class="sk-label">AI Tools</div>
+          <div class="sk-tags"><span class="tag tag-ai">ChatGPT</span><span class="tag tag-ai">Claude</span><span class="tag tag-ai">Windsurf</span></div></div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="sec">
+        <div class="sec-title">การศึกษา</div>
+
+        <div class="exp">
+          <div class="exp-role">วศ.บ. วิศวกรรมคอมพิวเตอร์</div>
+          <div class="exp-co">ม.เทคโนโลยีราชมงคลอีสาน</div>
+          <div class="exp-dur">2564 – 2567<span class="edu-gpa">GPA 3.43</span></div>
+        </div>
+
+        <div class="exp">
+          <div class="exp-role">ปวส. อิเล็กทรอนิกส์อุตสาหกรรม</div>
+          <div class="exp-co">วิทยาลัยเทคนิคสุรินทร์</div>
+          <div class="exp-dur">2561 – 2563<span class="edu-gpa">GPA 3.15</span></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-title">ประสบการณ์ทำงาน</div>
+
+        <div class="exp">
+          <div class="exp-role">Full Stack Developer</div>
+          <div class="exp-co">Intelligence System Corporation Co., LTD</div>
+          <div class="exp-dur">พ.ย. 2567 – มี.ค. 2569 · 1 ปี 5 เดือน</div>
+          <ul class="exp-list">
+            <li>พัฒนาเว็บด้วย Next.js และ Node.js</li>
+            <li>พัฒนาแอปมือถือด้วย React Native</li>
+            <li>ออกแบบฐานข้อมูล เขียน SQL Query และเชื่อมต่อ API</li>
+            <li>ร่วมวางแผน วิเคราะห์ และพัฒนาระบบกับทีม</li>
+          </ul>
+        </div>
+
+        <div class="exp">
+          <div class="exp-role">Full Stack Developer (ฝึกงาน)</div>
+          <div class="exp-co">Intelligence System Corporation Co., LTD</div>
+          <div class="exp-dur">เม.ย. – ต.ค. 2567 · 6 เดือน</div>
+          <ul class="exp-list">
+            <li>พัฒนาเว็บด้วย Next.js และ Node.js</li>
+            <li>พัฒนาแอปมือถือด้วย React Native</li>
+            <li>ออกแบบฐานข้อมูลและเชื่อมต่อ API</li>
+          </ul>
+        </div>
+
+        <div class="exp">
+          <div class="exp-role">Full Stack Developer</div>
+          <div class="exp-co">Freelance</div>
+          <div class="exp-dur">3 เดือน · Flutter &amp; Node.js</div>
+          <ul class="exp-list">
+            <li>พัฒนาแอปมือถือด้วย Flutter + Backend Node.js</li>
+            <li>ออกแบบฐานข้อมูลและเชื่อมต่อ RESTful API</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-title">โปรเจกต์</div>
+
+        <div class="exp">
+          <div class="exp-role">ระบบสวัสดิการพนักงาน</div>
+          <div class="exp-dur">1 เดือน</div>
+          <div class="proj-stack"><span class="ptag">Next.js</span><span class="ptag">Node.js</span><span class="ptag">MySQL</span><span class="ptag">Ant Design</span></div>
+          <ul class="exp-list"><li>จัดการข้อมูลหลัก ธุรกรรม และข้อมูลพนักงาน HR</li></ul>
+        </div>
+
+        <div class="exp">
+          <div class="exp-role">ระบบจัดการการซ่อม</div>
+          <div class="exp-dur">4 เดือน</div>
+          <div class="proj-stack"><span class="ptag">Next.js</span><span class="ptag">Node.js</span><span class="ptag">MySQL</span></div>
+          <ul class="exp-list"><li>Back-office + Mobile Webview สำหรับร้านกระเป๋า พร้อม Dashboard ผู้บริหาร</li></ul>
+        </div>
+
+        <div class="exp">
+          <div class="exp-role">ระบบประเมินผลนักเรียน</div>
+          <div class="exp-dur">6 เดือน</div>
+          <div class="proj-stack"><span class="ptag">React Native</span><span class="ptag">Next.js</span><span class="ptag">Node.js</span><span class="ptag">MySQL</span></div>
+          <ul class="exp-list"><li>ประเมินตนเอง/เพื่อน/ครู รายงานและกราฟวิเคราะห์ผลการเรียน</li></ul>
+        </div>
+
+
+        <div class="exp">
+          <div class="exp-role">ระบบ E-Commerce (Freelance)</div>
+          <div class="exp-dur">3 เดือน</div>
+          <div class="proj-stack"><span class="ptag">Flutter</span><span class="ptag">Node.js</span><span class="ptag">Prisma</span><span class="ptag">PostgreSQL</span></div>
+          <ul class="exp-list"><li>แอปลูกค้า จัดการสินค้า/ที่อยู่/การจัดส่ง และระบบรีวิว</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

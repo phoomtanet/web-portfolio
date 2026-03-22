@@ -54,10 +54,12 @@ function SectionTitle({ icon, children }: { icon: React.ReactNode; children: Rea
 }
 
 const PDF_PATH = '/file/transcrip_phoomtanet_intayung.pdf';
+const EN_RESUME_PATH = '/html/resume_phoomtanrt_en.html';
 
 export default function ResumeSection() {
   const { lang } = useLang();
   const [showPreview, setShowPreview] = useState(false);
+  const [showEnResume, setShowEnResume] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const t = translations[lang].resume;
 
@@ -73,6 +75,12 @@ export default function ResumeSection() {
         <div className="pointer-events-none absolute -bottom-8 -left-8 h-40 w-40 rounded-full bg-cyan-200/30 blur-3xl" />
 
         <div className="relative flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          {/* Photo */}
+          <img
+            src="/images/my-profile2.png"
+            alt="Phoomtanet Intayung"
+            className="h-36 w-36 shrink-0 rounded-full border-4 border-indigo-100 object-cover shadow-md sm:order-last"
+          />
           {/* Text side */}
           <div className="flex-1">
             <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
@@ -112,7 +120,13 @@ export default function ResumeSection() {
                 <Download className="h-4 w-4" />
                 {t.pdf.download}
               </a>
-
+              <button
+                onClick={() => setShowEnResume(true)}
+                className="flex items-center gap-2 rounded-xl border border-cyan-200 bg-white px-4 py-2 text-sm font-medium text-cyan-700 shadow-sm transition hover:bg-cyan-50"
+              >
+                <Eye className="h-4 w-4" />
+                EN Resume
+              </button>
             </div>
           </div>
 
@@ -222,6 +236,30 @@ export default function ResumeSection() {
       </div>
 
     </div>
+
+      {/* EN Resume Modal */}
+      {showEnResume && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm print:hidden">
+          <div className="flex w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3">
+              <p className="font-semibold text-slate-800">EN Resume</p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowEnResume(false)}
+                  className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-50"
+                >
+                  ✕ Close
+                </button>
+              </div>
+            </div>
+            <iframe
+              src={EN_RESUME_PATH}
+              className="h-[80vh] w-full"
+              title="EN Resume"
+            />
+          </div>
+        </div>
+      )}
 
       {/* PDF Preview Modal */}
       {showPreview && (
