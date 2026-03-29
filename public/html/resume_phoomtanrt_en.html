@@ -15,8 +15,6 @@
   .header{background:#1e1b4b;padding:18px 32px 26px;position:relative;overflow:hidden;flex-shrink:0;display:flex;align-items:flex-start;gap:20px}
   .header-info{flex:1}
   .hphoto{width:150px;height:150px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.25);flex-shrink:0}
-  .header::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05)}
-  .header::after{content:'';position:absolute;bottom:-60px;right:80px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.04)}
   .hname{font-size:24px;font-weight:700;color:#fff;letter-spacing:.5px}
   .htitle{display:inline-block;margin-top:3px;padding:2px 11px;background:rgba(255,255,255,.15);border-radius:20px;font-size:10.5px;color:#c7d2fe;letter-spacing:1.5px;text-transform:uppercase}
   .hsummary{margin-top:17px;font-size:12.5px;color:#a5b4fc;line-height:1.55;max-width:540px}
@@ -25,13 +23,25 @@
   .body{display:grid;grid-template-columns:295px 1fr;flex:1;overflow:hidden;margin-top: 10px;}
   .sidebar{background:#fafaf9;border-right:1px solid #e5e7eb;padding:18px 40px;display:flex;flex-direction:column;overflow:hidden;}
   .sec-info{flex-shrink:0;display:flex;flex-direction:column;margin-bottom:10px}
-  .sec-info .info-wrap{flex:1;display:flex;flex-direction:column;gap:25px}
-  .info-row{display:flex;align-items:flex-start;gap:7px;font-size:10.5px;color:#374151;line-height:1.4}
+  .sec-info .info-wrap{flex:1;display:flex;flex-direction:column;gap:12px}
+  .info-row{display:flex;align-items:flex-start;gap:7px;font-size:10.5px;color:#374151;line-height:1.4;transition:all 0.2s ease;padding:2px;border-radius:4px}
+  .info-row:hover{background:#f8fafc;color:#1f2937;transform:translateX(2px)}
   .info-icon{width:14px;height:14px;flex-shrink:0;color:#4f46e5;margin-top:1px}
   .info-label{font-size:9.5px;font-weight:700;color:#374151;letter-spacing:.3px;margin-bottom:1px}
-  .sec-skills{flex:0.9;display:flex;flex-direction:column;margin-bottom:0;min-height:0;overflow:hidden;margin-top:14px}
-  .sec-skills>.sec-title{margin-top:10px}
-  .sec-skills .sk-group{display:flex;flex-direction:column;margin-bottom:32px}
+  .sec-skills{flex:1.2;display:flex;flex-direction:column;margin-bottom:5px;min-height:0;overflow:hidden;margin-top:0px}
+  .sec-skills>.sec-title{margin-top:12px}
+  .sec-skills .sk-group{display:flex;flex-direction:column;margin-bottom:16px}
+
+  .sec-education{flex:1;display:flex;flex-direction:column;margin-bottom:0;min-height:0;overflow:hidden;margin-top:0px}
+  .sec-education>.sec-title{margin-top:10px}
+  .sec-education .edu-item{background:linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%);border-left:3px solid #4f46e5;padding:8px 10px;margin-bottom:8px;border-radius:0 6px 6px 0;transition:all 0.2s ease}
+  .sec-education .edu-item:hover{transform:translateX(2px);box-shadow:0 2px 8px rgba(79,70,229,0.1)}
+  .sec-education .edu-degree{font-size:9.5px;font-weight:700;color:#1e293b;margin-bottom:2px;line-height:1.3}
+  .sec-education .edu-school{font-size:9.5px;color:#4f46e5;font-weight:600;margin-bottom:2px}
+  .sec-education .edu-meta{display:flex;justify-content:space-between;align-items:center;font-size:8.5px;color:#64748b}
+  .sec-education .edu-gpa{background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:10px;font-weight:600}
+
+
   .main{padding:14px 20px;overflow:hidden}
 
   /* SECTION */
@@ -43,12 +53,15 @@
   .sk-group{margin-bottom:3px}
   .sk-label{font-size:10px;font-weight:700;color:#374151;margin-bottom:3px}
   .sk-tags{display:flex;flex-wrap:wrap;gap:3px}
-  .tag{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;background:#e0e7ff;color:#3730a3}
+  .tag{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;background:#e0e7ff;color:#3730a3;transition:all 0.2s ease;cursor:pointer}
+  .tag:hover{background:#4f46e5;color:#fff;transform:scale(1.05)}
 
   /* EXPERIENCE */
-  .exp{margin-bottom:13px;padding-left:12px;border-left:2px solid #e0e7ff;position:relative}
+  .exp{margin-bottom:13px;padding-left:12px;border-left:2px solid #e0e7ff;position:relative;transition:all 0.2s ease}
+  .exp:hover{border-left-color:#4f46e5;background:#f8fafc;border-radius:0 8px 8px 0;padding-left:14px}
   .exp::before{content:'';position:absolute;left:-5px;top:4px;width:8px;height:8px;border-radius:50%;background:#4f46e5}
-  .exp-role{font-size:12px;font-weight:700;color:#111827}
+  .exp-role{font-size:12px;font-weight:700;color:#111827;transition:all 0.2s ease}
+  .exp:hover .exp-role{color:#4f46e5}
   .exp-co{font-size:10px;color:#4f46e5;font-weight:600;margin-top:1px}
   .exp-dur{display:inline-block;font-size:9px;color:#6b7280;background:#f3f4f6;padding:1px 6px;border-radius:20px;margin:2px 0 3px}
   .exp-list{padding-left:12px}
@@ -59,7 +72,8 @@
 
   /* PROJECTS */
   .proj-stack{display:flex;flex-wrap:wrap;gap:3px;margin:3px 0 4px}
-  .ptag{font-size:9px;padding:1px 5px;border-radius:20px;background:#e0e7ff;color:#3730a3;font-weight:600}
+  .ptag{font-size:9px;padding:1px 5px;border-radius:20px;background:#e0e7ff;color:#3730a3;font-weight:600;transition:all 0.2s ease;cursor:pointer}
+  .ptag:hover{background:#4f46e5;color:#fff;transform:scale(1.05)}
 
   @media print{
     body{background:#fff;padding:0}
@@ -76,7 +90,9 @@
     <div class="header-info">
       <div class="hname">Phoomtanet Intayung</div>
       <div class="htitle">Full Stack Developer</div>
-      <p class="hsummary">Full Stack Developer with 2+ years of experience in Front-end and Back-end development. Proficient in designing and optimizing databases, analyzing requirements, planning solutions, and delivering efficient, scalable applications. Strong problem-solver with a passion for continuous learning in modern technologies.</p>
+      <p class="hsummary">Full Stack Developer with 2+ years of experience building scalable web and mobile applications using Next.js, Node.js, and React Native.
+              Strong in architecting end-to-end solutions that enhance operational efficiency, streamline workflows, and reduce manual overhead.
+              Experienced in translating complex business requirements into maintainable, high-performance systems with a focus on scalability and clean architecture.</p>
     </div>
     <img class="hphoto" src="../images/my-profile2.png" alt="Phoomtanet Intayung">
   </div>
@@ -95,6 +111,8 @@
         </div>
       </div>
 
+
+
       <div class="sec sec-skills">
         <div class="sec-title">Skills</div>
         <div class="sk-group"><div class="sk-label">Languages</div>
@@ -105,30 +123,35 @@
           <div class="sk-tags"><span class="tag">Node.js</span><span class="tag">Express.js</span></div></div>
         <div class="sk-group"><div class="sk-label">Database</div>
           <div class="sk-tags"><span class="tag">PostgreSQL</span><span class="tag">SQL Server</span><span class="tag">MySQL</span></div></div>
-        <div class="sk-group"><div class="sk-label">Tools</div>
-          <div class="sk-tags"><span class="tag">GitHub</span><span class="tag">GitLab</span><span class="tag">Postman</span><span class="tag">Docker</span></div></div>
-        <div class="sk-group"><div class="sk-label">AI Tools</div>
-          <div class="sk-tags"><span class="tag">ChatGPT</span><span class="tag">Claude</span><span class="tag">Windsurf</span></div></div>
+          <div class="sk-group"><div class="sk-label">Tools</div>
+            <div class="sk-tags"><span class="tag">GitHub</span><span class="tag">GitLab</span><span class="tag">Postman</span><span class="tag">Docker</span></div></div>
+            </div>
+
+
+      <div class="sec sec-education">
+        <div class="sec-title">Education</div>
+
+        <div class="edu-item">
+          <div class="edu-degree">B.Eng. Computer Engineering</div>
+          <div class="edu-school">Rajamangala University of Technology Isan</div>
+          <div class="edu-meta">
+            <span class="edu-dur">2021 – 2024</span>
+            <span class="edu-gpa">GPA 3.43</span>
+          </div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-degree">High Vocational Certificate — Industrial Electronics</div>
+          <div class="edu-school">Surin Technical College</div>
+          <div class="edu-meta">
+            <span class="edu-dur">2018 – 2020</span>
+            <span class="edu-gpa">GPA 3.15</span>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="main">
-      <div class="sec">
-        <div class="sec-title">Education</div>
-
-        <div class="exp">
-          <div class="exp-role">B.Eng. Computer Engineering      <div class="exp-dur">2021 – 2024</div></div>
-          <div class="exp-co">Rajamangala University of Technology Isan<span class="edu-gpa">GPA 3.43</span></div>
-     
-        </div>
-
-        <div class="exp">
-          <div class="exp-role">High Vocational Certificate — Industrial Electronics  <div class="exp-dur">2018 – 2020</div></div>
-          <div class="exp-co">Surin Technical College<span class="edu-gpa">GPA 3.15</span></div>
-
-        </div>
-      </div>
-
       <div class="sec">
         <div class="sec-title">Work Experience</div>
 
@@ -159,7 +182,7 @@
           <div class="exp-role">Full Stack Developer  <div class="exp-dur">3 months </div></div>
           <div class="exp-co">Freelance</div>
           <ul class="exp-list">
-            <li>Developed mobile app with Flutter + Node.js backend</li>
+            <li>Developed mobile applications using Flutter with Node.js backend services</li>
             <li>Designed database and integrated RESTful APIs</li>
           </ul>
         </div>
@@ -169,37 +192,53 @@
         <div class="sec-title">Projects</div>
 
         <div class="exp">
-          <div class="exp-role">Employee Welfare System    <div class="exp-dur">1 month</div></div>
-      
-          <div class="proj-stack"><span class="ptag">Next.js</span><span class="ptag">Node.js</span><span class="ptag">MySQL</span><span class="ptag">Ant Design</span></div>
-          <ul class="exp-list"><li>Managed master data, transactions, and HR employee information</li></ul>
+          <div class="exp-role">Employee Welfare Management System    <div class="exp-dur">1 month</div></div>
+          <ul class="exp-list">
+            <li>Developed an employee welfare system (Admin, HR, Accounting) with RBAC and RESTful APIs</li>
+            <li>Designed scalable database schema for efficient data management</li>
+            <li>Reduced manual processing time by ~40% through workflow automation</li>
+            <li>Improved data accuracy and minimized errors with centralized system</li>
+          </ul>
         </div>
 
         <div class="exp">
           <div class="exp-role">Repair Management System <div class="exp-dur">4 months</div></div>
-          
-          <div class="proj-stack"><span class="ptag">Next.js</span><span class="ptag">Node.js</span><span class="ptag">MySQL</span></div>
-          <ul class="exp-list"><li>Back-office + Mobile Webview for a bag repair shop with executive dashboard</li></ul>
+          <ul class="exp-list">
+            <li>Built a repair management platform (Mobile Webview + Back-office) for tracking jobs</li>
+            <li>Designed dashboards and reports for real-time monitoring</li>
+            <li>Reduced repair tracking time by ~30% with centralized workflow</li>
+            <li>Improved operational visibility for faster decision-making</li>
+          </ul>
         </div>
 
         <div class="exp">
           <div class="exp-role">Student Assessment System <div class="exp-dur">6 months</div></div>
-          
-          <div class="proj-stack"><span class="ptag">React Native</span><span class="ptag">Next.js</span><span class="ptag">Node.js</span><span class="ptag">MySQL</span></div>
-          <ul class="exp-list"><li>Self/peer/teacher assessment with reports and learning analytics charts</li></ul>
+          <ul class="exp-list">
+            <li>Developed an evaluation system with analytics dashboards and reporting</li>
+            <li>Supported multiple assessment types (self, peer, teacher) with tracking features</li>
+            <li>Integrated centralized student data from educational databases</li>
+            <li>Reduced evaluation processing time by ~35% and enabled data-driven insights</li>
+          </ul>
         </div>
 
         <div class="exp">
           <div class="exp-role">Child Care Center Management System <div class="exp-dur">5 months</div></div>
-          <div class="proj-stack"><span class="ptag">Next.js</span><span class="ptag">Node.js</span><span class="ptag">MySQL</span><span class="ptag">Ant Design</span></div>
-          <ul class="exp-list"><li>Managed children, classrooms, and caregivers with attendance tracking, health records, overtime calculation, and management reports</li></ul>
+          <ul class="exp-list">
+            <li>Built a childcare management system (attendance, health tracking, overtime calculation)</li>
+            <li>Designed dashboards and reports for operational monitoring</li>
+            <li>Improved operational efficiency by ~30% by reducing manual processes</li>
+            <li>Enhanced caregiver workflow with streamlined daily operations</li>
+          </ul>
         </div>
 
         <div class="exp">
           <div class="exp-role">E-Commerce System (Freelance)  <div class="exp-dur">3 months</div></div>
-      
-          <div class="proj-stack"><span class="ptag">Flutter</span><span class="ptag">Node.js</span><span class="ptag">Prisma</span><span class="ptag">PostgreSQL</span></div>
-          <ul class="exp-list"><li>Customer app with product management, address, delivery, and review system</li></ul>
+          <ul class="exp-list">
+            <li>Developed a mobile application with product, delivery, and order management</li>
+            <li>Implemented inventory tracking and order processing system</li>
+            <li>Built review and rating features to enhance user experience</li>
+            <li>Increased order management efficiency by ~25% and improved engagement</li>
+          </ul>
         </div>
       </div>
     </div>
