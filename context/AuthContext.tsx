@@ -73,7 +73,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   function logout() {
-    apiLogout().catch(() => {});
+    apiLogout().catch(() => {
+      // If logout API fails, still clear local session and redirect to login
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login';
+      }
+    });
     setUsername(null);
     setToken(null);
     setIsAdmin(false);

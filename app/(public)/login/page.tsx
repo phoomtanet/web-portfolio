@@ -128,9 +128,9 @@ export default function LoginPage() {
               </div>
 
               <div className="flex items-center justify-between text-sm text-slate-500">
-                <span className="cursor-pointer text-indigo-600 transition hover:text-indigo-500">
+                {/* <span className="cursor-pointer text-indigo-600 transition hover:text-indigo-500">
                   ลืมรหัสผ่าน?
-                </span>
+                </span> */}
                 <Link href="/home" className="text-indigo-600 transition hover:text-indigo-500">
                   เข้าแบบ Guest
                 </Link>
