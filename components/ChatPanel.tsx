@@ -285,7 +285,7 @@ export default function ChatPanel() {
                   </button>
                 )}
                 <span className="text-sm font-semibold">
-                  {isAdmin ? (selectedRoom ? `@${activeRoomUsername ?? selectedRoom}` : 'Admin Chat') : 'แชตกับ Admin'}
+                  {isAdmin ? (selectedRoom ? `@${activeRoomUsername ?? selectedRoom}` : 'Contact us') : 'ติดต่อเรา'}
                 </span>
                 <span className={`ml-1 flex items-center rounded-full px-2 py-0.5 text-xs ${connected ? 'bg-white/20' : 'bg-white/10 opacity-60'}`}>
                   {connected ? <Wifi className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}
@@ -334,7 +334,7 @@ export default function ChatPanel() {
                   </div>
                 </div>
 
-                {/* Admin chat area */}
+                {/* Contact us area */}
                 <div className={`flex flex-1 flex-col ${!selectedRoom ? 'hidden sm:flex' : 'flex'}`}>
                   {!selectedRoom ? (
                     <div className="flex flex-1 items-center justify-center text-sm text-slate-400">เลือกห้องแชตเพื่อดูข้อความ</div>

@@ -1,5 +1,6 @@
 "use client";
 
+import React from 'react';
 import { ChevronDown, LogOut, Menu, User, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -19,8 +20,6 @@ export default function TopNav() {
   const navItems = [
     { label: t.info, href: '/home' },
     { label: t.portfolio, href: '/project' },
-    { label: t.blog, href: '/blog' },
-    { label: t.contact, href: '/contact' },
   ];
 
   return (
@@ -98,20 +97,22 @@ export default function TopNav() {
         )}
 
         {/* Nav — desktop only */}
-        <nav className="hidden items-center gap-5 text-sm font-semibold text-slate-700 sm:flex">
+        <nav className="hidden items-center gap-1 sm:flex">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`rounded-full px-3 py-1 transition ${
+                className={`group relative px-6 py-3 text-sm font-medium transition-all duration-300 ease-out before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:rounded-full before:bg-gradient-to-r before:from-indigo-500 before:to-cyan-400 before:transition-all before:duration-300 before:ease-out hover:text-indigo-600 hover:before:w-full ${
                   isActive
-                    ? 'bg-indigo-100 text-indigo-700 font-bold'
-                    : 'hover:bg-indigo-50 hover:text-indigo-700'
+                    ? 'text-indigo-600 font-semibold before:w-full before:h-1'
+                    : 'text-slate-600'
                 }`}
               >
-                {item.label}
+                <span className="relative flex items-center gap-2">
+                  {item.label}
+                </span>
               </Link>
             );
           })}

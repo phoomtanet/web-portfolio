@@ -36,7 +36,7 @@ const tx = {
     noMessages: 'No messages yet',
   },
   th: {
-    title: 'แชตกับ Admin',
+    title: 'ติดต่อเรา',
     subtitle: 'มีคำถามอะไรก็ถามได้เลย',
     empty: 'ยังไม่มีข้อความ ทักทายได้เลย!',
     hint: 'Enter เพื่อส่ง · Shift+Enter ขึ้นบรรทัดใหม่',

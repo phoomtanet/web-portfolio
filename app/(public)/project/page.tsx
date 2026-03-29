@@ -31,18 +31,8 @@ export default function ProjectPage() {
                 <MessageSquare className="h-4 w-4" />
                 {t.tabChat}
               </button>
-              <button
-                onClick={() => setTab('pdf')}
-                className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold transition ${
-                  tab === 'pdf' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-                }`}
-              >
-                <FileDown className="h-4 w-4" />
-                {t.tabPdf}
-              </button>
             </div>
             <div className="h-px w-full rounded-full bg-indigo-100" />
-            {tab === 'pdf' && <ProjectPdfTab />}
             {tab === 'chat' && <ProjectChatTab />}
           </div>
         </BorderBox>

@@ -3,10 +3,11 @@ import type { Lang } from './LangContext';
 const translations = {
   en: {
     nav: {
-      info: 'About',
+      info: 'Info',
       portfolio: 'Portfolio',
-      blog: 'Blog',
-      contact: 'Contact',
+      home: 'HOME SWEET HOME',
+      secretLair: 'SECRET LAIR',
+      radioRoom: 'RADIO ROOM',
     },
     resume: {
       summary:
@@ -78,65 +79,66 @@ const translations = {
         },
       ],
    projects: [
-  {
-    name: 'Employee Welfare Management System',
-    duration: '1 เดือน',
-    stack: 'Next.js, Node.js, MySQL',
-    bullets: [
-      'พัฒนาระบบสวัสดิการพนักงาน (Admin, HR, Accounting) พร้อม RBAC และ RESTful APIs',
-      'ออกแบบโครงสร้างฐานข้อมูลให้รองรับการขยายตัว (Scalable) และจัดการข้อมูลอย่างมีประสิทธิภาพ',
-      'ลดระยะเวลาการทำงานแบบ Manual ลงประมาณ 40% ด้วยระบบ Workflow อัตโนมัติ',
-      'เพิ่มความถูกต้องของข้อมูลและลดข้อผิดพลาดด้วยระบบศูนย์กลาง (Centralized System)',
-    ],
-  },
-  {
-    name: 'Repair Management System',
-    duration: '4 เดือน',
-    stack: 'Mobile Webview, Node.js, MySQL',
-    bullets: [
-      'พัฒนาระบบจัดการงานซ่อม (Mobile Webview + Back-office) สำหรับติดตามสถานะงาน',
-      'ออกแบบ Dashboard และรายงานสำหรับติดตามผลแบบ Real-time',
-      'ลดระยะเวลาในการติดตามงานซ่อมลงประมาณ 30% ด้วยระบบ Workflow แบบรวมศูนย์',
-      'เพิ่มความชัดเจนในการมองเห็นข้อมูล (Visibility) เพื่อช่วยในการตัดสินใจได้รวดเร็วขึ้น',
-    ],
-  },
-  {
-    name: 'Student Assessment System',
-    duration: '6 เดือน',
-    stack: 'React Native, Node.js, MySQL',
-    bullets: [
-      'พัฒนาระบบประเมินผลพร้อม Dashboard และรายงานเชิงวิเคราะห์ (Analytics)',
-      'รองรับการประเมินหลายรูปแบบ (Self, Peer, Teacher) พร้อมระบบติดตามการส่งงาน',
-      'เชื่อมต่อข้อมูลนักเรียนจากฐานข้อมูลส่วนกลาง (Centralized Database)',
-      'ลดระยะเวลาการประมวลผลการประเมินลงประมาณ 35% และสนับสนุนการตัดสินใจเชิงข้อมูล',
-    ],
-  },
-  {
-    name: 'Child Care Center Management System',
-    duration: '5 เดือน',
-    stack: 'Next.js, Node.js, MySQL',
-    bullets: [
-      'พัฒนาระบบบริหารศูนย์เด็กเล็ก (เช็คชื่อ, สุขภาพ, คำนวณ OT)',
-      'ออกแบบ Dashboard และรายงานสำหรับติดตามการดำเนินงาน',
-      'เพิ่มประสิทธิภาพการทำงานโดยรวมประมาณ 30% จากการลดงานเอกสาร',
-      'ปรับปรุง Workflow การทำงานของผู้ดูแลให้รวดเร็วและเป็นระบบมากขึ้น',
-    ],
-  },
-  {
-    name: 'E-Commerce System (Freelance)',
-    duration: '3 เดือน',
-    stack: 'Flutter, Node.js, PostgreSQL',
-    bullets: [
-      'พัฒนา Mobile Application สำหรับจัดการสินค้า การจัดส่ง และคำสั่งซื้อ',
-      'พัฒนาระบบจัดการสต็อกสินค้าและกระบวนการสั่งซื้อ',
-      'เพิ่มฟีเจอร์รีวิวและให้คะแนนสินค้าเพื่อยกระดับประสบการณ์ผู้ใช้งาน',
-      'เพิ่มประสิทธิภาพการจัดการคำสั่งซื้อประมาณ 25% และเพิ่มการมีส่วนร่วมของผู้ใช้งาน',
-    ],
-  },
-],
+        {
+          name: 'Employee Welfare Management System',
+          duration: '1 month',
+          stack: 'Next.js, Node.js, MySQL',
+          bullets: [
+            'Developed an employee welfare system (Admin, HR, Accounting) with RBAC and RESTful APIs',
+            'Designed scalable database schema for efficient data management',
+            'Reduced manual processing time by ~40% through workflow automation',
+            'Improved data accuracy and minimized errors with centralized system',
+          ],
+        },
+        {
+          name: 'Repair Management System',
+          duration: '4 months',
+          stack: 'Mobile Webview, Node.js, MySQL',
+          bullets: [
+            'Built a repair management platform (Mobile Webview + Back-office) for tracking jobs',
+            'Designed dashboards and reports for real-time monitoring',
+            'Reduced repair tracking time by ~30% with centralized workflow',
+            'Improved operational visibility for faster decision-making',
+          ],
+        },
+        {
+          name: 'Student Assessment System',
+          duration: '6 months',
+          stack: 'React Native, Node.js, MySQL',
+          bullets: [
+            'Developed an evaluation system with analytics dashboards and reporting',
+            'Supported multiple assessment types (self, peer, teacher) with tracking features',
+            'Integrated centralized student data from educational databases',
+            'Reduced evaluation processing time by ~35% and enabled data-driven insights',
+          ],
+        },
+        {
+          name: 'Child Care Center Management System',
+          duration: '5 months',
+          stack: 'Next.js, Node.js, MySQL',
+          bullets: [
+            'Built a childcare management system (attendance, health tracking, overtime calculation)',
+            'Designed dashboards and reports for operational monitoring',
+            'Improved operational efficiency by ~30% by reducing manual processes',
+            'Enhanced caregiver workflow with streamlined daily operations',
+          ],
+        },
+        {
+          name: 'E-Commerce System (Freelance)',
+          duration: '3 months',
+          stack: 'Flutter, Node.js, PostgreSQL',
+          bullets: [
+            'Developed a mobile application with product, delivery, and order management',
+            'Implemented inventory tracking and order processing system',
+            'Built review and rating features to enhance user experience',
+            'Increased order management efficiency by ~25% and improved engagement',
+          ],
+        },
+      ],
       pdf: {
         preview: 'Preview Transcript',
         download: 'Download Transcript',
+        enResume: 'Preview Resume',
         modalTitle: 'Transcript',
         downloadBtn: 'Download',
         closeBtn: 'Close',
@@ -145,10 +147,11 @@ const translations = {
   },
   th: {
     nav: {
-      info: 'ข้อมูลส่วนตัว',
+      info: 'ข้อมูล',
       portfolio: 'ผลงาน',
-      blog: 'บทความ',
-      contact: 'ติดต่อ',
+      home: 'HOME SWEET HOME',
+      secretLair: 'SECRET LAIR',
+      radioRoom: 'RADIO ROOM',
     },
     resume: {
       summary:
@@ -236,7 +239,7 @@ const translations = {
           duration: '4 เดือน',
           stack: 'Mobile Webview, Node.js, MySQL',
           bullets: [
-            'สร้างแพลตฟอร์มจัดการงานซ่อม (Mobile Webview + Back-office) สำหรับติดตามงาน',
+            'พัฒนาระบบจัดการงานซ่อม (Mobile Webview + Back-office) สำหรับติดตามงาน',
             'ออกแบบแดชบอร์ดและรายงานสำหรับการตรวจสอบแบบเรียลไทม์',
             'ลดระยะเวลาการติดตามงานซ่อม ~30% ด้วยเวิร์กโฟลว์ที่รวมศูนย์',
             'เพิ่มการมองเห็นการดำเนินงานเพื่อการตัดสินใจที่เร็วขึ้น',
@@ -279,6 +282,7 @@ const translations = {
       pdf: {
         preview: 'ดูผลการเรียน',
         download: 'ดาวน์โหลดผลการเรียน',
+        enResume: 'ดูเรซูเม่',
         modalTitle: 'ผลการเรียน',
         downloadBtn: 'ดาวน์โหลด',
         closeBtn: 'ปิด',

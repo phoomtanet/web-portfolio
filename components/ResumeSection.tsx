@@ -76,14 +76,16 @@ export default function ResumeSection() {
 
         <div className="relative flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           {/* Photo */}
-          <img
-            src="/images/my-profile2.png"
-            alt="Phoomtanet Intayung"
-            className="h-36 w-36 shrink-0 rounded-full border-4 border-indigo-100 object-cover shadow-md sm:order-last"
-          />
+          <div className="sm:order-last">
+            <img
+              src="/images/my-profile2.png"
+              alt="Phoomtanet Intayung"
+              className="mx-auto h-36 w-36 shrink-0 rounded-full border-4 border-indigo-100 object-cover shadow-md sm:mx-0"
+            />
+          </div>
           {/* Text side */}
           <div className="flex-1">
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
               <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500 bg-clip-text text-transparent">
                 Phoomtanet Intayung
               </span>
@@ -112,20 +114,12 @@ export default function ResumeSection() {
                 <Eye className="h-4 w-4" />
                 {t.pdf.preview}
               </button>
-              <a
-                href={PDF_PATH}
-                download="transcript-phoomtanet.pdf"
-                className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
-              >
-                <Download className="h-4 w-4" />
-                {t.pdf.download}
-              </a>
               <button
                 onClick={() => setShowEnResume(true)}
                 className="flex items-center gap-2 rounded-xl border border-cyan-200 bg-white px-4 py-2 text-sm font-medium text-cyan-700 shadow-sm transition hover:bg-cyan-50"
               >
                 <Eye className="h-4 w-4" />
-                EN Resume
+                {t.pdf.enResume}
               </button>
             </div>
           </div>
