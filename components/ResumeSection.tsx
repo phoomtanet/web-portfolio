@@ -54,7 +54,7 @@ function SectionTitle({ icon, children }: { icon: React.ReactNode; children: Rea
 }
 
 const PDF_PATH = '/file/transcrip_phoomtanet_intayung.pdf';
-const EN_RESUME_PATH = '/html/resume_phoomtanrt_en.html';
+const EN_RESUME_PATH = '/file/resume_phoomtanet_intayung_en_6.pdf';
 
 export default function ResumeSection() {
   const { lang } = useLang();
