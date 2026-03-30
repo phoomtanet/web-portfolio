@@ -11,7 +11,9 @@ const translations = {
     },
     resume: {
       summary:
-        'Motivated Full Stack Developer with 1 year of professional experience and 6 months of internship in developing web and mobile applications. Skilled in both front-end and back-end development, with hands-on expertise in designing and optimizing databases. Capable of independently analyzing requirements, planning solutions, and delivering efficient, scalable applications.',
+        'Motivated Full Stack Developer with 1.5 years of experience (including 6 months of internship) in developing web and mobile applications. ' +
+        'Experienced in both front-end and back-end development, with strong skills in database design and optimization. ' +
+        'Proven ability to analyze requirements, design effective solutions, and deliver scalable, high-performance applications.',
       sections: {
         skills: 'Skills',
         experience: 'Work Experience',
@@ -155,7 +157,9 @@ const translations = {
     },
     resume: {
       summary:
-        'Full Stack Developer ที่มีประสบการณ์พัฒนา Web และ Mobile Application กว่า 2 ปี เชี่ยวชาญทั้ง Front-end และ Back-end พร้อมทักษะด้านการออกแบบฐานข้อมูล วิเคราะห์ความต้องการ และพัฒนาระบบอย่างเป็นระบบและมีประสิทธิภาพ',
+        'Full Stack Developer ที่มีประสบการณ์ 1.5 ปี (รวมฝึกงาน 6 เดือน) ในการพัฒนา Web และ Mobile Application แบบครบวงจร ' +
+        'มีทักษะทั้ง Front-end และ Back-end พร้อมประสบการณ์จริงในการออกแบบและปรับปรุงประสิทธิภาพฐานข้อมูล ' +
+        'มีความสามารถในการวิเคราะห์ความต้องการทางธุรกิจ ออกแบบโซลูชันที่เหมาะสม และพัฒนาแอปพลิเคชันที่มีประสิทธิภาพ รองรับการใช้งานและการขยายระบบได้',
       sections: {
         skills: 'ทักษะ',
         experience: 'ประสบการณ์ทำงาน',
