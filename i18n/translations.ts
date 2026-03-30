@@ -10,10 +10,7 @@ const translations = {
       radioRoom: 'RADIO ROOM',
     },
     resume: {
-      summary:
-        'Motivated Full Stack Developer with 1.5 years of experience (including 6 months of internship) in developing web and mobile applications. ' +
-        'Experienced in both front-end and back-end development, with strong skills in database design and optimization. ' +
-        'Proven ability to analyze requirements, design effective solutions, and deliver scalable, high-performance applications.',
+      summary: 'Full Stack Developer with nearly 2 years of hands-on experience building web and mobile applications using Next.js, Node.js, and React Native. Experienced in developing end-to-end solutions that improve operational efficiency and streamline workflows. Strong in translating business requirements into scalable, high-performance applications with clean and maintainable architecture.',
       sections: {
         skills: 'Skills',
         experience: 'Work Experience',
@@ -156,10 +153,7 @@ const translations = {
       radioRoom: 'RADIO ROOM',
     },
     resume: {
-      summary:
-        'Full Stack Developer ที่มีประสบการณ์ 1.5 ปี (รวมฝึกงาน 6 เดือน) ในการพัฒนา Web และ Mobile Application แบบครบวงจร ' +
-        'มีทักษะทั้ง Front-end และ Back-end พร้อมประสบการณ์จริงในการออกแบบและปรับปรุงประสิทธิภาพฐานข้อมูล ' +
-        'มีความสามารถในการวิเคราะห์ความต้องการทางธุรกิจ ออกแบบโซลูชันที่เหมาะสม และพัฒนาแอปพลิเคชันที่มีประสิทธิภาพ รองรับการใช้งานและการขยายระบบได้',
+      summary:' Full Stack Developer ที่มีประสบการณ์เกือบ 2 ปี ในการพัฒนา Web และ Mobile Application โดยใช้ Next.js, Node.js และ React Native มีประสบการณ์ในการพัฒนาโซลูชันแบบ end-to-end เพื่อเพิ่มประสิทธิภาพการทำงาน ลดขั้นตอนที่ซ้ำซ้อน และปรับปรุง workflow มีความสามารถในการแปลงความต้องการทางธุรกิจให้เป็นระบบที่สามารถขยายตัวได้ มีประสิทธิภาพสูง และมีโครงสร้างโค้ดที่สะอาด ดูแลรักษาง่าย',
       sections: {
         skills: 'ทักษะ',
         experience: 'ประสบการณ์ทำงาน',
