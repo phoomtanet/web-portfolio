@@ -99,16 +99,23 @@ export default function ProjectChatTab() {
   }, [roomKey]);
 
   useEffect(() => {
+    console.log('ProjectChatTab useEffect called, token:', !!token);
     if (!token) return;
 
-    const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+    const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') ?? 'http://localhost:8000';
+    console.log('ProjectChatTab SOCKET_URL:', SOCKET_URL);
     const socket = io(SOCKET_URL, {
       auth: { token },
       transports: ['websocket'],
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
     });
     socketRef.current = socket;
 
     socket.on('connect', () => {
+      console.log('ProjectChatTab Socket connected!');
+      console.log('Setting connected to true');
       setConnected(true);
       if (isAdmin) {
         socket.emit('admin_join');
@@ -117,7 +124,12 @@ export default function ProjectChatTab() {
       }
     });
 
-    socket.on('disconnect', () => {
+    socket.on('connect_error', (error) => {
+      console.error('ProjectChatTab Socket connection error:', error);
+    });
+
+    socket.on('disconnect', (reason) => {
+      console.log('ProjectChatTab Socket disconnected:', reason);
       setConnected(false);
       setRoomKey(null);
     });
@@ -149,6 +161,9 @@ export default function ProjectChatTab() {
     socket.on('room_created', (room: ChatRoomSummary) => setRooms((prev) => [room, ...prev]));
 
     socket.on('room_history', ({ roomKey: rk, messages: msgs }: { roomKey: string; messages: ProjectChatMessage[] }) => {
+      
+      console.log('msgs',msgs);
+      
       if (selectedRoomRef.current === rk) setAdminMessages(msgs);
     });
 
@@ -195,6 +210,7 @@ export default function ProjectChatTab() {
     });
 
     return () => {
+      console.log('ProjectChatTab cleanup called');
       chatTabState.active = false;
       socket.disconnect();
       socketRef.current = null;
@@ -206,7 +222,7 @@ export default function ProjectChatTab() {
       setAdminMessages([]);
       setUnread({});
     };
-  }, [token, isAdmin]);
+  }, [token]);
 
   useEffect(() => {
     if (userMessagesRef.current) {
@@ -354,6 +370,9 @@ export default function ProjectChatTab() {
       {connected ? 'Online' : t.connecting}
     </span>
   ) : null;
+
+  // Debug: Log connected state
+  console.log('ProjectChatTab connected state:', connected);
 
   // ── ADMIN VIEW ────────────────────────────────────────────────────────────
   if (isAdmin) {

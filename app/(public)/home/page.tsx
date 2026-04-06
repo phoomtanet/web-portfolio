@@ -1,16 +1,12 @@
 "use client";
 
-import { TopNav, ResumeSection, BorderBox } from '@/components';
+import { TopNav } from '@/components';
+import Portfolio from '@/components/Portfolio';
 
 export default function HomePage() {
   return (
     <>
-      <TopNav />
-      <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-4 py-8 text-slate-900 sm:py-12">
-        <BorderBox>
-          <ResumeSection />
-        </BorderBox>
-      </main>
+      <Portfolio />
     </>
   );
 }

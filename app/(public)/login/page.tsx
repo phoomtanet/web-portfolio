@@ -10,7 +10,7 @@ import { apiLogin } from '@/service/auth';
 import { AuthModal } from '@/components';
 
 const inputCls =
-  'w-full rounded-xl border border-indigo-100 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 transition';
+  'w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -46,30 +46,30 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-6xl items-center px-4 py-10 sm:px-8 lg:px-10 text-slate-900">
-      <section className="grid w-full gap-6 lg:grid-cols-[1.05fr_1fr]">
+    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center px-4 py-10 sm:px-8 lg:px-10 text-white">
+      <section className="grid w-full gap-6 lg:grid-cols-[1.05fr_1fr] max-w-6xl mx-auto">
 
         {/* Left — info card */}
-        <div className="relative overflow-hidden rounded-3xl border border-indigo-100 bg-white p-8 shadow-xl shadow-indigo-200/60 ring-1 ring-indigo-100/60">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(99,102,241,0.12),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(56,189,248,0.12),transparent_35%)]" aria-hidden />
+        <div className="relative overflow-hidden rounded-3xl border border-white/20 bg-black/40 backdrop-blur-xl p-8 shadow-2xl shadow-blue-500/20 ring-1 ring-white/10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.15),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(147,51,234,0.15),transparent_35%)]" aria-hidden />
           <div className="relative flex h-full flex-col justify-between gap-10">
             <div className="max-w-xl space-y-4">
-              <p className="text-sm uppercase tracking-[0.25em] text-cyan-600">ยินดีต้อนรับ</p>
+              <p className="text-sm uppercase tracking-[0.25em] text-blue-400">ยินดีต้อนรับ</p>
               <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">
-                <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                   Portfolio Phoomtanet Intayung (Porsche)
                 </span>
               </h1>
-              <p className="text-base text-slate-600">
+              <p className="text-base text-gray-300">
                 เลือกวิธีเข้าใช้งานได้เลย ทั้งสมัครสมาชิก ล็อคอิน หรือเข้าแบบ Guest เพื่อสำรวจเว็บไซต์อย่างรวดเร็ว
               </p>
             </div>
-            <div className="flex flex-wrap gap-3 text-sm text-slate-700">
-              <div className="flex items-center gap-3 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 shadow-sm">
+            <div className="flex flex-wrap gap-3 text-sm text-gray-300">
+              <div className="flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 shadow-sm backdrop-blur-sm">
                 <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />
                 เข้าถึงรวดเร็ว ปลอดภัย
               </div>
-              <div className="flex items-center gap-3 rounded-full border border-cyan-100 bg-cyan-50 px-4 py-2 shadow-sm">
+              <div className="flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 shadow-sm backdrop-blur-sm">
                 <span className="h-2 w-2 rounded-full bg-cyan-500" aria-hidden />
                 รองรับ Guest และสมาชิก
               </div>
@@ -78,17 +78,17 @@ export default function LoginPage() {
         </div>
 
         {/* Right — login card */}
-        <div className="relative rounded-3xl border border-indigo-100 bg-white p-6 shadow-xl shadow-indigo-200/60 ring-1 ring-indigo-100/60">
+        <div className="relative rounded-3xl border border-white/20 bg-black/40 backdrop-blur-xl p-6 shadow-2xl shadow-blue-500/20 ring-1 ring-white/10">
           <div className="space-y-6">
             <header className="space-y-2 text-center">
-              <p className="text-sm uppercase tracking-[0.2em] text-cyan-600">Welcome Back</p>
-              <h2 className="text-3xl font-semibold text-slate-900">เข้าสู่ระบบ</h2>
-              <p className="text-sm text-slate-500">กรอก Username หรือ Email และรหัสผ่าน</p>
+              <p className="text-sm uppercase tracking-[0.2em] text-blue-400">Welcome Back</p>
+              <h2 className="text-3xl font-semibold text-white">เข้าสู่ระบบ</h2>
+              <p className="text-sm text-gray-300">กรอก Username หรือ Email และรหัสผ่าน</p>
             </header>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700" htmlFor="identifier">
+                <label className="text-sm font-medium text-gray-300" htmlFor="identifier">
                   Username หรือ Email
                 </label>
                 <input
@@ -103,7 +103,7 @@ export default function LoginPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700" htmlFor="password">
+                <label className="text-sm font-medium text-gray-300" htmlFor="password">
                   รหัสผ่าน
                 </label>
                 <div className="relative">
@@ -120,18 +120,18 @@ export default function LoginPage() {
                     type="button"
                     tabIndex={-1}
                     onClick={() => setShowPwd((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition hover:text-gray-300"
                   >
                     {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between text-sm text-slate-500">
+              <div className="flex items-center justify-between text-sm text-gray-300">
                 {/* <span className="cursor-pointer text-indigo-600 transition hover:text-indigo-500">
                   ลืมรหัสผ่าน?
                 </span> */}
-                <Link href="/home" className="text-indigo-600 transition hover:text-indigo-500">
+                <Link href="/home" className="text-blue-400 transition hover:text-blue-300">
                   เข้าแบบ Guest
                 </Link>
               </div>
@@ -141,18 +141,18 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-400 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-indigo-200/70 transition hover:opacity-90 disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:shadow-xl hover:shadow-blue-500/30 disabled:opacity-60"
               >
                 {loading && <Loader2 className="h-4 w-4 animate-spin" />}
                 เข้าสู่ระบบ
               </button>
             </form>
 
-            <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-slate-600">
+            <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-gray-300">
               <span>ยังไม่มีบัญชี?</span>
               <button
                 onClick={() => setShowRegister(true)}
-                className="font-semibold text-indigo-600 transition hover:text-indigo-500"
+                className="font-semibold text-blue-400 transition hover:text-blue-300"
               >
                 สมัครสมาชิก
               </button>

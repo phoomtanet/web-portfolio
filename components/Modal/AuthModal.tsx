@@ -68,7 +68,7 @@ const tx = {
 };
 
 const inputCls =
-  'w-full rounded-xl border border-indigo-100 bg-white px-4 py-3 pr-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 transition';
+  'w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 pr-10 text-sm text-white placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition';
 
 const Req = () => <span className="ml-0.5 text-red-500">*</span>;
 
@@ -134,43 +134,43 @@ export default function AuthModal({ onClose, onSuccess, initialTab = 'login' }: 
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm sm:items-center sm:p-4">
-      <div className="relative w-full max-w-sm overflow-hidden rounded-t-3xl rounded-b-none border border-indigo-100 bg-white shadow-2xl shadow-indigo-200/60 ring-1 ring-indigo-100/60 sm:max-w-md sm:rounded-3xl lg:max-w-lg">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm sm:items-center sm:p-4">
+      <div className="relative w-full max-w-sm overflow-hidden rounded-t-3xl rounded-b-none border border-white/20 bg-black/40 backdrop-blur-xl shadow-2xl shadow-blue-500/20 ring-1 ring-white/10 sm:max-w-md sm:rounded-3xl lg:max-w-lg">
 
-        <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(circle at 20% 20%, rgba(99,102,241,0.10) 0%, transparent 45%), radial-gradient(circle at 80% 0%, rgba(56,189,248,0.10) 0%, transparent 40%)' }} />
+        <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(circle at 20% 20%, rgba(59,130,246,0.15) 0%, transparent 45%), radial-gradient(circle at 80% 0%, rgba(147,51,234,0.15) 0%, transparent 40%)' }} />
 
-        <button onClick={onClose} disabled={loading} className="absolute right-4 top-4 z-10 rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 disabled:opacity-40">
+        <button onClick={onClose} disabled={loading} className="absolute right-4 top-4 z-10 rounded-lg p-1.5 text-gray-400 transition hover:bg-white/10 disabled:opacity-40">
           <X className="h-4 w-4" />
         </button>
 
         <div className="relative p-5 sm:p-8 lg:p-10">
-          <div className="mb-5 flex gap-1 rounded-xl bg-slate-100 p-1">
-            <button onClick={() => switchTab('login')} disabled={loading} className={`flex-1 rounded-lg py-2 text-sm font-semibold transition ${tab === 'login' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>{t.login}</button>
-            <button onClick={() => switchTab('register')} disabled={loading} className={`flex-1 rounded-lg py-2 text-sm font-semibold transition ${tab === 'register' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>{t.register}</button>
+          <div className="mb-5 flex gap-1 rounded-xl bg-white/10 p-1 backdrop-blur-sm">
+            <button onClick={() => switchTab('login')} disabled={loading} className={`flex-1 rounded-lg py-2 text-sm font-semibold transition ${tab === 'login' ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-blue-500/25' : 'text-gray-300 hover:text-white'}`}>{t.login}</button>
+            <button onClick={() => switchTab('register')} disabled={loading} className={`flex-1 rounded-lg py-2 text-sm font-semibold transition ${tab === 'register' ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-blue-500/25' : 'text-gray-300 hover:text-white'}`}>{t.register}</button>
           </div>
 
-          <div className="mb-4 space-y-1 text-center">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-600">{tab === 'login' ? 'Welcome Back' : 'Get Started'}</p>
-            <h2 className="text-xl font-semibold text-slate-900 sm:text-2xl lg:text-3xl">{tab === 'login' ? t.welcome : t.createAccount}</h2>
-            <p className="text-sm text-slate-500">{tab === 'login' ? t.welcomeSub : t.createSub}</p>
-          </div>
+            <div className="mb-4 space-y-1 text-center">
+              <p className="text-xs uppercase tracking-[0.2em] text-blue-400">{tab === 'login' ? 'Welcome Back' : 'Get Started'}</p>
+              <h2 className="text-xl font-semibold text-white sm:text-2xl lg:text-3xl">{tab === 'login' ? t.welcome : t.createAccount}</h2>
+              <p className="text-sm text-gray-300">{tab === 'login' ? t.welcomeSub : t.createSub}</p>
+            </div>
 
           <form onSubmit={handleSubmit} className="space-y-3">
             {tab === 'login' ? (
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-slate-700">{t.identifier}</label>
+                <label className="mb-1.5 block text-sm font-medium text-gray-300">{t.identifier}</label>
                 <input type="text" value={identifier} onChange={(e) => setIdentifier(e.target.value)} placeholder="username / email" disabled={loading} className={inputCls} />
               </div>
             ) : (
               <>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                  <label className="mb-1.5 block text-sm font-medium text-gray-300">
                     {t.username}<Req />
                   </label>
                   <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="username" disabled={loading} className={inputCls} />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                  <label className="mb-1.5 block text-sm font-medium text-gray-300">
                     {t.email}<Req />
                   </label>
                   <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" disabled={loading} className={inputCls} />
@@ -180,7 +180,7 @@ export default function AuthModal({ onClose, onSuccess, initialTab = 'login' }: 
 
             {/* Password */}
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">
+              <label className="mb-1.5 block text-sm font-medium text-gray-300">
                 {t.password}{tab === 'register' && <Req />}
               </label>
               <div className="relative">
@@ -196,7 +196,7 @@ export default function AuthModal({ onClose, onSuccess, initialTab = 'login' }: 
                   type="button"
                   tabIndex={-1}
                   onClick={() => setShowPwd((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition hover:text-gray-300"
                 >
                   {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -206,7 +206,7 @@ export default function AuthModal({ onClose, onSuccess, initialTab = 'login' }: 
             {/* Confirm password */}
             {tab === 'register' && (
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                <label className="mb-1.5 block text-sm font-medium text-gray-300">
                   {t.confirmPassword}<Req />
                 </label>
                 <div className="relative">
@@ -222,7 +222,7 @@ export default function AuthModal({ onClose, onSuccess, initialTab = 'login' }: 
                     type="button"
                     tabIndex={-1}
                     onClick={() => setShowConfirm((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition hover:text-gray-300"
                   >
                     {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -232,21 +232,21 @@ export default function AuthModal({ onClose, onSuccess, initialTab = 'login' }: 
 
             {tab === 'login' && (
               <div className="text-right">
-                <span className="cursor-pointer text-xs text-indigo-500 hover:text-indigo-600">{t.forgotPassword}</span>
+                <span className="cursor-pointer text-xs text-blue-400 hover:text-blue-300">{t.forgotPassword}</span>
               </div>
             )}
 
             {error && <p className="text-xs text-red-500">{error}</p>}
 
-            <button type="submit" disabled={loading} className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-400 py-3 text-sm font-semibold text-white shadow-md shadow-indigo-200/70 transition hover:opacity-90 disabled:opacity-60">
+            <button type="submit" disabled={loading} className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:shadow-xl hover:shadow-blue-500/30 disabled:opacity-60">
               {loading && <Loader2 className="h-4 w-4 animate-spin" />}
               {tab === 'login' ? t.submitLogin : t.submitRegister}
             </button>
           </form>
 
-          <p className="mt-5 text-center text-sm text-slate-500">
+          <p className="mt-5 text-center text-sm text-gray-300">
             {tab === 'login' ? t.noAccount : t.hasAccount}{' '}
-            <button onClick={() => switchTab(tab === 'login' ? 'register' : 'login')} disabled={loading} className="font-semibold text-indigo-600 transition hover:text-indigo-500">
+            <button onClick={() => switchTab(tab === 'login' ? 'register' : 'login')} disabled={loading} className="font-semibold text-blue-400 transition hover:text-blue-300">
               {tab === 'login' ? t.register : t.login}
             </button>
           </p>

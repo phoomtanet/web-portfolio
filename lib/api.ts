@@ -21,7 +21,7 @@ export async function apiFetch<T>(path: string, options?: RequestInit): Promise<
 
   let res: Response;
   try {
-    res = await fetch(`${BASE}/api/v1${path}`, {
+    res = await fetch(`${BASE}${path}`, {
       headers: {
         'Content-Type': 'application/json',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),

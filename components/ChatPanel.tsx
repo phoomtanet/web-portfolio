@@ -58,15 +58,32 @@ export default function ChatPanel() {
   useEffect(() => {
     if (!token) return;
 
-    const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
-    const socket = io(SOCKET_URL, { auth: { token }, transports: ['websocket'] });
+    const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') ?? 'http://localhost:8000';
+    console.log('SOCKET_URL:', SOCKET_URL);
+    const socket = io(SOCKET_URL, { 
+      auth: { token }, 
+      transports: ['websocket'],
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
+    });
     socketRef.current = socket;
 
     socket.on('connect', () => {
+      console.log('Socket connected!');
       setConnected(true);
       socket.emit(isAdmin ? 'admin_join' : 'user_join');
     });
-    socket.on('disconnect', () => { setConnected(false); if (!isAdmin) setRoomKey(null); });
+    
+    socket.on('connect_error', (error) => {
+      console.error('Socket connection error:', error);
+    });
+    
+    socket.on('disconnect', (reason) => {
+      console.log('Socket disconnected:', reason);
+      setConnected(false);
+      if (!isAdmin) setRoomKey(null);
+    });
 
     if (!isAdmin) {
       socket.on('room_joined', ({ roomKey: rk, messages: msgs }: { roomKey: string; messages: UserChatMessage[] }) => {
@@ -147,7 +164,7 @@ export default function ChatPanel() {
       setUnread(0);
       setReadByAdmin(false);
     };
-  }, [token, isAdmin]);
+  }, [token]);
 
   useEffect(() => {
     if (open) bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -273,11 +290,11 @@ export default function ChatPanel() {
     <>
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
         {open && (
-          <div className={`flex flex-col overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-2xl shadow-indigo-200/60 ring-1 ring-indigo-100/60 ${
+          <div className={`flex flex-col overflow-hidden rounded-2xl border border-white/20 bg-black/40 backdrop-blur-xl shadow-2xl shadow-blue-500/20 ring-1 ring-white/10 ${
             isAdmin ? 'h-[520px] w-[680px] max-w-[calc(100vw-3rem)]' : 'h-[500px] w-[360px] max-w-[calc(100vw-3rem)]'
           }`}>
             {/* Header */}
-            <div className="flex items-center justify-between bg-gradient-to-r from-indigo-500 to-cyan-400 px-4 py-3">
+            <div className="flex items-center justify-between bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-3">
               <div className="flex items-center gap-2 text-white">
                 {isAdmin && selectedRoom && (
                   <button onClick={closeRoom} className="rounded-lg p-1 transition hover:bg-white/20">
@@ -300,31 +317,31 @@ export default function ChatPanel() {
               /* ── ADMIN BODY ── */
               <div className="flex flex-1 overflow-hidden">
                 {/* Room list */}
-                <div className={`flex w-48 flex-shrink-0 flex-col border-r border-indigo-50 ${selectedRoom ? 'hidden sm:flex' : 'flex'}`}>
-                  <div className="flex items-center gap-2 border-b border-indigo-50 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <div className={`flex w-48 flex-shrink-0 flex-col border-r border-white/10 ${selectedRoom ? 'hidden sm:flex' : 'flex'}`}>
+                  <div className="flex items-center gap-2 border-b border-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
                     <Users className="h-3 w-3" />
                     ห้องแชต ({rooms.length})
                   </div>
                   <div className="flex-1 overflow-y-auto">
                     {rooms.length === 0 ? (
-                      <div className="flex h-full items-center justify-center p-4 text-center text-xs text-slate-400">ยังไม่มีผู้ใช้เข้ามาแชต</div>
+                      <div className="flex h-full items-center justify-center p-4 text-center text-xs text-gray-400">ยังไม่มีผู้ใช้เข้ามาแชต</div>
                     ) : (
                       rooms.map((room) => (
                         <button
                           key={room.roomKey}
                           onClick={() => openRoom(room.roomKey)}
-                          className={`w-full px-3 py-2.5 text-left transition hover:bg-indigo-50 ${selectedRoom === room.roomKey ? 'border-r-2 border-indigo-500 bg-indigo-50' : ''}`}
+                          className={`w-full px-3 py-2.5 text-left transition hover:bg-white/10 ${selectedRoom === room.roomKey ? 'border-r-2 border-blue-500 bg-white/10' : ''}`}
                         >
                           <div className="flex items-center justify-between">
-                            <span className="truncate text-sm font-medium text-slate-800">{room.username}</span>
+                            <span className="truncate text-sm font-medium text-white">{room.username}</span>
                             {(adminUnread[room.roomKey] ?? 0) > 0 && (
-                              <span className="ml-1 flex-shrink-0 rounded-full bg-indigo-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                              <span className="ml-1 flex-shrink-0 rounded-full bg-blue-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
                                 {adminUnread[room.roomKey]}
                               </span>
                             )}
                           </div>
                           {room.lastMessage && (
-                            <p className="mt-0.5 truncate text-xs text-slate-400">
+                            <p className="mt-0.5 truncate text-xs text-gray-400">
                               {room.lastMessage.sender === username ? 'You: ' : ''}{room.lastMessage.content || '📎 ไฟล์แนบ'}
                             </p>
                           )}
@@ -337,12 +354,12 @@ export default function ChatPanel() {
                 {/* Contact us area */}
                 <div className={`flex flex-1 flex-col ${!selectedRoom ? 'hidden sm:flex' : 'flex'}`}>
                   {!selectedRoom ? (
-                    <div className="flex flex-1 items-center justify-center text-sm text-slate-400">เลือกห้องแชตเพื่อดูข้อความ</div>
+                    <div className="flex flex-1 items-center justify-center text-sm text-gray-400">เลือกห้องแชตเพื่อดูข้อความ</div>
                   ) : (
                     <>
                       <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-3">
                         {adminMessages.length === 0 ? (
-                          <div className="flex flex-1 items-center justify-center text-xs text-slate-400">ยังไม่มีข้อความ</div>
+                          <div className="flex flex-1 items-center justify-center text-xs text-gray-400">ยังไม่มีข้อความ</div>
                         ) : (
                           adminMessages.map((msg) => (
                             <ChatBubble
@@ -363,16 +380,16 @@ export default function ChatPanel() {
                         )}
                         <div ref={bottomRef} />
                       </div>
-                      <div className="flex flex-col gap-2 border-t border-indigo-50 p-2">
+                      <div className="flex flex-col gap-2 border-t border-white/10 p-2">
                         {adminAttachment && (
-                          <div className="flex items-center gap-2 rounded-xl border border-indigo-100 bg-slate-50 px-3 py-1.5">
+                          <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-3 py-1.5">
                             {adminAttachment.type === 'image' && adminAttachment.previewUrl ? (
                               <img src={adminAttachment.previewUrl} alt="preview" className="h-8 w-8 rounded-lg object-cover" />
                             ) : (
-                              <FileText className="h-4 w-4 flex-shrink-0 text-indigo-400" />
+                              <FileText className="h-4 w-4 flex-shrink-0 text-blue-400" />
                             )}
-                            <span className="flex-1 truncate text-xs text-slate-600">{adminAttachment.name}</span>
-                            <button onClick={() => setAdminAttachment(null)} className="text-slate-400 hover:text-slate-600">
+                            <span className="flex-1 truncate text-xs text-gray-300">{adminAttachment.name}</span>
+                            <button onClick={() => setAdminAttachment(null)} className="text-gray-400 hover:text-gray-300">
                               <X className="h-3.5 w-3.5" />
                             </button>
                           </div>
@@ -382,7 +399,7 @@ export default function ChatPanel() {
                           <button
                             onClick={() => adminFileInputRef.current?.click()}
                             disabled={!connected || adminUploading || !!adminAttachment}
-                            className="flex-shrink-0 self-end rounded-xl border border-indigo-100 bg-white p-2 text-slate-400 transition hover:text-indigo-500 disabled:opacity-40"
+                            className="flex-shrink-0 self-end rounded-xl border border-white/20 bg-white/10 p-2 text-gray-400 transition hover:text-blue-400 disabled:opacity-40"
                           >
                             {adminUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Paperclip className="h-4 w-4" />}
                           </button>
@@ -393,12 +410,12 @@ export default function ChatPanel() {
                             placeholder="พิมพ์ข้อความ..."
                             rows={2}
                             disabled={!!adminAttachment}
-                            className="flex-1 resize-none rounded-xl border border-indigo-100 bg-slate-50 px-3 py-2 text-xs text-slate-800 outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 placeholder:text-slate-400 disabled:opacity-60"
+                            className="flex-1 resize-none rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs text-white outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 placeholder:text-gray-400 disabled:opacity-60"
                           />
                           <button
                             onClick={handleAdminSend}
                             disabled={!connected || adminUploading || (!adminText.trim() && !adminAttachment)}
-                            className="flex-shrink-0 self-end rounded-xl bg-indigo-500 p-2.5 text-white transition hover:bg-indigo-600 disabled:opacity-40"
+                            className="flex-shrink-0 self-end rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 p-2.5 text-white transition hover:shadow-lg hover:shadow-blue-500/25 disabled:opacity-40"
                           >
                             <Send className="h-4 w-4" />
                           </button>
@@ -413,7 +430,7 @@ export default function ChatPanel() {
               <>
                 <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-3">
                   {userMessages.length === 0 ? (
-                    <div className="flex flex-1 items-center justify-center text-sm text-slate-400">ยังไม่มีข้อความ ทักทายได้เลย!</div>
+                    <div className="flex flex-1 items-center justify-center text-sm text-gray-400">ยังไม่มีข้อความ ทักทายได้เลย!</div>
                   ) : (
                     userMessages.map((msg, i) => {
                       const isMe = msg.sender === username && !msg.isAdmin;
@@ -444,16 +461,16 @@ export default function ChatPanel() {
                   )}
                   <div ref={bottomRef} />
                 </div>
-                <div className="border-t border-indigo-50 p-3">
+                <div className="border-t border-white/10 p-3">
                   {attachment && (
-                    <div className="mb-2 flex items-center gap-2 rounded-xl border border-indigo-100 bg-white px-3 py-1.5">
+                    <div className="mb-2 flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-3 py-1.5">
                       {attachment.type === 'image' && attachment.previewUrl ? (
                         <img src={attachment.previewUrl} alt="preview" className="h-8 w-8 rounded-lg object-cover" />
                       ) : (
-                        <FileText className="h-4 w-4 flex-shrink-0 text-indigo-400" />
+                        <FileText className="h-4 w-4 flex-shrink-0 text-blue-400" />
                       )}
-                      <span className="flex-1 truncate text-xs text-slate-600">{attachment.name}</span>
-                      <button onClick={() => setAttachment(null)} className="text-slate-400 hover:text-slate-600">
+                      <span className="flex-1 truncate text-xs text-gray-300">{attachment.name}</span>
+                      <button onClick={() => setAttachment(null)} className="text-gray-400 hover:text-gray-300">
                         <X className="h-3.5 w-3.5" />
                       </button>
                     </div>
@@ -463,7 +480,7 @@ export default function ChatPanel() {
                     <button
                       onClick={() => fileInputRef.current?.click()}
                       disabled={!connected || uploading || !!attachment}
-                      className="flex-shrink-0 self-end rounded-xl border border-indigo-100 bg-white p-2 text-slate-400 transition hover:text-indigo-500 disabled:opacity-40"
+                      className="flex-shrink-0 self-end rounded-xl border border-white/20 bg-white/10 p-2 text-gray-400 transition hover:text-blue-400 disabled:opacity-40"
                     >
                       {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Paperclip className="h-4 w-4" />}
                     </button>
@@ -474,12 +491,12 @@ export default function ChatPanel() {
                       placeholder="พิมพ์ข้อความ..."
                       rows={2}
                       disabled={!connected || !!attachment}
-                      className="flex-1 resize-none rounded-xl border border-indigo-100 bg-slate-50 px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 placeholder:text-slate-400 disabled:opacity-60"
+                      className="flex-1 resize-none rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-sm text-white outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 placeholder:text-gray-400 disabled:opacity-60"
                     />
                     <button
                       onClick={handleSend}
                       disabled={!connected || uploading || (!text.trim() && !attachment)}
-                      className="flex-shrink-0 self-end rounded-xl bg-indigo-500 p-2.5 text-white transition hover:bg-indigo-600 disabled:opacity-40"
+                      className="flex-shrink-0 self-end rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 p-2.5 text-white transition hover:shadow-lg hover:shadow-blue-500/25 disabled:opacity-40"
                     >
                       <Send className="h-4 w-4" />
                     </button>
@@ -493,12 +510,12 @@ export default function ChatPanel() {
         {/* Toggle button */}
         <button
           onClick={() => setOpen((v) => !v)}
-          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400 shadow-lg shadow-indigo-300/60 transition hover:scale-105 hover:shadow-xl"
+          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg shadow-blue-500/30 transition hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40"
           aria-label="Toggle chat"
         >
           <MessageCircle className="h-6 w-6 text-white" />
           {badge > 0 && (
-            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-lg shadow-red-500/30">
               {badge > 99 ? '99+' : badge}
             </span>
           )}
