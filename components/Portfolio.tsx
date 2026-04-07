@@ -168,34 +168,7 @@ const Portfolio = () => {
           />
         ))}
       </div>
-      {/* Animated Background - Removed */}
-      {/* <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -inset-10 opacity-30">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full bg-gradient-to-r from-blue-600 to-purple-500 blur-xl"
-              style={{
-                width: Math.random() * 400 + 100,
-                height: Math.random() * 400 + 100,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                x: [0, Math.random() * 100 - 50],
-                y: [0, Math.random() * 100 - 50],
-                scale: [1, Math.random() * 0.5 + 0.8],
-              }}
-              transition={{
-                duration: Math.random() * 20 + 10,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-            />
-          ))}
-        </div>
-      </div> */}
-
+ 
       {/* Navigation */}
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
@@ -236,18 +209,6 @@ const Portfolio = () => {
             </div>
             {/* Mobile menu items */}
             <div className="md:hidden flex items-center space-x-2">
-              <button
-                onClick={() => setShowPreview(true)}
-                className="p-2 rounded-lg border border-white/20 bg-white/10 text-white backdrop-blur-sm transition-all hover:bg-white/20"
-              >
-                <Eye className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => setShowEnResume(true)}
-                className="p-2 rounded-lg border border-white/20 bg-white/10 text-white backdrop-blur-sm transition-all hover:bg-white/20"
-              >
-                <Eye className="h-4 w-4" />
-              </button>
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
