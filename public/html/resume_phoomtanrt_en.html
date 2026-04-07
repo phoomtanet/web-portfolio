@@ -12,7 +12,7 @@
   .page{width:794px;height:1123px;background:#fff;border-radius:2px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.12);display:flex;flex-direction:column}
 
   /* HEADER */
-  .header{background:#1e1b4b;padding:18px 32px 26px;position:relative;overflow:hidden;flex-shrink:0;display:flex;align-items:flex-start;gap:20px}
+  .header{background:#1e1b4b;padding:18px 32px 16px;position:relative;overflow:hidden;flex-shrink:0;display:flex;align-items:flex-start;gap:20px}
   .header-info{flex:1}
   .hphoto{width:150px;height:150px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.25);flex-shrink:0}
   .hname{font-size:24px;font-weight:700;color:#fff;letter-spacing:.5px}
@@ -22,15 +22,15 @@
   /* BODY */
   .body{display:grid;grid-template-columns:295px 1fr;flex:1;overflow:hidden;margin-top: 10px;}
   .sidebar{background:#fafaf9;border-right:1px solid #e5e7eb;padding:18px 40px;display:flex;flex-direction:column;overflow:hidden;}
-  .sec-info{flex-shrink:0;display:flex;flex-direction:column;margin-bottom:10px}
-  .sec-info .info-wrap{flex:1;display:flex;flex-direction:column;gap:12px}
-  .info-row{display:flex;align-items:flex-start;gap:7px;font-size:10.5px;color:#374151;line-height:1.4;transition:all 0.2s ease;padding:2px;border-radius:4px}
-  .info-row:hover{background:#f8fafc;color:#1f2937;transform:translateX(2px)}
+  .sec-info{flex-shrink:0;display:flex;flex-direction:column;margin-bottom:4px}
+  .sec-info .info-wrap{flex:1;display:flex;flex-direction:column;gap:8px}
+  .info-row{display:flex;align-items:flex-start;gap:4px;font-size:10.5px;color:#374151;line-height:1.4;transition:all 0.2s ease;padding:2px;border-radius:4px}
+  .info-row:hover{background:#f8fafc;color:#3f4348;transform:translateX(2px)}
   .info-icon{width:14px;height:14px;flex-shrink:0;color:#4f46e5;margin-top:1px}
   .info-label{font-size:9.5px;font-weight:700;color:#374151;letter-spacing:.3px;margin-bottom:1px}
   .sec-skills{flex:1.2;display:flex;flex-direction:column;margin-bottom:5px;min-height:0;overflow:hidden;margin-top:0px}
-  .sec-skills>.sec-title{margin-top:12px}
-  .sec-skills .sk-group{display:flex;flex-direction:column;margin-bottom:16px}
+  .sec-skills>.sec-title{margin-top:10px}
+  .sec-skills .sk-group{display:flex;flex-direction:column;margin-bottom:15px}
 
   .sec-education{flex:1;display:flex;flex-direction:column;margin-bottom:0;min-height:0;overflow:hidden;margin-top:0px}
   .sec-education>.sec-title{margin-top:10px}
@@ -110,6 +110,7 @@
           <div class="info-row"><svg class="info-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><div><div class="info-label">Phone</div>065-332-4270</div></div>
           <div class="info-row"><svg class="info-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><div><div class="info-label">Email</div>phoomtanet.in@gmail.com</div></div>
           <div class="info-row"><svg class="info-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><path d="M12 7v4m0 0l-5 5m5-5l5 5"/></svg><div><div class="info-label">GitHub</div>github.com/phoomtanet</div></div>
+          <div class="info-row"><svg class="info-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><div><div class="info-label">Portfolio</div>phoomtanet-web-portfolio.vercel.app</div></div>
         </div>
       </div>
 
@@ -196,50 +197,46 @@
         <div class="exp">
           <div class="exp-role">Employee Welfare Management System    <div class="exp-dur">1 month</div></div>
           <ul class="exp-list">
-            <li>Developed an employee welfare system (Admin, HR, Accounting) with RBAC and RESTful APIs</li>
-            <li>Designed scalable database schema for efficient data management</li>
-            <li>Reduced manual processing time by ~40% through workflow automation</li>
-            <li>Improved data accuracy and minimized errors with centralized system</li>
+            <li>Developed user role-based access control system (Admin, HR, Accounting)</li>
+            <li>Implemented email notification system</li>
+            <li>Integrated organizational data to work systematically</li>
+            <li>Enabled accounting department to review transactions and generate reports faster</li>
           </ul>
         </div>
 
         <div class="exp">
           <div class="exp-role">Repair Management System <div class="exp-dur">4 months</div></div>
           <ul class="exp-list">
-            <li>Built a repair management platform (Mobile Webview + Back-office) for tracking jobs</li>
-            <li>Designed dashboards and reports for real-time monitoring</li>
-            <li>Reduced repair tracking time by ~30% with centralized workflow</li>
-            <li>Improved operational visibility for faster decision-making</li>
+            <li>Designed job status update system (e.g., receive job, send for repair, price evaluation, repair complete, return to customer)</li>
+            <li>Reduced manual work, prevented item loss, and improved data accuracy</li>
+            <li>Displayed job lists and overview through dashboards for easy status tracking</li>
           </ul>
         </div>
 
         <div class="exp">
-          <div class="exp-role">Student Assessment System <div class="exp-dur">6 months</div></div>
+          <div class="exp-role">Student Assessment System <div class="exp-dur">8 months</div></div>
           <ul class="exp-list">
-            <li>Developed an evaluation system with analytics dashboards and reporting</li>
-            <li>Supported multiple assessment types (self, peer, teacher) with tracking features</li>
-            <li>Integrated centralized student data from educational databases</li>
-            <li>Reduced evaluation processing time by ~35% and enabled data-driven insights</li>
+            <li>Connected data with existing education systems via APIs (students, instructors, courses, registrations, grades)</li>
+            <li>Developed customizable assessment forms according to requirements</li>
+            <li>Students can access their own data such as grades, registered courses, and assessment status</li>
           </ul>
         </div>
 
         <div class="exp">
           <div class="exp-role">Child Care Center Management System <div class="exp-dur">5 months</div></div>
           <ul class="exp-list">
-            <li>Built a childcare management system (attendance, health tracking, overtime calculation)</li>
+            <li>Built childcare management system (attendance tracking, health monitoring, childcare expenses)</li>
             <li>Designed dashboards and reports for operational monitoring</li>
-            <li>Improved operational efficiency by ~30% by reducing manual processes</li>
-            <li>Enhanced caregiver workflow with streamlined daily operations</li>
+            <li>Enabled caregivers and parents to accurately track child development, helping promote targeted child development</li>
           </ul>
         </div>
 
         <div class="exp">
           <div class="exp-role">E-Commerce System (Freelance)  <div class="exp-dur">3 months</div></div>
           <ul class="exp-list">
-            <li>Developed a mobile application with product, delivery, and order management</li>
-            <li>Implemented inventory tracking and order processing system</li>
-            <li>Built review and rating features to enhance user experience</li>
-            <li>Increased order management efficiency by ~25% and improved engagement</li>
+            <li>Developed product management system from listing to buyer delivery</li>
+            <li>Implemented real-time product auction and price negotiation using WebSocket</li>
+            <li>Developed order tracking, inventory management, and product status system</li>
           </ul>
         </div>
       </div>

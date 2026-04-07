@@ -14,28 +14,18 @@ import {
   Code2,
   Database,
   Server,
-  Globe,
-  Terminal,
-  Container,
-  Cloud,
-  Palette,
   Sparkles,
   ArrowRight,
-  ExternalLink,
   Calendar,
-  Award,
-  BookOpen,
-  Users,
-  Zap,
-  Cpu,
-  Layers,
   Wrench,
-  Briefcase,
-  GraduationCap,
   Download,
   Send,
   Monitor,
-  Eye
+  Cpu,
+  Eye,
+  Award,
+  Zap,
+  Layers,
 } from 'lucide-react';
 
 const PDF_PATH = '/file/transcrip_phoomtanet_intayung.pdf';
@@ -49,7 +39,7 @@ const skillIcons: Record<string, React.ReactNode> = {
   Database: <Database className="h-5 w-5" />,
   'Tools & Platforms': <Wrench className="h-5 w-5" />,
   'AI Tools': <Sparkles className="h-5 w-5" />,
-  Other: <Layers className="h-5 w-5" />,
+  Other: <Cpu className="h-5 w-5" />,
   // TH keys
   'ภาษาโปรแกรม': <Code2 className="h-5 w-5" />,
   'หน้าบ้าน': <Monitor className="h-5 w-5" />,
@@ -57,7 +47,7 @@ const skillIcons: Record<string, React.ReactNode> = {
   'ฐานข้อมูล': <Database className="h-5 w-5" />,
   'เครื่องมือและแพลตฟอร์ม': <Wrench className="h-5 w-5" />,
   'เครื่องมือ AI': <Sparkles className="h-5 w-5" />,
-  'อื่น ๆ': <Layers className="h-5 w-5" />,
+  'อื่น ๆ': <Cpu className="h-5 w-5" />,
 };
 
 const Portfolio = () => {
@@ -65,6 +55,8 @@ const Portfolio = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showPreview, setShowPreview] = useState(false);
   const [showEnResume, setShowEnResume] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [showProjectDetail, setShowProjectDetail] = useState(false);
   const { username, openLogin, logout } = useAuth();
   const { lang, setLang } = useLang();
   const t = translations[lang];
@@ -80,6 +72,11 @@ const Portfolio = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const openProjectDetail = (project: typeof projects[0]) => {
+    setSelectedProject(project);
+    setShowProjectDetail(true);
   };
 
   const skills = t.resume.skills;
@@ -435,7 +432,10 @@ const Portfolio = () => {
                 whileHover={{ y: -10 }}
                 className="group relative"
               >
-                <div className="bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all h-full flex flex-col">
+                <div 
+                  onClick={() => openProjectDetail(project)}
+                  className="bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all h-full flex flex-col cursor-pointer hover:shadow-lg hover:shadow-blue-500/20"
+                >
                   <div className="h-48 bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
                     {(project.name === 'Employee Welfare Management System' || project.name === 'ระบบสวัสดิการพนักงาน' || 
                       project.name === 'Repair Management System' || project.name === 'ระบบจัดการงานซ่อม' || 
@@ -462,7 +462,7 @@ const Portfolio = () => {
                       {project.name}
                     </h3>
                     <p className="text-gray-300 mb-4 line-clamp-2">
-                      {project.bullets[0]}
+                      {project.overview}
                     </p>
                     <div className="flex flex-wrap gap-2 mb-4">
                       <span className="px-2 py-1 bg-white/10 rounded text-xs text-gray-300">
@@ -472,14 +472,14 @@ const Portfolio = () => {
                     <div className="text-gray-400 text-sm mb-4">
                       {project.duration}
                     </div>
-                    <div className="space-y-2 mb-4 flex-1">
+                    {/* <div className="space-y-2 mb-4 flex-1">
                       {project.bullets.map((bullet, i) => (
                         <div key={i} className="flex items-start gap-2 text-sm text-gray-300">
                           <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2 flex-shrink-0" />
                           <span>{bullet}</span>
                         </div>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </motion.div>
@@ -683,7 +683,7 @@ const Portfolio = () => {
         <div className="container mx-auto px-6">
           <div className="text-center">
             <p className="text-gray-400">
-              © 2024 Phoomtanet Intayung. Crafted with passion and lots of coffee ☕
+              © 2026 Phoomtanet Intayung. Crafted with passion and lots of coffee ☕
             </p>
           </div>
         </div>
@@ -745,6 +745,149 @@ const Portfolio = () => {
                 className="h-full w-full min-h-[60vh] sm:h-[80vh]"
                 title="Transcript PDF"
               />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Project Detail Modal */}
+      {showProjectDetail && selectedProject && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-5xl max-h-[95vh] overflow-hidden rounded-2xl border border-white/20 bg-black/60 backdrop-blur-xl shadow-2xl">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-white/10 p-6">
+              <h2 className="text-2xl font-bold text-white">{selectedProject.name}</h2>
+              <button
+                onClick={() => setShowProjectDetail(false)}
+                className="rounded-lg border border-white/20 px-4 py-2 text-sm font-medium text-gray-300 transition hover:bg-white/10"
+              >
+                ✕ {lang === 'th' ? 'ปิด' : 'Close'}
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="overflow-y-auto max-h-[80vh] p-6">
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Left Column - Project Image */}
+                <div className="space-y-6">
+                  <div className="h-64 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center">
+                    {(selectedProject.name === 'Employee Welfare Management System' || selectedProject.name === 'ระบบสวัสดิการพนักงาน' || 
+                      selectedProject.name === 'Repair Management System' || selectedProject.name === 'ระบบจัดการงานซ่อม' || 
+                      selectedProject.name === 'Student Assessment System' || selectedProject.name === 'ระบบประเมินผลนักเรียน' || 
+                      selectedProject.name === 'Child Care Center Management System' || selectedProject.name === 'ระบบจัดการศูนย์เด็กเล็ก' || 
+                      selectedProject.name === 'E-Commerce System (Freelance)' || selectedProject.name === 'ระบบ E-Commerce (Freelance)') ? (
+                      <img 
+                        src={
+                          selectedProject.name === 'Employee Welfare Management System' || selectedProject.name === 'ระบบสวัสดิการพนักงาน' ? "/images/fba.png" :
+                          selectedProject.name === 'Repair Management System' || selectedProject.name === 'ระบบจัดการงานซ่อม' ? "/images/bng.png" :
+                          selectedProject.name === 'Student Assessment System' || selectedProject.name === 'ระบบประเมินผลนักเรียน' ? "/images/spro.png" :
+                          selectedProject.name === 'Child Care Center Management System' || selectedProject.name === 'ระบบจัดการศูนย์เด็กเล็ก' ? "/images/chd.png" :
+                          "/images/meekong.png"
+                        }
+                        alt={selectedProject.name}
+                        className="h-full w-full object-cover rounded-xl"
+                      />
+                    ) : (
+                      <Code2 className="h-24 w-24 text-white/50" />
+                    )}
+                  </div>
+
+                  {/* Tech Stack */}
+                  <div className="bg-white/5 backdrop-blur-xl rounded-xl p-6 border border-white/10">
+                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                      <Cpu className="h-5 w-5 text-blue-400" />
+                      {lang === 'th' ? 'เทคโนโลยีที่ใช้' : 'Tech Stack'}
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProject.stack.split(', ').map((tech, index) => (
+                        <span key={index} className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg text-sm border border-blue-500/30">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Duration */}
+                  <div className="bg-white/5 backdrop-blur-xl rounded-xl p-6 border border-white/10">
+                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                      <Calendar className="h-5 w-5 text-purple-400" />
+                      {lang === 'th' ? 'ระยะเวลา' : 'Duration'}
+                    </h3>
+                    <p className="text-gray-300">{selectedProject.duration}</p>
+                  </div>
+                </div>
+
+                {/* Right Column - Project Details */}
+                <div className="space-y-6">
+                  {/* Overview */}
+                  <div className="bg-white/5 backdrop-blur-xl rounded-xl p-6 border border-white/10">
+                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                      <Eye className="h-5 w-5 text-green-400" />
+                      {lang === 'th' ? 'ภาพรวมโปรเจกต์' : 'Project Overview'}
+                    </h3>
+                    <p className="text-gray-300 leading-relaxed">
+                      {selectedProject.overview}
+                    </p>
+                  </div>
+
+                  {/* Features */}
+                  <div className="bg-white/5 backdrop-blur-xl rounded-xl p-6 border border-white/10">
+                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                      <Sparkles className="h-5 w-5 text-yellow-400" />
+                      {lang === 'th' ? 'คุณสมบัติและฟีเจอร์' : 'Features & Capabilities'}
+                    </h3>
+                    <ul className="space-y-3">
+                      {selectedProject.bullets.map((bullet, index) => (
+                        <li key={index} className="flex items-start gap-3 text-gray-300">
+                          <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0" />
+                          <span className="text-sm leading-relaxed">{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Impact */}
+                  <div className="bg-white/5 backdrop-blur-xl rounded-xl p-6 border border-white/10">
+                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                      <Award className="h-5 w-5 text-red-400" />
+                      {lang === 'th' ? 'ผลกระทบและประสิทธิภาพ' : 'Impact & Performance'}
+                    </h3>
+                    <div className="space-y-3">
+                      {selectedProject.bullets.filter(bullet => 
+                        bullet.includes('%') || 
+                        bullet.toLowerCase().includes('reduced') || 
+                        bullet.toLowerCase().includes('improved') ||
+                        bullet.toLowerCase().includes('increased') ||
+                        bullet.includes('ลด') ||
+                        bullet.includes('เพิ่ม') ||
+                        bullet.includes('ปรับปรุง')
+                      ).map((impact, index) => (
+                        <div key={index} className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <Zap className="h-3 w-3 text-green-400" />
+                          </div>
+                          <p className="text-gray-300 text-sm leading-relaxed">{impact}</p>
+                        </div>
+                      ))}
+                      {selectedProject.bullets.filter(bullet => 
+                        bullet.includes('%') || 
+                        bullet.toLowerCase().includes('reduced') || 
+                        bullet.toLowerCase().includes('improved') ||
+                        bullet.toLowerCase().includes('increased') ||
+                        bullet.includes('ลด') ||
+                        bullet.includes('เพิ่ม') ||
+                        bullet.includes('ปรับปรุง')
+                      ).length === 0 && (
+                        <p className="text-gray-400 text-sm italic">
+                          {lang === 'th' 
+                            ? 'โปรเจกต์นี้ช่วยปรับปรุงประสิทธิภาพการทำงานและกระบวนการทำงานให้ดียิ่งขึ้น' 
+                            : 'This project improved operational efficiency and workflow processes'}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
