@@ -689,11 +689,20 @@ const Portfolio = () => {
             <div className="flex items-center justify-between border-b border-white/10 px-4 sm:px-5 py-3">
               <p className="font-semibold text-white text-sm sm:text-base">EN Resume</p>
               <div className="flex items-center gap-2">
+                <a
+                  href={EN_RESUME_PATH}
+                  download="resume-phoomtanet-eng.pdf"
+                  className="flex items-center gap-1.5 rounded-lg border border-white/20 px-2 sm:px-3 py-1.5 text-xs font-medium text-gray-300 transition hover:bg-white/10"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Download</span>
+                  <span className="sm:hidden">DL</span>
+                </a>
                 <button
                   onClick={() => setShowEnResume(false)}
                   className="rounded-lg border border-white/20 px-2 sm:px-3 py-1.5 text-xs font-medium text-gray-300 transition hover:bg-white/10"
                 >
-                  ✕ Close
+                  &#10060; <span className="hidden sm:inline ml-1">Close</span>
                 </button>
               </div>
             </div>

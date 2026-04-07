@@ -52,7 +52,7 @@ const translations = {
         {
           company: 'Intelligence System Corporation Co., Ltd.',
           role: 'Full Stack Developer',
-          period: 'Nov 2024 – Mar 2026 (1 year 5 months)',
+          period: '01/11/2024 – 31/03/2026 (1 year 5 months)',
           bullets: [
             'Developed and maintained scalable web applications using Next.js and Node.js',
             'Built cross-platform mobile applications using React Native',
@@ -63,7 +63,7 @@ const translations = {
         {
           company: 'Intelligence System Corporation Co., Ltd.',
           role: 'Full Stack Developer (Intern)',
-          period: 'Apr 2024 – Oct 2024 (6 months)',
+          period: '01/04/2024 – 31/10/2024 (6 months)',
           bullets: [
             'Assisted in developing web applications using Next.js and Node.js',
             'Supported mobile application development using React Native',
@@ -219,7 +219,7 @@ const translations = {
         {
           company: 'Intelligence System Corporation Co., Ltd.',
           role: 'นักพัฒนา Full Stack',
-          period: 'พฤศจิกายน 2567 – มีนาคม 2569 (1 ปี 5 เดือน)',
+          period: '01/11/2024 – 31/03/2026 (1 ปี 5 เดือน)',
           bullets: [
             'พัฒนาแอปพลิเคชันเว็บด้วย Next.js และ Node.js โดยคำนึงถึงประสิทธิภาพและความสามารถในการรองรับผู้ใช้งาน',
             'พัฒนาแอปพลิเคชันมือถือแบบ Cross-platform ด้วย React Native',
@@ -230,7 +230,7 @@ const translations = {
         {
           company: 'Intelligence System Corporation Co., Ltd.',
           role: 'นักพัฒนา Full Stack (ฝึกงาน)',
-          period: 'เมษายน 2567 – ตุลาคม 2567 (6 เดือน)',
+          period: '01/04/2024 – 31/10/2024 (6 เดือน)',
           bullets: [
             'พัฒนาแอปพลิเคชันเว็บด้วย Next.js และ Node.js',
             'พัฒนาแอปพลิเคชันมือถือด้วย React Native',
@@ -241,7 +241,7 @@ const translations = {
         {
           company: 'Freelance',
           role: 'นักพัฒนา Full Stack (Flutter, Node.js)',
-          period: '(3 เดือน)',
+          period: '2024 (3 months)',
           bullets: [
             'พัฒนาแอปพลิเคชันมือถือด้วย Flutter และพัฒนา Backend ด้วย Node.js',
             'ออกแบบโครงสร้างฐานข้อมูลและพัฒนา RESTful API เพื่อรองรับการทำงานของระบบ',
