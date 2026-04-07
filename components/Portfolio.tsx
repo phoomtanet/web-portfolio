@@ -221,7 +221,7 @@ const Portfolio = () => {
       </motion.nav>
 
       {/* Hero Section */}
-      <section id="about" className="min-h-screen flex items-center justify-center relative">
+      <section id="about" className="min-h-screen md:min-h-screen flex items-center justify-center relative">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -294,7 +294,7 @@ const Portfolio = () => {
                 </motion.a>
                 <motion.a
                   whileHover={{ scale: 1.2, rotate: 5 }}
-                  href="https://linkedin.com/in/phoomtanet"
+                  href="https://linkedin.com/in/phoomtanet-intayung-843185389"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all"
@@ -340,27 +340,27 @@ const Portfolio = () => {
   
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 relative">
-        <div className="container mx-auto px-6">
+      <section id="experience" className="py-12 md:py-20 relative">
+        <div className="container mx-auto px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8 md:mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-3xl md:text-5xl font-bold mb-3 md:mb-4">
               <span className="bg-gradient-to-r from-blue-500 via-blue-400 to-purple-400 bg-clip-text text-transparent">
                 {t.resume.sections.experience}
               </span>
             </h2>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+            <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto">
               {lang === 'th' ? 'ประสบการณ์การทำงานและผลงานของฉัน' : 'My professional journey and achievements'}
             </p>
           </motion.div>
 
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl md:max-w-5xl mx-auto">
             <div className="relative">
-              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 to-purple-500" />
+              <div className="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 to-purple-500" />
               {experiences.map((exp, index) => (
                 <motion.div
                   key={index}
@@ -368,27 +368,27 @@ const Portfolio = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.2 }}
-                  className="relative mb-12 ml-16"
+                  className="relative mb-8 md:mb-12 ml-12 md:ml-16"
                 >
-                  <div className="absolute -left-10 w-6 h-6 bg-gradient-to-r from-blue-600 to-purple-500 rounded-full border-4 border-slate-900" />
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all">
-                    <div className="flex flex-wrap justify-between items-start mb-4">
+                  <div className="absolute -left-8 md:-left-10 w-5 h-5 md:w-6 md:h-6 bg-gradient-to-r from-blue-600 to-purple-500 rounded-full border-4 border-slate-900" />
+                  <div className="bg-white/5 backdrop-blur-xl rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/10 hover:border-white/20 transition-all">
+                    <div className="flex flex-wrap justify-between items-start mb-3 md:mb-4">
                       <div>
-                        <h3 className="text-2xl font-bold text-white">{exp.role}</h3>
-                        <p className="text-blue-300 font-semibold text-lg">{exp.company}</p>
+                        <h3 className="text-lg md:text-2xl font-bold text-white">{exp.role}</h3>
+                        <p className="text-blue-300 font-semibold text-base md:text-lg">{exp.company}</p>
                       </div>
                       <div className="text-right text-gray-400">
-                        <p className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          {exp.period}
+                        <p className="flex items-center gap-1 md:gap-2">
+                          <Calendar className="h-3 w-3 md:h-4 md:w-4" />
+                          <span className="text-sm md:text-base">{exp.period}</span>
                         </p>
                       </div>
                     </div>
-                    <ul className="space-y-2 mb-4">
+                    <ul className="space-y-1 md:space-y-2 mb-3 md:mb-4">
                       {exp.bullets.map((bullet, i) => (
-                        <li key={i} className="flex items-start gap-3 text-gray-300">
-                          <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0" />
-                          {bullet}
+                        <li key={i} className="flex items-start gap-2 md:gap-3 text-gray-300">
+                          <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-blue-400 rounded-full mt-1.5 md:mt-2 flex-shrink-0" />
+                          <span className="text-sm md:text-base leading-relaxed">{bullet}</span>
                         </li>
                       ))}
                     </ul>
