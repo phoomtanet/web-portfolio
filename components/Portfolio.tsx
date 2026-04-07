@@ -27,6 +27,7 @@ import {
   Zap,
   Layers,
 } from 'lucide-react';
+import { h3 } from 'framer-motion/client';
 
 const PDF_PATH = '/file/transcrip_phoomtanet_intayung.pdf';
 const EN_RESUME_PATH = '/file/resume_phoomtanet_intayung_eng.pdf';
@@ -472,14 +473,6 @@ const Portfolio = () => {
                     <div className="text-gray-400 text-sm mb-4">
                       {project.duration}
                     </div>
-                    {/* <div className="space-y-2 mb-4 flex-1">
-                      {project.bullets.map((bullet, i) => (
-                        <div key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                          <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2 flex-shrink-0" />
-                          <span>{bullet}</span>
-                        </div>
-                      ))}
-                    </div> */}
                   </div>
                 </div>
               </motion.div>

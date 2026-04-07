@@ -29,7 +29,7 @@ const translations = {
       openChat: 'Open Chat to Send Message',
     },
     resume: {
-      summary: 'Full Stack Developer with nearly 2 years of hands-on experience building web and mobile applications using Next.js, Node.js, and React Native. Experienced in developing end-to-end solutions that improve operational efficiency and streamline workflows. Strong in translating business requirements into scalable, high-performance applications with clean and maintainable architecture.',
+      summary: 'I am a Full Stack Developer with nearly 2 years of experience in developing web and mobile applications using Next.js, Node.js, and React Native. I have strong skills in requirement analysis and system design, including databases, APIs, and UI, with a focus on simplicity, usability, and performance. I am eager to learn new technologies and continuously improve myself to deliver solutions that effectively meet business needs.',
       sections: {
         skills: 'Skills',
         experience: 'Work Experience',
@@ -196,7 +196,7 @@ const translations = {
       openChat: 'เปิดแชทเพื่อส่งข้อความ',
     },
     resume: {
-      summary: ' Full Stack Developer ที่มีประสบการณ์เกือบ 2 ปี ในการพัฒนา Web และ Mobile Application โดยใช้ Next.js, Node.js และ React Native มีประสบการณ์ในการพัฒนาโซลูชันแบบ end-to-end เพื่อเพิ่มประสิทธิภาพการทำงาน ลดขั้นตอนที่ซ้ำซ้อน และปรับปรุง workflow มีความสามารถในการแปลงความต้องการทางธุรกิจให้เป็นระบบที่สามารถขยายตัวได้ มีประสิทธิภาพสูง และมีโครงสร้างโค้ดที่สะอาด ดูแลรักษาง่าย',
+      summary: 'ผมเป็น Full Stack Developer ที่มีประสบการณ์เกือบ 2 ปี ในการพัฒนา Web และ Mobile Application ด้วย Next.js, Node.js และ React Native มีทักษะในการวิเคราะห์ความต้องการ ออกแบบระบบทั้ง Database, API และ UI โดยเน้นความเรียบง่าย ใช้งานสะดวก และมีประสิทธิภาพ พร้อมเรียนรู้สิ่งใหม่และพัฒนาตนเองอยู่เสมอ เพื่อสร้างผลงานที่ตอบโจทย์ธุรกิจได้จริง',
       sections: {
         skills: 'ทักษะ',
         experience: 'ประสบการณ์ทำงาน',
