@@ -202,7 +202,7 @@ const Portfolio = () => {
                 onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
                 className="px-3 py-1 bg-white/10 rounded-lg border border-white/20 text-sm font-medium transition-all hover:bg-white/20 hover:border-white/40"
               >
-                {lang === 'en' ? '🇹🇭 TH' : '🇺🇸 EN'}
+                {lang === 'en' ? 'TH' : 'EN'}
               </motion.button>
             </div>
             {/* Mobile menu items */}
@@ -213,7 +213,7 @@ const Portfolio = () => {
                 onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
                 className="px-3 py-1 bg-white/10 rounded-lg border border-white/20 text-sm font-medium transition-all hover:bg-white/20 hover:border-white/40"
               >
-                {lang === 'en' ? '🇹🇭 TH' : '🇺🇸 EN'}
+                {lang === 'en' ? 'TH' : 'EN'}
               </motion.button>
             </div>
           </div>
