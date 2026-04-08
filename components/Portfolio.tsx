@@ -462,7 +462,7 @@ const Portfolio = () => {
                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
                       {project.name}
                     </h3>
-                    <p className="text-gray-300 mb-4 line-clamp-2">
+                    <p className="text-gray-300 mb-4 line-clamp-5">
                       {project.overview}
                     </p>
                     <div className="flex flex-wrap gap-2 mb-4">
