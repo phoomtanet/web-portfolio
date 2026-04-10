@@ -87,16 +87,26 @@ const Portfolio = () => {
 
   const projects = t.resume.projects;
 
-  const demoProjects = [
+  const ProjectsPrototype = [
     {
       name: lang === 'th' ? 'เว็บไซต์ร้านค้าออนไลน์ (E-commerce)' : 'E-commerce Landing Page',
-      duration: lang === 'th' ? '2 วัน' : '2 days',
+      duration: lang === 'th' ? '1 วัน' : '1 days',
       stack: 'Next.js, Tailwind CSS, Framer Motion',
       overview: lang === 'th'
         ? 'เว็บไซต์ร้านค้าออนไลน์สมัยใหม่ ออกแบบเพื่อเพิ่มยอดขาย แสดงสินค้าเด่น รีวิวลูกค้า และปุ่มสั่งซื้อ รองรับมือถือ โหลดเร็ว และใช้งานได้จริง'
         : 'Modern e-commerce landing page designed to increase sales with product showcases, customer reviews, and strong call-to-action. Fully responsive and fast-loading.',
       demo: 'https://phoomtanet-web-portfolio.vercel.app/ecommerce',
-      image: '/images/ecommerce/hero.jpg'
+      image: '/images/ecommerce/profile.png'
+    },
+    {
+      name: lang === 'th' ? 'Porcelain Bay Resort' : 'Porcelain Bay Resort',
+      duration: lang === 'th' ? '1 วัน' : '1 days',
+      stack: 'Next.js, Tailwind CSS, Framer Motion, Lucide React',
+      overview: lang === 'th'
+        ? 'เว็บไซต์โรงแรมระดับลักชัวรี ดีไซน์ทันสมัย พร้อมแสดงห้องพัก สิ่งอำนวยความสะดวก รีวิวจากลูกค้า และแผนที่แบบอินเทอร์แอคทีฟ รองรับทุกอุปกรณ์ พร้อมเอฟเฟกต์แอนิเมชันที่ลื่นไหล'
+        : 'Luxury hotel website with modern design, room showcases, facilities display, customer testimonials, and interactive map. Fully responsive with smooth animations.',
+      demo: 'https://phoomtanet-web-portfolio.vercel.app/hotel',
+      image: '/images/hotel/profile.png'
     }
 
 
@@ -198,7 +208,7 @@ const Portfolio = () => {
               Phoomtanet.dev
             </motion.div>
             <div className="hidden md:flex space-x-8">
-              {(['about', 'experience', 'projects', 'demo-projects', 'skills', 'contact'] as const).map((section) => (
+              {(['about', 'experience', 'projects', 'Projects-Prototype', 'skills', 'contact'] as const).map((section) => (
                 <motion.button
                   key={section}
                   whileHover={{ scale: 1.1 }}
@@ -497,8 +507,8 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Demo Projects Section */}
-      <section id="demo-projects" className="py-20 relative">
+      {/* Projects Prototypes Section */}
+      <section id="Projects-Prototype" className="py-20 relative">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -508,7 +518,7 @@ const Portfolio = () => {
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               <span className="bg-gradient-to-r from-green-500 via-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                {lang === 'th' ? 'Demo Projects' : 'Demo Projects'}
+                {lang === 'th' ? 'Projects Prototypes' : 'Projects Prototypes'}
               </span>
             </h2>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto">
@@ -523,7 +533,7 @@ const Portfolio = () => {
             viewport={{ once: true }}
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
-            {demoProjects.map((project, index) => (
+            {ProjectsPrototype.map((project, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
@@ -531,8 +541,12 @@ const Portfolio = () => {
                 className="group relative"
               >
                 <div className="bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all h-full flex flex-col hover:shadow-lg hover:shadow-green-500/20">
-                  <div className="h-40 bg-gradient-to-br from-green-500/20 to-teal-500/20 flex items-center justify-center">
-                    <Code2 className="h-12 w-12 text-white/50" />
+                  <div className="h-40 overflow-hidden">
+                    <img 
+                      src={project.image} 
+                      alt={project.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
                   <div className="p-5 flex-1 flex flex-col">
                     <h3 className="text-lg font-bold text-white mb-2 group-hover:text-green-300 transition-colors">
