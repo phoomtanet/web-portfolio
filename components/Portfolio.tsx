@@ -26,6 +26,7 @@ import {
   Award,
   Zap,
   Layers,
+  ExternalLink,
 } from 'lucide-react';
 import { h3 } from 'framer-motion/client';
 
@@ -86,6 +87,21 @@ const Portfolio = () => {
 
   const projects = t.resume.projects;
 
+  const demoProjects = [
+    {
+      name: lang === 'th' ? 'เว็บไซต์ร้านค้าออนไลน์ (E-commerce)' : 'E-commerce Landing Page',
+      duration: lang === 'th' ? '2 วัน' : '2 days',
+      stack: 'Next.js, Tailwind CSS, Framer Motion',
+      overview: lang === 'th'
+        ? 'เว็บไซต์ร้านค้าออนไลน์สมัยใหม่ ออกแบบเพื่อเพิ่มยอดขาย แสดงสินค้าเด่น รีวิวลูกค้า และปุ่มสั่งซื้อ รองรับมือถือ โหลดเร็ว และใช้งานได้จริง'
+        : 'Modern e-commerce landing page designed to increase sales with product showcases, customer reviews, and strong call-to-action. Fully responsive and fast-loading.',
+      demo: 'https://phoomtanet-web-portfolio.vercel.app/ecommerce',
+      image: '/images/ecommerce/hero.jpg'
+    }
+
+
+  ];
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -122,7 +138,7 @@ const Portfolio = () => {
           backgroundSize: '50px 50px, 50px 50px, 100px 100px, 100px 100px'
         }} />
       </div>
-      
+
       {/* Subtle Animated Tech Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {[...Array(8)].map((_, i) => (
@@ -166,7 +182,7 @@ const Portfolio = () => {
           />
         ))}
       </div>
- 
+
       {/* Navigation */}
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
@@ -182,7 +198,7 @@ const Portfolio = () => {
               Phoomtanet.dev
             </motion.div>
             <div className="hidden md:flex space-x-8">
-              {(['about', 'experience', 'projects', 'skills', 'contact'] as const).map((section) => (
+              {(['about', 'experience', 'projects', 'demo-projects', 'skills', 'contact'] as const).map((section) => (
                 <motion.button
                   key={section}
                   whileHover={{ scale: 1.1 }}
@@ -337,7 +353,7 @@ const Portfolio = () => {
         </motion.div>
       </section>
 
-  
+
 
       {/* Experience Section */}
       <section id="experience" className="py-12 md:py-20 relative">
@@ -433,23 +449,23 @@ const Portfolio = () => {
                 whileHover={{ y: -10 }}
                 className="group relative"
               >
-                <div 
+                <div
                   onClick={() => openProjectDetail(project)}
                   className="bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all h-full flex flex-col cursor-pointer hover:shadow-lg hover:shadow-blue-500/20"
                 >
                   <div className="h-48 bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
-                    {(project.name === 'Employee Welfare Management System' || project.name === 'ระบบสวัสดิการพนักงาน' || 
-                      project.name === 'Repair Management System' || project.name === 'ระบบจัดการงานซ่อม' || 
-                      project.name === 'Student Assessment System' || project.name === 'ระบบประเมินผลนักเรียน' || 
-                      project.name === 'Child Care Center Management System' || project.name === 'ระบบจัดการศูนย์เด็กเล็ก' || 
+                    {(project.name === 'Employee Welfare Management System' || project.name === 'ระบบสวัสดิการพนักงาน' ||
+                      project.name === 'Repair Management System' || project.name === 'ระบบจัดการงานซ่อม' ||
+                      project.name === 'Student Assessment System' || project.name === 'ระบบประเมินผลนักเรียน' ||
+                      project.name === 'Child Care Center Management System' || project.name === 'ระบบจัดการศูนย์เด็กเล็ก' ||
                       project.name === 'E-Commerce System (Freelance)' || project.name === 'ระบบ E-Commerce (Freelance)') ? (
-                      <img 
+                      <img
                         src={
                           project.name === 'Employee Welfare Management System' || project.name === 'ระบบสวัสดิการพนักงาน' ? "/images/fba.png" :
-                          project.name === 'Repair Management System' || project.name === 'ระบบจัดการงานซ่อม' ? "/images/bng.png" :
-                          project.name === 'Student Assessment System' || project.name === 'ระบบประเมินผลนักเรียน' ? "/images/spro.png" :
-                          project.name === 'Child Care Center Management System' || project.name === 'ระบบจัดการศูนย์เด็กเล็ก' ? "/images/chd.png" :
-                          "/images/meekong.png"
+                            project.name === 'Repair Management System' || project.name === 'ระบบจัดการงานซ่อม' ? "/images/bng.png" :
+                              project.name === 'Student Assessment System' || project.name === 'ระบบประเมินผลนักเรียน' ? "/images/spro.png" :
+                                project.name === 'Child Care Center Management System' || project.name === 'ระบบจัดการศูนย์เด็กเล็ก' ? "/images/chd.png" :
+                                  "/images/meekong.png"
                         }
                         alt={project.name}
                         className="h-full w-full object-cover"
@@ -472,6 +488,79 @@ const Portfolio = () => {
                     </div>
                     <div className="text-gray-400 text-sm mb-4">
                       {project.duration}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Demo Projects Section */}
+      <section id="demo-projects" className="py-20 relative">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-green-500 via-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                {lang === 'th' ? 'Demo Projects' : 'Demo Projects'}
+              </span>
+            </h2>
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+              {lang === 'th' ? 'Interactive demos and live projects showcasing technical skills' : 'Interactive demos and live projects showcasing technical skills'}
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
+            {demoProjects.map((project, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                whileHover={{ y: -10 }}
+                className="group relative"
+              >
+                <div className="bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all h-full flex flex-col hover:shadow-lg hover:shadow-green-500/20">
+                  <div className="h-40 bg-gradient-to-br from-green-500/20 to-teal-500/20 flex items-center justify-center">
+                    <Code2 className="h-12 w-12 text-white/50" />
+                  </div>
+                  <div className="p-5 flex-1 flex flex-col">
+                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-green-300 transition-colors">
+                      {project.name}
+                    </h3>
+                    <p className="text-gray-300 text-sm mb-3 line-clamp-3">
+                      {project.overview}
+                    </p>
+                    <div className="flex flex-wrap gap-1 mb-3">
+                      <span className="px-2 py-1 bg-white/10 rounded text-xs text-gray-300">
+                        {project.stack}
+                      </span>
+                    </div>
+                    <div className="text-gray-400 text-xs mb-3">
+                      {project.duration}
+                    </div>
+                    <div className="mt-auto">
+                      <motion.a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-teal-500 rounded-full text-sm font-semibold text-white hover:shadow-lg hover:shadow-green-500/25 transition-all w-full justify-center"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        {lang === 'th' ? 'Demo' : 'Demo'}
+                      </motion.a>
                     </div>
                   </div>
                 </div>
@@ -662,7 +751,7 @@ const Portfolio = () => {
                         {t.contact.loginButton}
                       </button>
                     </div>
-             
+
                   </div>
                 )}
               </motion.div>
@@ -773,18 +862,18 @@ const Portfolio = () => {
                 {/* Left Column - Project Image */}
                 <div className="space-y-6">
                   <div className="h-64 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center">
-                    {(selectedProject.name === 'Employee Welfare Management System' || selectedProject.name === 'ระบบสวัสดิการพนักงาน' || 
-                      selectedProject.name === 'Repair Management System' || selectedProject.name === 'ระบบจัดการงานซ่อม' || 
-                      selectedProject.name === 'Student Assessment System' || selectedProject.name === 'ระบบประเมินผลนักเรียน' || 
-                      selectedProject.name === 'Child Care Center Management System' || selectedProject.name === 'ระบบจัดการศูนย์เด็กเล็ก' || 
+                    {(selectedProject.name === 'Employee Welfare Management System' || selectedProject.name === 'ระบบสวัสดิการพนักงาน' ||
+                      selectedProject.name === 'Repair Management System' || selectedProject.name === 'ระบบจัดการงานซ่อม' ||
+                      selectedProject.name === 'Student Assessment System' || selectedProject.name === 'ระบบประเมินผลนักเรียน' ||
+                      selectedProject.name === 'Child Care Center Management System' || selectedProject.name === 'ระบบจัดการศูนย์เด็กเล็ก' ||
                       selectedProject.name === 'E-Commerce System (Freelance)' || selectedProject.name === 'ระบบ E-Commerce (Freelance)') ? (
-                      <img 
+                      <img
                         src={
                           selectedProject.name === 'Employee Welfare Management System' || selectedProject.name === 'ระบบสวัสดิการพนักงาน' ? "/images/fba.png" :
-                          selectedProject.name === 'Repair Management System' || selectedProject.name === 'ระบบจัดการงานซ่อม' ? "/images/bng.png" :
-                          selectedProject.name === 'Student Assessment System' || selectedProject.name === 'ระบบประเมินผลนักเรียน' ? "/images/spro.png" :
-                          selectedProject.name === 'Child Care Center Management System' || selectedProject.name === 'ระบบจัดการศูนย์เด็กเล็ก' ? "/images/chd.png" :
-                          "/images/meekong.png"
+                            selectedProject.name === 'Repair Management System' || selectedProject.name === 'ระบบจัดการงานซ่อม' ? "/images/bng.png" :
+                              selectedProject.name === 'Student Assessment System' || selectedProject.name === 'ระบบประเมินผลนักเรียน' ? "/images/spro.png" :
+                                selectedProject.name === 'Child Care Center Management System' || selectedProject.name === 'ระบบจัดการศูนย์เด็กเล็ก' ? "/images/chd.png" :
+                                  "/images/meekong.png"
                         }
                         alt={selectedProject.name}
                         className="h-full w-full object-cover rounded-xl"
@@ -855,9 +944,9 @@ const Portfolio = () => {
                       {lang === 'th' ? 'ผลกระทบและประสิทธิภาพ' : 'Impact & Performance'}
                     </h3>
                     <div className="space-y-3">
-                      {selectedProject.bullets.filter(bullet => 
-                        bullet.includes('%') || 
-                        bullet.toLowerCase().includes('reduced') || 
+                      {selectedProject.bullets.filter(bullet =>
+                        bullet.includes('%') ||
+                        bullet.toLowerCase().includes('reduced') ||
                         bullet.toLowerCase().includes('improved') ||
                         bullet.toLowerCase().includes('increased') ||
                         bullet.includes('ลด') ||
@@ -871,21 +960,21 @@ const Portfolio = () => {
                           <p className="text-gray-300 text-sm leading-relaxed">{impact}</p>
                         </div>
                       ))}
-                      {selectedProject.bullets.filter(bullet => 
-                        bullet.includes('%') || 
-                        bullet.toLowerCase().includes('reduced') || 
+                      {selectedProject.bullets.filter(bullet =>
+                        bullet.includes('%') ||
+                        bullet.toLowerCase().includes('reduced') ||
                         bullet.toLowerCase().includes('improved') ||
                         bullet.toLowerCase().includes('increased') ||
                         bullet.includes('ลด') ||
                         bullet.includes('เพิ่ม') ||
                         bullet.includes('ปรับปรุง')
                       ).length === 0 && (
-                        <p className="text-gray-400 text-sm italic">
-                          {lang === 'th' 
-                            ? 'โปรเจกต์นี้ช่วยปรับปรุงประสิทธิภาพการทำงานและกระบวนการทำงานให้ดียิ่งขึ้น' 
-                            : 'This project improved operational efficiency and workflow processes'}
-                        </p>
-                      )}
+                          <p className="text-gray-400 text-sm italic">
+                            {lang === 'th'
+                              ? 'โปรเจกต์นี้ช่วยปรับปรุงประสิทธิภาพการทำงานและกระบวนการทำงานให้ดียิ่งขึ้น'
+                              : 'This project improved operational efficiency and workflow processes'}
+                          </p>
+                        )}
                     </div>
                   </div>
                 </div>
