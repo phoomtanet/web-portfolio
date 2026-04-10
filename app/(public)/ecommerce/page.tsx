@@ -624,7 +624,7 @@ export default function EcommercePage() {
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; 2026 Shopora. สงวนลิขสิทธิ์.</p>
+            <p>&copy; 2026 Shopora. เว็บไซต์นี้เป็นเพียงตัวอย่าง (Prototype) สำหรับการนำเสนอผลงานเท่านั้น รูปภาพและเนื้อหาทั้งหมดใช้เพื่อการสาธิต. </p>
           </div>
         </div>
       </footer>

@@ -207,9 +207,9 @@ const translations = {
         projects: 'โปรเจกต์ที่เกี่ยวข้อง',
       },
       skills: [
-        { label: 'ภาษาโปรแกรม', value: 'Java, JavaScript, TypeScript, SQL' },
+        { label: 'ภาษาโปรแกรม', value: 'Java, JavaScript, TypeScript, SQL, Python' },
         { label: 'หน้าบ้าน', value: 'Next.js, React, React Native, Flutter' },
-        { label: 'หลังบ้าน', value: 'Node.js, Express.js' },
+        { label: 'หลังบ้าน', value: 'Node.js, Express.js, Nest.js' },
         { label: 'ฐานข้อมูล', value: 'PostgreSQL, SQL Server, MySQL' },
         { label: 'เครื่องมือและแพลตฟอร์ม', value: 'GitHub, GitLab, Postman, Docker' },
         { label: 'เครื่องมือ AI', value: 'ChatGPT, Claude, Windsurf' },

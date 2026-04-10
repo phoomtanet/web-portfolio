@@ -398,7 +398,7 @@ export default function HotelPage() {
                 transition={{ delay: index * 0.1 }}
                 className="text-center p-8 rounded-2xl bg-white hover:bg-gray-50 transition-colors duration-300 group shadow-lg hover:shadow-xl"
               >
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
                   <facility.icon className="h-10 w-10 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{facility.name}</h3>
@@ -449,7 +449,7 @@ export default function HotelPage() {
       </section>
 
       {/* Promotion Banner */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
+      <section className="py-20 bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 relative overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -572,22 +572,7 @@ export default function HotelPage() {
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Line className="h-6 w-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">LINE</h4>
-                    <p className="text-gray-600">@PorcelainBayResort</p>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="mt-2 px-4 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition-colors"
-                    >
-                      ติดต่อเรา
-                    </motion.button>
-                  </div>
-                </div>
+            
                 
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
