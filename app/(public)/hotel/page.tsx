@@ -17,7 +17,8 @@ import {
   ChevronRight,
   Check,
   Users,
-  Bed
+  Bed,
+  UserCircle
 } from 'lucide-react';
 
 // Custom SVG components for social media icons
@@ -38,7 +39,7 @@ const rooms = [
   {
     id: 1,
     name: 'Deluxe Room',
-    image: '/api/placeholder/400/300',
+    image: '/images/hotel/deluxe_room.png',
     description: 'Elegant room with city view, king-size bed, and modern amenities',
     features: ['King Bed', 'City View', 'Mini Bar', 'Work Desk'],
     size: '35 ²',
@@ -47,7 +48,7 @@ const rooms = [
   {
     id: 2,
     name: 'Executive Suite',
-    image: '/api/placeholder/400/300',
+    image: '/images/hotel/executive_suite.png',
     description: 'Spacious suite with separate living area and premium facilities',
     features: ['King Bed', 'Living Room', 'Jacuzzi', 'Kitchenette'],
     size: '65 ²',
@@ -56,7 +57,7 @@ const rooms = [
   {
     id: 3,
     name: 'Family Suite',
-    image: '/api/placeholder/400/300',
+    image: '/images/hotel/family_suite.png',
     description: 'Perfect for families with connecting rooms and kid-friendly amenities',
     features: ['2 Bedrooms', 'Living Room', 'Kitchen', 'Kids Area'],
     size: '95 ²',
@@ -65,7 +66,7 @@ const rooms = [
   {
     id: 4,
     name: 'Presidential Suite',
-    image: '/api/placeholder/400/300',
+    image: '/images/hotel/presidential_suite.png',
     description: 'Ultimate luxury with panoramic views and personalized service',
     features: ['3 Bedrooms', 'Private Pool', 'Butler Service', 'Piano'],
     size: '150 ²',
@@ -84,32 +85,32 @@ const facilities = [
 const testimonials = [
   {
     id: 1,
-    name: ' ',
-    avatar: '/api/placeholder/50/50',
+    name: 'John Smith',
+    avatar: <UserCircle className="h-12 w-12 text-blue-500" />,
     rating: 5,
     text: 'Beautiful hotel with excellent service! The room was clean and comfortable. Staff was very helpful and friendly.',
     role: 'Business Traveler'
   },
   {
     id: 2,
-    name: ' ',
-    avatar: '/api/placeholder/50/50',
+    name: 'Sarah Johnson',
+    avatar: <UserCircle className="h-12 w-12 text-purple-500" />,
     rating: 5,
     text: 'Perfect vacation spot! Amazing beach view and great facilities. The spa treatments were incredible.',
     role: 'Tourist'
   },
   {
     id: 3,
-    name: ' ',
-    avatar: '/api/placeholder/50/50',
+    name: 'Michael Chen',
+    avatar: <UserCircle className="h-12 w-12 text-green-500" />,
     rating: 4,
     text: 'Wonderful experience! The hotel exceeded our expectations. Great location and beautiful rooms.',
     role: 'Family Vacation'
   },
   {
     id: 4,
-    name: ' ',
-    avatar: '/api/placeholder/50/50',
+    name: 'Emma Davis',
+    avatar: <UserCircle className="h-12 w-12 text-pink-500" />,
     rating: 5,
     text: 'Luxury at its finest! From check-in to check-out, everything was perfect. Will definitely return!',
     role: 'Couple Getaway'
@@ -117,14 +118,14 @@ const testimonials = [
 ];
 
 const galleryImages = [
-  '/api/placeholder/600/400',
-  '/api/placeholder/600/400',
-  '/api/placeholder/600/400',
-  '/api/placeholder/600/400',
-  '/api/placeholder/600/400',
-  '/api/placeholder/600/400',
-  '/api/placeholder/600/400',
-  '/api/placeholder/600/400'
+  '/images/hotel/lobby.png',
+  '/images/hotel/pool.png',
+  '/images/hotel/restaurant.png',
+  '/images/hotel/beach.png',
+  '/images/hotel/spa.png',
+  '/images/hotel/gym.png',
+  '/images/hotel/terrace.png',
+  '/images/hotel/presidential_suite.png'
 ];
 
 export default function HotelPage() {
@@ -158,7 +159,7 @@ export default function HotelPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">LuxStay Hotel</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Porcelain Bay Resort</h1>
             </div>
             
             {/* Desktop Navigation */}
@@ -226,8 +227,8 @@ export default function HotelPage() {
       <section className="relative h-screen">
         <div className="absolute inset-0">
           <img 
-            src="/api/placeholder/1920/1080" 
-            alt="Luxury Hotel"
+            src="/images/hotel/header.png" 
+            alt="Porcelain Bay Resort"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/40"></div>
@@ -280,7 +281,7 @@ export default function HotelPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              เกี่ยวกับ LuxStay Hotel
+              เกี่ยวกับ Porcelain Bay Resort
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               โรงแรมหรูหราตั้งอยู่บนชายหาดสวยงาม มอบประสบการณ์การพักผ่อนที่เหนือกว่าด้วยบริการระดับโลกและสิ่งอำนวยความสะดวกครบครัน
@@ -290,7 +291,7 @@ export default function HotelPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <img 
-                src="/api/placeholder/600/400" 
+                src="/images/hotel/hotel_Interior.png" 
                 alt="Hotel Interior"
                 className="rounded-2xl shadow-2xl"
               />
@@ -300,39 +301,12 @@ export default function HotelPage() {
                 ประสบการณ์การพักผ่อนที่ไม่เหมือนใคร
               </h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                LuxStay Hotel เป็นโรงแรมระดับ 5 ดาวที่ตั้งอยู่บนชายหาดสวยงามที่สุดในภูเก็ต เรามีห้องพักกว่า 200 ห้อง ที่ออกแบบมาเพื่อมอบความสะดวกสบายและความเป็นส่วนตัวสูงสุด
+                Porcelain Bay Resort เป็นโรงแรมระดับ 5 ดาวที่ตั้งอยู่บนชายหาดสวยงามที่สุดในภูเก็ต เรามีห้องพักกว่า 200 ห้อง ที่ออกแบบมาเพื่อมอบความสะดวกสบายและความเป็นส่วนตัวสูงสุด
               </p>
               <p className="text-gray-600 mb-6 leading-relaxed">
                 ด้วยทำเลที่ตั้งใจกลางเมืองท่องเที่ยว ทำให้คุณสามารถเดินทางไปยังสถานที่สำคัญต่างๆ ได้อย่างสะดวก ไม่ว่าจะเป็นห้างสรรพสินค้า ร้านอาหารชื่อดัง หรือแหล่งท่องเที่ยวทางธรรมชาติ
               </p>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <MapPin className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">
-                      
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <Heart className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">
-                      
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      
-                    </p>
-                  </div>
-                </div>
-              </div>
+         
             </div>
           </div>
         </div>
@@ -533,7 +507,9 @@ export default function HotelPage() {
                 className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full" />
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center">
+                    {testimonial.avatar}
+                  </div>
                   <div>
                     <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
                     <p className="text-sm text-gray-600">{testimonial.role}</p>
@@ -566,8 +542,17 @@ export default function HotelPage() {
 
           <div className="grid lg:grid-cols-2 gap-12">
             <div>
-              <div className="bg-gray-200 rounded-2xl h-96 flex items-center justify-center">
-                <p className="text-gray-500">Google Map</p>
+              <div className="bg-gray-200 rounded-2xl h-96 overflow-hidden">
+                <iframe
+                  src="https://www.google.com/maps?q=7.839289,98.359906&z=15&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full"
+                />
               </div>
             </div>
             <div>
@@ -583,8 +568,7 @@ export default function HotelPage() {
                     <h4 className="font-semibold text-gray-900 mb-1">
                       เบอร์โทรศัพท์
                     </h4>
-                    <p className="text-gray-600">+66 2 123 4567</p>
-                    <p className="text-gray-600">+66 91 234 5678</p>
+                    <p className="text-gray-600">+66 65 332 4270</p>
                   </div>
                 </div>
                 
@@ -594,7 +578,7 @@ export default function HotelPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">LINE</h4>
-                    <p className="text-gray-600">@LuxStayHotel</p>
+                    <p className="text-gray-600">@PorcelainBayResort</p>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -611,7 +595,7 @@ export default function HotelPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Facebook</h4>
-                    <p className="text-gray-600">/LuxStayHotel</p>
+                    <p className="text-gray-600">/PorcelainBayResort</p>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -628,8 +612,8 @@ export default function HotelPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
-                    <p className="text-gray-600">info@luxstayhotel.com</p>
-                    <p className="text-gray-600">reservation@luxstayhotel.com</p>
+                    <p className="text-gray-600">info@porcelainbayresort.com</p>
+                    <p className="text-gray-600">reservation@porcelainbayresort.com</p>
                   </div>
                 </div>
               </div>
@@ -642,9 +626,10 @@ export default function HotelPage() {
       <footer className="bg-gray-900 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <h3 className="text-2xl font-bold mb-4">LuxStay Hotel</h3>
+            <h3 className="text-2xl font-bold mb-4">Porcelain Bay Resort</h3>
             <p className="text-gray-400 mb-6">
-              ประสบการณ์การพักผ่อนระดับพรีเมียมที่คุณจะไม่มีวันลืม
+                เว็บไซต์นี้เป็นเพียงตัวอย่าง (Prototype) สำหรับการนำเสนอผลงานเท่านั้น 
+                รูปภาพและเนื้อหาทั้งหมดใช้เพื่อการสาธิต
             </p>
             <div className="flex justify-center space-x-6 mb-8">
               <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors">
@@ -655,7 +640,7 @@ export default function HotelPage() {
               </a>
             </div>
             <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
-              <p>&copy; 2024 LuxStay Hotel. All rights reserved.</p>
+              <p>&copy; 2026 Porcelain Bay Resort. All rights reserved.</p>
             </div>
           </div>
         </div>
