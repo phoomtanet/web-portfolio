@@ -86,7 +86,7 @@ const testimonials = [
   {
     id: 1,
     name: 'John Smith',
-    avatar: <UserCircle className="h-12 w-12 text-blue-500" />,
+    avatar: <UserCircle className="h-12 w-12" />,
     rating: 5,
     text: 'Beautiful hotel with excellent service! The room was clean and comfortable. Staff was very helpful and friendly.',
     role: 'Business Traveler'
@@ -94,7 +94,7 @@ const testimonials = [
   {
     id: 2,
     name: 'Sarah Johnson',
-    avatar: <UserCircle className="h-12 w-12 text-purple-500" />,
+    avatar: <UserCircle className="h-12 w-12" />,
     rating: 5,
     text: 'Perfect vacation spot! Amazing beach view and great facilities. The spa treatments were incredible.',
     role: 'Tourist'
@@ -102,7 +102,7 @@ const testimonials = [
   {
     id: 3,
     name: 'Michael Chen',
-    avatar: <UserCircle className="h-12 w-12 text-green-500" />,
+    avatar: <UserCircle className="h-12 w-12" />,
     rating: 4,
     text: 'Wonderful experience! The hotel exceeded our expectations. Great location and beautiful rooms.',
     role: 'Family Vacation'
@@ -110,7 +110,7 @@ const testimonials = [
   {
     id: 4,
     name: 'Emma Davis',
-    avatar: <UserCircle className="h-12 w-12 text-pink-500" />,
+    avatar: <UserCircle className="h-12 w-12 " />,
     rating: 5,
     text: 'Luxury at its finest! From check-in to check-out, everything was perfect. Will definitely return!',
     role: 'Couple Getaway'
@@ -231,40 +231,45 @@ export default function HotelPage() {
             alt="Porcelain Bay Resort"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40"></div>
         </div>
         
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-3xl text-white"
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="max-w-4xl text-white"
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              สัมผัสประสบการณ์การพักผ่อนระดับพรีเมียม
+            <div className="mb-8">
+              <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white/90 text-sm font-light tracking-wide">
+                MINIMAL LUXURY DESIGN
+              </span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-light mb-6 leading-tight tracking-wide">
+              Experience the Art of Minimal Luxury
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-200">
-              พักผ่อนอย่างเพลิดเพลินในบรรยากาศหรูหรา พร้อมวิวทะเลสวยงามและบริการระดับ 5 ดาว
+            <p className="text-xl md:text-2xl mb-12 text-white/80 font-light leading-relaxed max-w-2xl">
+              Discover a world of understated elegance and sophistication, where every detail is carefully crafted to provide the ultimate luxury experience.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02, backgroundColor: "rgba(251, 191, 36, 0.9)" }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => scrollToSection('rooms')}
-                className="px-8 py-4 bg-white/20 backdrop-blur-sm border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-2"
+                className="px-8 py-4 bg-amber-500/80 backdrop-blur-sm border border-amber-400/30 text-white font-light rounded-lg hover:bg-amber-500/90 transition-all duration-500 flex items-center justify-center gap-2 shadow-sm"
               >
-                ดูห้องพัก
-                <ChevronRight className="h-5 w-5" />
+                View Rooms
+                <ChevronRight className="h-4 w-4" />
               </motion.button>
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.95)" }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => scrollToSection('contact')}
-                className="px-8 py-4 bg-white text-gray-900 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300"
+                className="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-light rounded-lg hover:bg-white/20 transition-all duration-500"
               >
-                ติดต่อเรา
+                Contact Us
               </motion.button>
             </div>
           </motion.div>
@@ -272,45 +277,69 @@ export default function HotelPage() {
       </section>
 
       {/* About Hotel */}
-      <section id="about" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              เกี่ยวกับ Porcelain Bay Resort
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              โรงแรมหรูหราตั้งอยู่บนชายหาดสวยงาม มอบประสบการณ์การพักผ่อนที่เหนือกว่าด้วยบริการระดับโลกและสิ่งอำนวยความสะดวกครบครัน
-            </p>
-          </motion.div>
+<section id="about" className="py-24 relative overflow-hidden">
+  {/* glow background */}
+  <div className="absolute top-0 right-0 w-80 h-80 bg-[#e7dcc7] rounded-full blur-3xl opacity-30"></div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <img 
-                src="/images/hotel/hotel_Interior.png" 
-                alt="Hotel Interior"
-                className="rounded-2xl shadow-2xl"
-              />
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                ประสบการณ์การพักผ่อนที่ไม่เหมือนใคร
-              </h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Porcelain Bay Resort เป็นโรงแรมระดับ 5 ดาวที่ตั้งอยู่บนชายหาดสวยงามที่สุดในภูเก็ต เรามีห้องพักกว่า 200 ห้อง ที่ออกแบบมาเพื่อมอบความสะดวกสบายและความเป็นส่วนตัวสูงสุด
-              </p>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                ด้วยทำเลที่ตั้งใจกลางเมืองท่องเที่ยว ทำให้คุณสามารถเดินทางไปยังสถานที่สำคัญต่างๆ ได้อย่างสะดวก ไม่ว่าจะเป็นห้างสรรพสินค้า ร้านอาหารชื่อดัง หรือแหล่งท่องเที่ยวทางธรรมชาติ
-              </p>
-         
-            </div>
-          </div>
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="text-center mb-16"
+    >
+      <h2 className="text-3xl lg:text-4xl font-semibold text-gray-900 mb-4">
+        เกี่ยวกับ Porcelain Bay Resort
+      </h2>
+      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        รีสอร์ทระดับลักชัวรีริมชายหาด ที่มอบประสบการณ์การพักผ่อนเหนือระดับ 
+        ด้วยบริการและบรรยากาศที่ผสมผสานความหรูหราและความเป็นส่วนตัว
+      </p>
+
+      {/* divider */}
+      <div className="w-16 h-[2px] bg-[#c6a96b] mx-auto mt-6"></div>
+    </motion.div>
+
+    <div className="grid lg:grid-cols-2 gap-16 items-center">
+      
+      {/* image */}
+      <div className="relative">
+        <img
+          src="/images/hotel/hotel_Interior.png"
+          alt="Hotel Interior"
+          className="rounded-3xl shadow-xl"
+        />
+
+        {/* subtle overlay frame */}
+        <div className="absolute inset-0 rounded-3xl border border-white/40"></div>
+      </div>
+
+      {/* content */}
+      <div>
+        <h3 className="text-2xl font-medium text-gray-900 mb-6">
+          ประสบการณ์การพักผ่อนที่เหนือระดับ
+        </h3>
+
+        <p className="text-gray-600 mb-6 leading-relaxed">
+          Porcelain Bay Resort เป็นโรงแรมระดับ 5 ดาวที่ตั้งอยู่บนชายหาดที่สวยงามที่สุดในภูเก็ต 
+          พร้อมห้องพักกว่า 200 ห้อง ที่ออกแบบมาเพื่อความสะดวกสบายและความเป็นส่วนตัวสูงสุด
+        </p>
+
+        <p className="text-gray-600 mb-8 leading-relaxed">
+          ด้วยทำเลที่ตั้งใจกลางแหล่งท่องเที่ยว คุณสามารถเดินทางไปยังสถานที่สำคัญได้อย่างสะดวก 
+          ไม่ว่าจะเป็นแหล่งช้อปปิ้ง ร้านอาหารชื่อดัง หรือสถานที่ท่องเที่ยวทางธรรมชาติ
+        </p>
+
+        {/* highlight */}
+        <div className="flex items-center gap-3 text-sm text-gray-700">
+          <div className="w-2 h-2 bg-[#c6a96b] rounded-full"></div>
+          ทำเลติดชายหาด พร้อมวิวทะเลแบบพาโนรามา
         </div>
-      </section>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* Room Showcase */}
       <section id="rooms" className="py-20 bg-white">
@@ -329,85 +358,120 @@ export default function HotelPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {rooms.map((room, index) => (
-              <motion.div
-                key={room.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group"
-              >
-                <div className="relative">
-                  <img src={room.image} alt={room.name} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{room.name}</h3>
-                  <p className="text-gray-600 mb-4 text-sm">{room.description}</p>
-                  
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
-                    <div className="flex items-center gap-1">
-                      <Users className="h-4 w-4" />
-                      <span>{room.capacity} </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Bed className="h-4 w-4" />
-                      <span>{room.size}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {room.features.slice(0, 2).map((feature, idx) => (
-                      <span key={idx} className="px-2 py-1 bg-gray-100 rounded-lg text-xs text-gray-600">
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+  {rooms.map((room, index) => (
+    <motion.div
+      key={room.id}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className="group bg-white/80 backdrop-blur-md border border-gray-100 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
+    >
+      {/* image */}
+      <div className="relative overflow-hidden">
+        <img
+          src={room.image}
+          alt={room.name}
+          className="w-full h-52 object-cover group-hover:scale-105 transition duration-500"
+        />
+
+        {/* overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-60"></div>
+      </div>
+
+      {/* content */}
+      <div className="p-6">
+        <h3 className="text-lg font-medium text-gray-900 mb-2">
+          {room.name}
+        </h3>
+
+        <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+          {room.description}
+        </p>
+
+        {/* info */}
+        <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+          <div className="flex items-center gap-1">
+            <Users className="h-4 w-4 text-[#c6a96b]" />
+            <span>{room.capacity} คน</span>
           </div>
+          <div className="flex items-center gap-1">
+            <Bed className="h-4 w-4 text-[#c6a96b]" />
+            <span>{room.size} ตร.ม.</span>
+          </div>
+        </div>
+
+        {/* features */}
+        <div className="flex flex-wrap gap-2">
+          {room.features.slice(0, 2).map((feature, idx) => (
+            <span
+              key={idx}
+              className="px-3 py-1 text-xs bg-[#f1ede6] text-gray-700 rounded-full"
+            >
+              {feature}
+            </span>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  ))}
+</div>
         </div>
       </section>
 
       {/* Hotel Facilities */}
-      <section id="facilities" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              
-            </p>
-          </motion.div>
+    <section id="facilities" className="py-20  relative overflow-hidden">
+  {/* soft glow background */}
+  <div className="absolute top-0 left-0 w-72 h-72 rounded-full blur-3xl opacity-30"></div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {facilities.map((facility, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center p-8 rounded-2xl bg-white hover:bg-gray-50 transition-colors duration-300 group shadow-lg hover:shadow-xl"
-              >
-                <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <facility.icon className="h-10 w-10 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{facility.name}</h3>
-                <p className="text-gray-600">{facility.description}</p>
-              </motion.div>
-            ))}
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="text-center mb-16"
+    >
+      <h2 className="text-3xl lg:text-4xl font-semibold text-gray-900 mb-4">
+        สิ่งอำนวยความสะดวก
+      </h2>
+      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        ครบครันทุกการพักผ่อน ด้วยบริการและสิ่งอำนวยความสะดวกระดับพรีเมียม
+      </p>
+
+      {/* luxury divider */}
+      <div className="w-16 h-[2px] bg-[#c6a96b] mx-auto mt-6"></div>
+    </motion.div>
+
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {facilities.map((facility, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: index * 0.1 }}
+          className="group p-8 rounded-2xl bg-white shadow-lg hover:shadow-2xl border border-gray-100 hover:border-gray-200 transition-all duration-300 hover:-translate-y-1"
+        >
+          {/* icon */}
+          <div className="w-16 h-16 bg-gradient-to-br from-[#f1ede6] to-[#e7dcc7] rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition shadow-md">
+            <facility.icon className="h-8 w-8 text-[#c6a96b]" />
           </div>
-        </div>
-      </section>
+
+          {/* title */}
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            {facility.name}
+          </h3>
+
+          {/* desc */}
+          <p className="text-gray-600 text-sm leading-relaxed">
+            {facility.description}
+          </p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Gallery Section */}
       <section id="gallery" className="py-20 bg-white">
@@ -449,35 +513,46 @@ export default function HotelPage() {
       </section>
 
       {/* Promotion Banner */}
-      <section className="py-20 bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 relative overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="text-center text-white"
-          >
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <Check className="h-4 w-4" />
-              โปรโมชั่นพิเศษ
-            </div>
-            <h2 className="text-3xl lg:text-5xl font-bold mb-6">
-              ลด 20% สำหรับเดือนนี้
-            </h2>
-            <p className="text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
-              จองห้องพักในเดือนนี้และรับส่วนลดพิเศษ 20% สำหรับทุกประเภทห้องพัก
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => scrollToSection('contact')}
-              className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-2xl hover:shadow-2xl transition-all duration-300"
-            >
-              รับส่วนลดเลย!
-            </motion.button>
-          </motion.div>
-        </div>
-      </section>
+   <section className="py-20  relative overflow-hidden">
+  {/* soft background glow */}
+  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px]  rounded-full blur-3xl opacity-30"></div>
+
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="text-center"
+    >
+      {/* badge */}
+      <div className="inline-flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-700 shadow-sm mb-6">
+        <Check className="h-4 w-4 text-[#c6a96b]" />
+        โปรโมชั่นพิเศษ
+      </div>
+
+      {/* title */}
+      <h2 className="text-3xl lg:text-5xl font-semibold text-gray-900 mb-6">
+        รับส่วนลด <span className="text-[#c6a96b]">20%</span> สำหรับเดือนนี้
+      </h2>
+
+      {/* description */}
+      <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+        จองห้องพักภายในเดือนนี้ รับส่วนลดพิเศษสำหรับทุกประเภทห้องพัก 
+        พร้อมประสบการณ์การพักผ่อนระดับพรีเมียม
+      </p>
+
+      {/* button */}
+      <motion.button
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        onClick={() => scrollToSection('contact')}
+        className="px-8 py-4 bg-[#1f2937] text-white font-medium rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
+      >
+        จองตอนนี้
+      </motion.button>
+    </motion.div>
+  </div>
+</section>
 
       {/* Testimonials */}
       <section id="testimonials" className="py-20 bg-gray-50">
@@ -524,88 +599,87 @@ export default function HotelPage() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              ติดต่อเรา
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              ติดต่อเราเพื่อข้อมูลเพิ่มเติม
-            </p>
-          </motion.div>
+<section id="contact" className="py-20  relative overflow-hidden">
+  {/* glow */}
+  <div className="absolute top-0 right-0 w-72 h-72 rounded-full blur-3xl opacity-30"></div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div>
-              <div className="bg-gray-200 rounded-2xl h-96 overflow-hidden">
-                <iframe
-                  src="https://www.google.com/maps?q=7.839289,98.359906&z=15&output=embed"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen={true}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="w-full h-full"
-                />
-              </div>
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                ช่องทางการติดต่อ
-              </h3>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Phone className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">
-                      เบอร์โทรศัพท์
-                    </h4>
-                    <p className="text-gray-600">+66 65 332 4270</p>
-                  </div>
-                </div>
-                
-            
-                
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Facebook className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">Facebook</h4>
-                    <p className="text-gray-600">/PorcelainBayResort</p>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="mt-2 px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                      ติดตามเรา
-                    </motion.button>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Mail className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
-                    <p className="text-gray-600">info@porcelainbayresort.com</p>
-                    <p className="text-gray-600">reservation@porcelainbayresort.com</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="text-center mb-16"
+    >
+      <h2 className="text-3xl lg:text-4xl font-semibold text-gray-900 mb-4">
+        ติดต่อเรา
+      </h2>
+      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        เรายินดีให้บริการและตอบทุกคำถาม เพื่อให้การพักผ่อนของคุณสมบูรณ์แบบที่สุด
+      </p>
+
+      <div className="w-16 h-[2px] bg-[#c6a96b] mx-auto mt-6"></div>
+    </motion.div>
+
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      
+      {/* map */}
+      <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+ <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-100 h-[450px] lg:h-[500px]">
+  <iframe
+    src="https://www.google.com/maps?q=7.839289,98.359906&z=15&output=embed"
+    width="100%"
+    height="100%"
+    style={{ border: 0 }}
+    loading="lazy"
+    className="w-full h-full"
+  />
+</div>
+      </div>
+
+      {/* contact */}
+      <div className="space-y-8">
+        <h3 className="text-2xl font-medium text-gray-900">
+          ช่องทางการติดต่อ
+        </h3>
+
+        {/* phone */}
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 bg-[#f1ede6] rounded-xl flex items-center justify-center">
+            <Phone className="h-5 w-5 text-[#c6a96b]" />
+          </div>
+          <div>
+            <h4 className="font-medium text-gray-900">เบอร์โทรศัพท์</h4>
+            <p className="text-gray-600">+66 65 332 4270</p>
           </div>
         </div>
-      </section>
+
+        {/* facebook */}
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 bg-[#f1ede6] rounded-xl flex items-center justify-center">
+            <Facebook className="h-5 w-5 text-[#c6a96b]" />
+          </div>
+          <div>
+            <h4 className="font-medium text-gray-900">Facebook</h4>
+            <p className="text-gray-600">/PorcelainBayResort</p>
+          </div>
+        </div>
+
+        {/* email */}
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 bg-[#f1ede6] rounded-xl flex items-center justify-center">
+            <Mail className="h-5 w-5 text-[#c6a96b]" />
+          </div>
+          <div>
+            <h4 className="font-medium text-gray-900">Email</h4>
+            <p className="text-gray-600">info@porcelainbayresort.com</p>
+            <p className="text-gray-600">reservation@porcelainbayresort.com</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
