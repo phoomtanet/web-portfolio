@@ -779,7 +779,7 @@ const Portfolio = () => {
         <div className="container mx-auto px-6">
           <div className="text-center">
             <p className="text-gray-400">
-              © 2026 Phoomtanet Intayung. Crafted with passion and lots of coffee ☕  V 0.0.2
+              © 2026 Phoomtanet Intayung. Crafted with passion and lots of coffee ☕  V 0.0.3
             </p>
           </div>
         </div>
