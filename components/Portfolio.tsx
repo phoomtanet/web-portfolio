@@ -205,7 +205,7 @@ const Portfolio = () => {
               whileHover={{ scale: 1.05 }}
               className="text-xl font-bold bg-gradient-to-r from-blue-500 via-blue-400 to-purple-400 bg-clip-text text-transparent"
             >
-              Phoomtanet.dev
+              Phoomtanet.dev 
             </motion.div>
             <div className="hidden md:flex space-x-8">
               {(['about', 'experience', 'projects', 'Projects-Prototype', 'skills', 'contact'] as const).map((section) => (
@@ -779,7 +779,7 @@ const Portfolio = () => {
         <div className="container mx-auto px-6">
           <div className="text-center">
             <p className="text-gray-400">
-              © 2026 Phoomtanet Intayung. Crafted with passion and lots of coffee ☕
+              © 2026 Phoomtanet Intayung. Crafted with passion and lots of coffee ☕  V 0.0.1
             </p>
           </div>
         </div>
