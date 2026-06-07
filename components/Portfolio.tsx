@@ -27,6 +27,8 @@ import {
   Zap,
   Layers,
   ExternalLink,
+  Loader2,
+  Bot,
 } from 'lucide-react';
 import { h3 } from 'framer-motion/client';
 
@@ -57,6 +59,9 @@ const Portfolio = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showPreview, setShowPreview] = useState(false);
   const [showEnResume, setShowEnResume] = useState(false);
+  const [aiQuery, setAiQuery] = useState('');
+  const [aiAnswer, setAiAnswer] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
   const [showProjectDetail, setShowProjectDetail] = useState(false);
   const { username, openLogin, logout } = useAuth();
@@ -74,6 +79,25 @@ const Portfolio = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleAiQuery = async () => {
+    if (!aiQuery.trim() || aiLoading) return;
+    setAiLoading(true);
+    setAiAnswer('');
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: aiQuery, k: 20 })
+      });
+      const data = await res.json();
+      setAiAnswer(res.ok ? data.answer : (lang === 'th' ? 'เกิดข้อผิดพลาด กรุณาลองใหม่' : 'Something went wrong. Please try again.'));
+    } catch {
+      setAiAnswer(lang === 'th' ? 'ไม่สามารถเชื่อมต่อได้' : 'Connection failed. Please try again.');
+    } finally {
+      setAiLoading(false);
+    }
   };
 
   const openProjectDetail = (project: typeof projects[0]) => {
@@ -208,7 +232,7 @@ const Portfolio = () => {
               Phoomtanet.dev 
             </motion.div>
             <div className="hidden md:flex space-x-8">
-              {(['about', 'experience', 'projects', 'Projects-Prototype', 'skills', 'contact'] as const).map((section) => (
+              {(['about', 'experience', 'projects', 'Projects-Prototype', 'skills', 'education', 'ai', 'contact'] as const).map((section) => (
                 <motion.button
                   key={section}
                   whileHover={{ scale: 1.1 }}
@@ -633,6 +657,125 @@ const Portfolio = () => {
       </section>
 
 
+
+      {/* Education Section */}
+      <section id="education" className="py-20 relative">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-blue-500 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+                {t.resume.sections.education}
+              </span>
+            </h2>
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+              {lang === 'th' ? 'ประวัติการศึกษาและวุฒิการศึกษา' : 'Academic background and qualifications'}
+            </p>
+          </motion.div>
+
+          <div className="max-w-3xl mx-auto space-y-6">
+            {t.resume.education.map((edu, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.15 }}
+                className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all"
+              >
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                  <div className="space-y-1">
+                    <h3 className="text-xl font-bold text-white">{edu.degree}</h3>
+                    <p className="text-blue-300 font-semibold">{edu.school}</p>
+                  </div>
+                  <div className="flex flex-col items-start md:items-end gap-1 flex-shrink-0">
+                    <span className="flex items-center gap-2 text-gray-400 text-sm">
+                      <Calendar className="h-4 w-4" />
+                      {edu.period}
+                    </span>
+                    <span className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-full text-blue-300 text-sm font-semibold">
+                      {edu.note}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI Section */}
+      <section id="ai" className="py-20 relative">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-purple-500 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+                {lang === 'th' ? 'ถามฉันได้เลย' : 'Ask Me Anything'}
+              </span>
+            </h2>
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+              {lang === 'th'
+                ? 'ถามคำถามเกี่ยวกับประสบการณ์ ทักษะ หรือโปรเจกต์ของฉัน'
+                : 'Ask questions about my experience, skills, or projects'}
+            </p>
+          </motion.div>
+
+          <div className="max-w-2xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10"
+            >
+              <div className="flex gap-3 mb-4">
+                <input
+                  type="text"
+                  value={aiQuery}
+                  onChange={(e) => setAiQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleAiQuery()}
+                  placeholder={lang === 'th' ? 'เช่น เรียนจบที่ไหน? ทักษะอะไรบ้าง?' : 'e.g. Where did you study? What are your skills?'}
+                  className="flex-1 bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 transition-colors"
+                />
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleAiQuery}
+                  disabled={aiLoading || !aiQuery.trim()}
+                  className="px-5 py-3 bg-gradient-to-r from-purple-600 to-blue-500 rounded-xl font-semibold flex items-center gap-2 hover:shadow-lg hover:shadow-purple-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {aiLoading
+                    ? <Loader2 className="h-4 w-4 animate-spin" />
+                    : <Bot className="h-4 w-4" />}
+                </motion.button>
+              </div>
+
+              {aiAnswer && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-xl"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-purple-500/20 rounded-lg flex-shrink-0">
+                      <Sparkles className="h-4 w-4 text-purple-400" />
+                    </div>
+                    <p className="text-gray-200 leading-relaxed text-sm whitespace-pre-wrap">{aiAnswer}</p>
+                  </div>
+                </motion.div>
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
       {/* Contact Section */}
       <section id="contact" className="py-20 relative">

@@ -15,6 +15,8 @@ const translations = {
       contact: 'Contact',
       secretLair: 'Secret Lair',
       radioRoom: 'Radio Room',
+      ai: 'Ask AI',
+      education: 'Education',
     },
     contact: {
       title: 'Get In Touch',
@@ -183,6 +185,8 @@ const translations = {
       contact: 'ติดต่อ',
       secretLair: 'SECRET LAIR',
       radioRoom: 'RADIO ROOM',
+      ai: 'ถาม AI',
+      education: 'การศึกษา',
     },
     contact: {
       title: 'ติดต่อ',
